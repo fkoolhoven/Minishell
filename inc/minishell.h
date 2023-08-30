@@ -6,8 +6,28 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:09:26 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/08/30 16:10:15 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/08/30 18:12:54 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../lib/libft/include/libft.h"
 #include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+
+enum e_type
+{
+	COMMAND,
+	HEREDOC,
+	INFILE,
+	OUTFILE,
+	OUTFILE_APPEND
+};
+
+typedef struct s_token
+{
+	enum e_type	type;
+	char		*value;
+}	t_token;
+
+void	tokenize_input(char *input);

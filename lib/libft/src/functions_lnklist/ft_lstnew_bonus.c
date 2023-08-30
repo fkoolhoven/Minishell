@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   ft_lstnew_bonus.c                                  :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: jhendrik <marvin@codam.nl>                   +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/10/28 15:02:47 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/07/03 17:08:37 by jhendrik      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   ft_lstnew_bonus.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/10/28 15:02:47 by jhendrik          #+#    #+#             */
+/*   Updated: 2023/08/30 18:17:09 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "libft.h"
 
+#include "libft.h"
 /*This file contains the function ft_lstnew().
  * ft_lstnew():
 		This function makes a new list element (node) using malloc.

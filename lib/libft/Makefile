@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
-#                                                         ::::::::             #
-#    Makefile                                           :+:    :+:             #
-#                                                      +:+                     #
-#    By: jhendrik <marvin@codam.nl>                   +#+                      #
-#                                                    +#+                       #
-#    Created: 2022/10/28 10:58:27 by jhendrik      #+#    #+#                  #
-#    Updated: 2023/07/03 15:10:02 by jhendrik      ########   odam.nl          #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2022/10/28 10:58:27 by jhendrik          #+#    #+#              #
+#    Updated: 2023/08/30 17:14:46 by fkoolhov         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -130,9 +130,10 @@ $(OBJDIR):
 
 clean:
 	@rm -f $(OBJFILES) $(OBJFILES_BONUS)
+	# @rm -r $(OBJDIR)
 	@echo $(Yellow) Objectfiles of $(NAME) are gone $(Reset)
 
-fclean: clean
+fclean: clean cleandirs
 	@rm -f $(NAME)
 	@echo $(Yellow) The archive $(NAME) fell into a black hole $(Reset)
 
