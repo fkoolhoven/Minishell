@@ -11,7 +11,7 @@ SRC			= main.c \
 all: $(NAME)
 
 $(NAME): $(OBJ) $(INC)
-	$(COMP) $(OBJ) -o $(NAME)
+	$(COMP) -I $(INC) $(OBJ) -o $(NAME)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	mkdir -p $(OBJ_DIR)
