@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:08:39 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/08/31 13:16:33 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/08/31 14:01:52 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../inc/minishell.h"
@@ -35,6 +35,7 @@ int	main(void)
 			printf("Exiting ...\n");
 			exit(EXIT_SUCCESS);
 		}
+		/* Unecessary code, but kinda fun:
 		if (ft_strnstr(user_input, newline, ft_strlen(user_input)) != NULL)
 		{
 			printf("Newline\n");
@@ -62,10 +63,11 @@ int	main(void)
 				printf("Current user_input: %s \n", user_input);
 				printf("Current buff: %s\n", buff);
 			}
+			add_history(buff);
 			printf("Current buff: %s \n", buff);
 			free(buff);
 		}
-		/* PROBLEM:
+			PROBLEM:
 					When compiling the compiler sees rl_replace_line as an invalid function,
 					so it seems not to be able to find the function in the readline library.
 					I've looked up this problem and found one stackexchange discussion.
@@ -77,6 +79,7 @@ int	main(void)
 			rl_replace_line("hello world", 1);
 			rl_redisplay();
 		} */
+		add_history(user_input);
 		free(user_input);
 	}
 	return (0);
