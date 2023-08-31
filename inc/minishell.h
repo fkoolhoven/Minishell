@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:09:26 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/08/30 18:12:54 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/08/31 14:59:28 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@
 
 enum e_type
 {
-	COMMAND,
+	WORD,
+	PIPE,
 	HEREDOC,
 	INFILE,
 	OUTFILE,
