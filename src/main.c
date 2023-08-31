@@ -6,10 +6,18 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:08:39 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/08/31 15:03:33 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/08/31 16:14:47 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
+
+/* SIMPLE IMPLEMENTATION OF INTERFACE
+   Things to change in future:
+   			- better exit function which frees everything
+			- make sure it gives correct exit status
+			- ...
+
+*/
 
 int	main(void)
 {
