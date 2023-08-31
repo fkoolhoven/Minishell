@@ -6,7 +6,7 @@
 #    By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/31 14:20:16 by jhendrik          #+#    #+#              #
-#    Updated: 2023/08/31 16:07:16 by fkoolhov         ###   ########.fr        #
+#    Updated: 2023/08/31 16:11:12 by fkoolhov         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,7 +70,7 @@ clean:
 	@$(MAKE) clean -C $(LIB_DIR)
 	@echo $(Yellow) Object directory removed $(Reset)
 
-fclean: clean |$(OBJ_DIR)
+fclean: clean
 	@if [ -f $(NAME) ]; then \
 		$(RM) -f $(NAME); \
 	fi
