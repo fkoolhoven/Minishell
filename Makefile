@@ -6,7 +6,7 @@
 #    By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/31 14:20:16 by jhendrik          #+#    #+#              #
-#    Updated: 2023/08/31 16:11:12 by fkoolhov         ###   ########.fr        #
+#    Updated: 2023/08/31 16:39:21 by fkoolhov         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ SUBDIR		:= . \
 			   utils
 SRC_SUBDIR	:= $(foreach dir, $(SUB_DIR),$(addprefix $(SRC_DIR)/,$(dir)))
 
-SRC			:= main.c
+SRC			:= main.c token.c token_utils.c token_tokenize.c
 OBJ			:= $(addprefix $(OBJ_DIR)/,$(SRC:.c=.o))
 LIBS		:= $(LIB_DIR)/libft.a
 MINI_HEADER	:= ./inc/minishell.h
@@ -40,7 +40,7 @@ Reset="\033[0m"				# Text Reset
 Green="\033[0;32m"			# Green
 Yellow="\033[0;33m"			# Yellow
 Blue="\033[0;34m"			# Blue
-Light_Blue="\033[1;34m"		#Light Blue
+Light_Blue="\033[1;34m"		# Light Blue
 
 all: make_libs $(NAME)
 

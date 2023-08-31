@@ -6,10 +6,11 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 12:06:47 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/08/31 16:15:38 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/08/31 16:24:49 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 
 /*This file contains the functions
 			- ft_nblen_abs()
