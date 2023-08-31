@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:25:50 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/08/31 15:36:56 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/08/31 15:45:07 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,8 +137,8 @@ t_token	*initialize_token(void)
 		printf("malloc error token\n");
 		exit (EXIT_FAILURE);
 	}
-	token->type = INFILE;
-	token->value = "something";
+	token->type = -1;
+	token->value = NULL;
 	return (token);
 }
 
@@ -202,7 +202,6 @@ void	tokenize_input(char *input)
 	i = 0;
 	while (input[i])
 	{
-		printf("loop\n");
 		while (isspace(input[i]))
 			i++;
 		if (!input[i])
