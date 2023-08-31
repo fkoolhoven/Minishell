@@ -6,7 +6,7 @@
 #    By: jhendrik <marvin@42.fr>                      +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/08/31 14:20:16 by jhendrik      #+#    #+#                  #
-#    Updated: 2023/08/31 15:31:27 by jhendrik      ########   odam.nl          #
+#    Updated: 2023/08/31 15:55:51 by jhendrik      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,7 +70,7 @@ clean:
 	@$(MAKE) clean -C $(LIB_DIR)
 	@echo $(Yellow) Object directory removed $(Reset)
 
-fclean: clean |$(OBJ_DIR)
+fclean: clean
 	@if [ -f $(NAME) ]; then \
 		$(RM) -f $(NAME); \
 	fi
