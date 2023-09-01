@@ -1,14 +1,15 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:    :+:            */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:08:39 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/08/31 16:14:47 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/08/31 16:21:53 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "minishell.h"
 
 /* SIMPLE IMPLEMENTATION OF INTERFACE
@@ -26,6 +27,7 @@ int	main(void)
 	while (1)
 	{
 		user_input = readline("--> ");
+		tokenize_input(user_input);
 		if (!(user_input))
 		{
 			printf("Exiting... because input empty\n");
