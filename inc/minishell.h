@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: felicia <felicia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:09:26 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/08/31 16:43:12 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/09/04 22:44:40 by felicia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,18 @@ enum e_type
 	OUTFILE_APPEND
 };
 
+// typedef struct s_command // one command per struct, combine all commands in struct or in linked list?
+// {
+// 	char	**command; // contains one command and its arguments, to be passed to pipex
+// 	int		out; // contains the output redirection (pipe, outfile or append outfile)
+// 	int		in; // contains the input redirection (pipe, heredoc or infile)
+// }
+
 typedef struct s_token
 {
 	enum e_type	type;
 	char		*value;
+	bool		expand;
 }	t_token;
 
 // token.c
@@ -51,5 +59,8 @@ bool	char_is_single_quote(char c);
 bool	char_is_double_quote(char c);
 bool	char_is_quote(char c);
 bool	char_is_operator(char c);
+bool	found_expandable(char *input, int i);
+bool	next_token_is_found(char *input, int i);
+bool	token_contains_expandable(char *str);
 
 #endif

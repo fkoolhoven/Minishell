@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: felicia <felicia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:08:39 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/08/31 16:21:53 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/09/04 14:55:08 by felicia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ int	main(void)
 	while (1)
 	{
 		user_input = readline("--> ");
-		tokenize_input(user_input);
 		if (!(user_input))
 		{
 			printf("Exiting... because input empty\n");
@@ -39,6 +38,7 @@ int	main(void)
 			printf("Exiting ...\n");
 			exit(EXIT_SUCCESS);
 		}
+		tokenize_input(user_input);
 		add_history(user_input);
 		free(user_input);
 	}

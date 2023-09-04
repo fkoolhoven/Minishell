@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_tokenize.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: felicia <felicia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 16:36:40 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/08/31 16:37:32 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/09/04 20:41:22 by felicia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ void	tokenize_double_quote(t_token *token, char *input, int *i)
 	strlen = find_next_quote(input[*i], input, i);
 	token->type = WORD;
 	token->value = ft_substr(input, *i - strlen - 1, strlen);
+	if (token_contains_expandable(token->value))
+		token->expand = true;
 }
 
 void	tokenize_single_quote(t_token *token, char *input, int *i)
@@ -50,13 +52,15 @@ void	tokenize_word(t_token *token, char *input, int *i)
 	int	strlen;
 
 	strlen = 0;
-	while (!char_is_operator(input[*i]) && !isspace(input[*i]) && !char_is_quote(input[*i]) && input[*i])
+	while (!isspace(input[*i]) && input[*i] && !next_token_is_found(input, *i))
 	{
 		strlen++;
 		(*i)++;
 	}
 	token->type = WORD;
 	token->value = ft_substr(input, *i - strlen, strlen);
+	if (token_contains_expandable(token->value))
+		token->expand = true;
 }
 
 char *get_filename_or_delimiter(char *input, int *i)
@@ -72,7 +76,7 @@ char *get_filename_or_delimiter(char *input, int *i)
 		printf("missing filename for redirection\n");
 		exit(EXIT_FAILURE);
 	}
-	while (!isspace(input[*i]) && input[*i])
+	while (!isspace(input[*i]) && input[*i] && !next_token_is_found(input, *i))
 	{
 		(*i)++;
 		strlen++;
@@ -106,11 +110,13 @@ void	tokenize_operator(t_token *token, char *input, int *i)
 	else if (input[*i] == '|')
 	{
 		token->type = PIPE;
-		token->value = NULL;
+		token->value = "|";
 	}
 	(*i)++;
 	if (token->type != PIPE)
 	{
 		token->value = get_filename_or_delimiter(input, i);
+		if (token->value[0] == '$')
+			token->expand = true;
 	}
 }
