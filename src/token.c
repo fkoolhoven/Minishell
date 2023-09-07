@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:25:50 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/05 18:18:35 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/09/07 17:21:25 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,8 @@ void	tokenize_input(char *input)
 		else
 			tokenize_word(token, input, &i);
 	}
+	if (!tokens)
+		return ;
 	// print_tokens(tokens);
-	parse_tokens(tokens);
+	expand_parameters(&tokens);
 }

@@ -27,6 +27,7 @@ int	find_next_quote(char quote, char *input, int *i)
 	return (strlen);
 }
 
+// tokenizes everything between double quotes, also checking for $ as expandable
 void	tokenize_double_quote(t_token *token, char *input, int *i)
 {
 	int	strlen;
@@ -38,6 +39,7 @@ void	tokenize_double_quote(t_token *token, char *input, int *i)
 		token->expand = true;
 }
 
+// tokenizes everything between double quotes, seeing $ as regular character
 void	tokenize_single_quote(t_token *token, char *input, int *i)
 {
 	int	strlen;

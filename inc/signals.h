@@ -1,28 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   signals.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/30 16:09:26 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/07 17:10:06 by fkoolhov         ###   ########.fr       */
+/*   Created: 2023/09/07 17:09:22 by fkoolhov          #+#    #+#             */
+/*   Updated: 2023/09/07 18:06:25 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#ifndef SIGNALS_H
+# define SIGNALS_H
 
-# include <stdio.h>
-# include <stdlib.h>
-# include <stdbool.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <ctype.h> // we should add our own isspace() to libft!
-# include "./../libs/libft/include/libft.h"
-# include "token.h"
-# include "parser.h"
-# include "expand.h"
-# include "signals.h"
+# include <signal.h>
+
+// signals.c
+void	catch_signals(int signal);
 
 #endif

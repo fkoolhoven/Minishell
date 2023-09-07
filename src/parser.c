@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:59:40 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/05 18:26:31 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/09/07 17:57:56 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,6 +153,7 @@ void	parse_tokens(t_list *tokens)
 		}
 		in = temp_lst;
 		temp_lst = NULL;
+
 		amount_of_words = calculate_amount_of_words(tokens);
 		command = ft_calloc(amount_of_words + 1, sizeof(char *));
 		i = 0;
@@ -164,6 +165,8 @@ void	parse_tokens(t_list *tokens)
 				current_token = (t_token *)tokens->content;
 			i++;
 		}
+		
+		
 		while (tokens && token_is_output_type(current_token)) // parse output redirections
 		{
 			add_redirect_to_list(&temp_lst, current_token->type, current_token->value);

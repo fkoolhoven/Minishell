@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: felicia <felicia@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:08:39 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/04 14:55:08 by felicia          ###   ########.fr       */
+/*   Updated: 2023/09/07 18:13:33 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+// #include "../libs/libft/include/libft.h"
 
 /* SIMPLE IMPLEMENTATION OF INTERFACE
    Things to change in future:
@@ -20,27 +21,40 @@
 
 */
 
+// ctrl-C displays a new prompt on a new line.
+// ctrl-D exits the shell.
+// ctrl-\ does nothing.
+
+
 int	main(void)
 {
+
 	char	*user_input;
 
+	
 	while (1)
 	{
+		signal(SIGINT, &catch_signals);
+		signal(SIGQUIT, SIG_IGN);
+
 		user_input = readline("--> ");
 		if (!(user_input))
 		{
-			printf("Exiting... because input empty\n");
+			printf("Exiting shell...\n");
 			exit(EXIT_SUCCESS);
 		}
-		if (ft_strnstr(user_input, "exit", ft_strlen(user_input)) != NULL)
+		else if (ft_strnstr(user_input, "exit", ft_strlen(user_input)) != NULL)
 		{
 			free(user_input);
 			printf("Exiting ...\n");
 			exit(EXIT_SUCCESS);
 		}
-		tokenize_input(user_input);
-		add_history(user_input);
-		free(user_input);
+		else
+		{
+			tokenize_input(user_input);
+			add_history(user_input);
+			free(user_input);
+		}
 	}
 	return (0);
 }
