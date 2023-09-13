@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   minishell.h                                       :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:09:26 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/13 11:40:31 by jhendrik         ###   ########.fr       */
+/*   Updated: 2023/09/13 16:28:35 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,9 @@ enum e_type
 	HEREDOC,
 	INFILE,
 	OUTFILE,
-	OUTFILE_APPEND
+	OUTFILE_APPEND,
+	HEREDOC_INFILE,
+	HEREDOC_FAIL
 };
 
 typedef struct s_token
@@ -64,6 +66,9 @@ bool	char_is_single_quote(char c);
 bool	char_is_double_quote(char c);
 bool	char_is_quote(char c);
 bool	char_is_operator(char c);
+
+// heredoc_handler.c 
+int	manage_heredocs(t_command *command_list);
 
 // utils/hashnode_functions.c
 t_hash_node	*new_hash_node(char *key, char *value);
