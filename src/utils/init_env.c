@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   init_env.c                                         :+:    :+:            */
+/*   init_env.c                                        :+:    :+:             */
 /*                                                     +:+                    */
 /*   By: jhendrik <marvin@42.fr>                      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/05 15:00:47 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/09/05 16:53:48 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/09/13 11:55:06 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -78,7 +78,7 @@ static int	st_init_keyvalue_pairs(t_hash_node ***head, const char **keys, const 
 	i = 0;
 	while (keys[i] != NULL)
 	{
-		index = give_hash_index(keys[i], env_table);
+		index = give_hash_index((char *)keys[i], env_table);
 		if (index >= 0)
 		{
 			key = ft_strdup(keys[i]);
@@ -92,7 +92,7 @@ static int	st_init_keyvalue_pairs(t_hash_node ***head, const char **keys, const 
 				{
 					free(key);
 					free(value);
-					terminate_hasharray(head);
+					terminate_hasharray(head, env_table->size);
 					return (-1);
 				}
 			}
@@ -102,15 +102,16 @@ static int	st_init_keyvalue_pairs(t_hash_node ***head, const char **keys, const 
 					free(key);
 				if (value != NULL)
 					free(value);
-				terminate_hasharray(head);
+				terminate_hasharray(head, env_table->size);
 				return (-1);
 			}
 		}
 		else
 		{
-			terminate_hasharray(head);
+			terminate_hasharray(head, env_table->size);
 			return (-1);
 		}
+		i++;
 	}
 	return (0);
 }
@@ -119,17 +120,8 @@ t_hash_node	**init_hash_array(t_hash_table *env_table)
 {
 	int			check;
 	t_hash_node	**head;
-	const char **keys={"USER",
-	"PATH",
-	"PWD",
-	"HOME",
-	"LOGNAME",
-	NULL};
-	const char	**values={"alien",
-	"/Users/alien",
-	"Current directory",
-	"/Users/alien",
-	"jean_the_alien"};
+	const char *keys[]={"USER", "PATH", "PWD","HOME","LOGNAME", "LOGNAME", NULL};
+	const char	*values[]={"alien", "/Users/alien", "Current directory", "/Users/alien", "jean_the_alien", "other_alien"};
 
 	if (env_table == NULL)
 		return (NULL);
@@ -150,12 +142,14 @@ t_hash_table	*init_env()
 	if (env_table == NULL)
 		return (NULL);
 	env_table->size = 29;
-	init_hash_array(env_table);
-	
+	env_table->array = init_hash_array(env_table);
+	if (env_table->array == NULL)
+		return (free(env_table), NULL);
+	return (env_table);
 }
 
 void	terminate_hashtable(t_hash_table *env_table)
 {
-	terminate_hasharray(&(env_table->array));
+	terminate_hasharray(&(env_table->array), env_table->size);
 	free(env_table);
 }

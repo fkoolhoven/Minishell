@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
+#    Makefile                                          :+:    :+:              #
 #                                                     +:+ +:+         +:+      #
 #    By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/31 14:20:16 by jhendrik          #+#    #+#              #
-#    Updated: 2023/08/31 16:39:21 by fkoolhov         ###   ########.fr        #
+#    Updated: 2023/09/13 11:39:59 by jhendrik      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ CC			:= cc
 RM			:= rm
 
 CFLAGS		?= -Wall -Wextra -Werror
-FLAGS		?= -lreadline
+FLAGS		?= -v -Llibs/libft/ -lft -lreadline
 
 INC			:= ./inc/
 SRC_DIR		:= src
@@ -26,7 +26,12 @@ SUBDIR		:= . \
 			   utils
 SRC_SUBDIR	:= $(foreach dir, $(SUB_DIR),$(addprefix $(SRC_DIR)/,$(dir)))
 
-SRC			:= main.c token.c token_utils.c token_tokenize.c
+SRC			:= test_main.c \
+			   token.c \
+			   token_utils.c \
+			   token_tokenize.c \
+			   utils/hashnode_functions.c \
+			   utils/init_env.c
 OBJ			:= $(addprefix $(OBJ_DIR)/,$(SRC:.c=.o))
 LIBS		:= $(LIB_DIR)/libft.a
 MINI_HEADER	:= ./inc/minishell.h
@@ -51,7 +56,7 @@ $(LIB_DIR)/obj:
 
 $(NAME): $(OBJ) $(MINI_HEADER)
 	@echo $(Light_Blue) Building program ... $(NAME) $(Reset)
-	$(CC) $(FLAGS) $(LIBS) -I $(INC) $(OBJ) -o $(NAME)
+	$(CC) -I $(INC) $(LIBS) $(OBJ) -o $(NAME) $(FLAGS)
 	@echo $(Green) Program $(NAME) successfully build $(Reset)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(MINI_HEADER)

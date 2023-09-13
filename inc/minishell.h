@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:    :+:            */
+/*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:09:26 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/05 15:00:29 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/09/13 11:40:31 by jhendrik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,14 @@ void		hasharray_add_back(t_hash_node **array, t_hash_node *new);
 void		hasharray_add_front(t_hash_node **array, t_hash_node *new);
 void		hasharray_delone(t_hash_node *node);
 void		hasharray_clear(t_hash_node **array);
-int			hasharray_size(t_hash_node **array);
+int			hasharray_size(t_hash_node *array);
+
+//utils/init_env.c
+t_hash_table	*init_env();
+void			terminate_hashtable(t_hash_table *env_table);
+t_hash_node		**init_hash_array(t_hash_table *env_table);
+void			terminate_hasharray(t_hash_node ***head, int size);
+t_hash_node		**hasharray_calloc(size_t cnt, size_t size);
+int				give_hash_index(char *key, t_hash_table *env_table);
 
 #endif
