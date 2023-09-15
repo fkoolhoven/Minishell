@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:09:26 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/13 16:28:35 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/09/15 11:08:08 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,38 +19,9 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "./../libs/libft/include/libft.h"
+# include "./types.h"
+# include "./exec.h"
 # include <ctype.h> // we should add our own isspace() to libft!
-
-enum e_type
-{
-	WORD,
-	PIPE,
-	HEREDOC,
-	INFILE,
-	OUTFILE,
-	OUTFILE_APPEND,
-	HEREDOC_INFILE,
-	HEREDOC_FAIL
-};
-
-typedef struct s_token
-{
-	enum e_type	type;
-	char		*value;
-}	t_token;
-
-typedef struct s_hash_node
-{
-	char	*key;
-	char	*value;
-	struct s_hash_node	*next;
-}	t_hash_node;
-
-typedef struct s_hash_table
-{
-	int	size;
-	t_hash_node	**array;
-}	t_hash_table;
 
 // token.c
 void	tokenize_input(char *input);

@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/09/13 13:05:59 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/09/15 10:24:37 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/09/15 15:47:56 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -105,7 +105,7 @@ static void	st_manage_one_heredoc(char *filename, t_redirect *node)
 			node->type = HEREDOC_FAIL;
 		}
 	}
-	if (filename == NULL && node != NULL)
+	else	
 		node->type == HEREDOC_FAIL;
 }
 
@@ -150,6 +150,9 @@ static void	st_check_manage_heredocs(t_redirect *in, int i)
 		Als het type HEREDOC_INFILE is, dan is de value veranderd naar de unieke filename,
 		PAS OP !!!! 	---> 	de filename is apart gealloceerd, dit betekent dat deze later
 								gefreed moet worden!!!
+
+		If type is set to HEREDOC_FAIL, you don't need to unlink, only if type is set to
+		HEREDOC_INFILE
 
    */
 
