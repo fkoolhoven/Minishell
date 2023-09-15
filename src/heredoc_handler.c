@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/09/13 13:05:59 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/09/13 16:24:46 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/09/15 10:24:37 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -67,7 +67,7 @@ static void	st_input_to_heredoc(int fd, char *limit)
 		user_input = readline(">");
 		if (!(user_input))
 			i = -1;
-		else if (ft_strncmp(user_input, limit, ft_strlen(limit)) == 0)
+		else if (ft_strncmp(user_input, limit, ft_strlen(user_input)) == 0)
 			i = 0;
 		else
 		{
@@ -78,7 +78,7 @@ static void	st_input_to_heredoc(int fd, char *limit)
 	}
 }
 /* This function has some problems:
-   			1.	It uses the function st_inpu_to_heredoc, which has problems
+   			1.	It uses the function st_input_to_heredoc, which has problems
 			2.	Assumes that node->value is allocated using malloc ...?
 
    */
