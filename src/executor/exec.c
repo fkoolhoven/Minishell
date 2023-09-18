@@ -6,107 +6,37 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/09/15 10:41:54 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/09/15 16:52:38 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/09/18 14:45:14 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
 
-/* Childprocess: 
-   		To add: 	1.	distinction between builtins and other commands
-					2.	get correct path for command
-					3.	...
-		Explanation:	The function first finds the correct input and output streams
-						If fd_in >= 0, then we know that there is an input file and 
-							we need to change the stdin
-						If fd_in < 0, then we know that either there is a pipe or 
-							input was NULL, since stdin has been changed in parent
-							we don't need to adjust it anymore
-						If fd_out >= 0, then we know that an output file exists and 
-							we need to change stdout to this file
-						If fd_out == -1, then we know there were no output files or pipes
-							this means that stdout does not need to be changed
-						If fd_out == -2, then we know that there is a pipe and
-							we need to change stdout to the pipe
-						Now we have changed the stdout and stdin as necessary,
-							we can close the pipefd and move on
-						...
-						We need to add that if command is a builtin that we call the
-							appropriate function
-							and if it is not a builtin execve is called with appropriate
-							path
-						...
-
-   */
-void	child_process(t_exec_var *var, t_command *cmnd, int j)
+static void	st_execute_one_cmnd(t_exec_var *var)
 {
-	int	fd_in;
-	int	fd_out;
+	int	bltin_index;
 
-	if (var != NULL && cmnd != NULL)
+	if (var != NULL)
 	{
-		fd_in = give_input_fd(cmnd->in);
-		fd_out = give_output_fd(cmnd->out);
-		if (fd_in >= 0)
+		if (var->cmnd_list != NULL)
 		{
-			if (dup2(fd_in, STDIN_FILENO) < 0)
-				exec_error_handler(...);
-			close(fd_in);
+			bltin_index = check_if_builtin(var, var->cmnd_list);
+			if (bltin_index >= 0)
+				exit(execute_builtin(var, var->cmnd_list, bltin_index));
+			else
+			{
+				var->process = fork();
+				if (var->process < 0)
+					exec_error_handler(...);
+				else if (var->process == 0)
+					child_process(var, var->cmnd_list);
+				else 
+					parent_one_command(var);
+			}
+			exit(EXIT_FAILURE);
 		}
-		if (fd_out >=0)
-		{
-			if (dup2(fd_out, STDOUT_FILENO) < 0)
-				exec_error_handler(...);
-			close(fd_out);
-		}
-		if (fd_out == -2)
-		{
-			if (dup2(var->pipe_fd[1], STDOUT_FILENO) < 0)
-				exec_error_handler(...);
-		}
-		close(var->pipe_fd[0]);
-		close(var->pipe_fd[1]);
-		
+		exit(EXIT_FAILURE);
 	}
-}
-
-/* Parentprocess
-   		To do:		1.	Write exec_error_handler function
-					2.	...
-		Explanation:	This function checks whether we are at the last parent process
-						or if we need to go on to produce more child processes
-						If it is the last parent process, then j == last_cmnd
-							and this process needs to wait for the last childprocess to 
-							end and return the proper exit status
-							... also, the heredocs are unlinked here, maybe it should be
-							done somewhere else, unless the executer also produces the
-							heredoc files.
-						If it is not the last parent process, then j != last_cmnd,
-							and it sets STDIN to the known pipes read-end so the pipe
-							can be reused for the next childprocess
-   */
-
-void	parent_process(t_exec_var *var, int j)
-{
-	int	waitstatus;
-
-	if (j != var->last_cmnd)
-	{
-		if (dup2(var->fd_pipe[0], STDIN_FILENO) < 0)
-			exec_error_handler(...);
-		close(var->fd_pipe[0]);
-		close(var->fd_pipe[1]);
-	}
-	else if (j == var->last_cmnd)
-	{
-		waitpid(var->process, &waitstatus, 0);
-		heredoc_unlinker(var->cmnd_list);
-		if (WIFEXITED(waitstatus))
-			exit(WEXITSTATUS(waitstatus));
-		else if (WIFSIGNALED(waitstatus))
-			exit(128 + WTERMSIG(waitstatus));
-		else
-			exit(EXIT_SUCCESS);
-	}
+	exit(EXIT_FAILURE);
 }
 
 /* st_execute_line
@@ -138,7 +68,7 @@ static void	st_execute_line(t_exec_var *var)
 			if (var->process < 0)
 				exec_error_handler(...);
 			else if (var->process == 0)
-				child_process(var, tmp, j);
+				child_process(var, tmp);
 			else
 				parent_process(var, j);
 			j++;
@@ -149,6 +79,15 @@ static void	st_execute_line(t_exec_var *var)
 }
 
 /* execute
+   		PROBLEMS:	1.	If the environment is implemented using something different than
+						char **, you need to give this struct as well, to make sure the
+						builtin export, unset and env work properly
+					2.	Still need to implement that you fork before calling one of the executing
+						functions, because then we can use exit ... only if it is not a builtin command
+						at least (in case of one command) --> also have to save exitstatus in parent somehow ..??
+						2.1		or not, then you need to take care that the parent doesn't exit 
+								but that it gives exitstatus without exiting process (which at that point is our shell)
+					3.	...
    		To do:		1.	Write st_execute_one_cmnd()
 					2.	Check whether if the commandlist is longer than one, if 
 						everything has a pipe or not ... ???
@@ -170,7 +109,8 @@ int	execute(t_command *cmnd_list, char **environ)
 		var.env = environ;
 		var.fd_pipe = fd;
 		var.process = 1;
-		var.last_cmnd = st_size_cmndlist(cmnd_list);
+		var.last_cmnd = size_cmndlist(cmnd_list);
+		create_all_outfiles(&var);
 		if (var.last_cmnd == 1)
 			st_execute_one_cmnd(&var);
 		else

@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/09/15 13:32:56 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/09/15 16:51:45 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/09/18 14:45:18 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -159,6 +159,94 @@ void heredoc_unlinker(t_command *command_list)
 		{
 			st_unlink_heredoc_input(tmp->in);
 			tmp = tmp->next;
+		}
+	}
+}
+/* swap_filedescriptors: 
+		To check:		1. if it actually works
+						2. if it closes everything
+						3. ...
+		Explanation:	The function first finds the correct input and output streams
+						If fd_in >= 0, then we know that there is an input file and 
+							we need to change the stdin
+						If fd_in < 0, then we know that either there is a pipe or 
+							input was NULL, since stdin has been changed in parent
+							we don't need to adjust it anymore
+						If fd_out >= 0, then we know that an output file exists and 
+							we need to change stdout to this file
+						If fd_out == -1, then we know there were no output files or pipes
+							this means that stdout does not need to be changed
+						If fd_out == -2, then we know that there is a pipe and
+							we need to change stdout to the pipe
+						Now we have changed the stdout and stdin as necessary,
+							we can close the pipefd and move on
+   */
+void	swap_filedescriptors(t_exec_var *var, t_command *cmnd)
+{
+	int	fd_in;
+	int	fd_out;
+
+	fd_in = give_input_fd(cmnd->in);
+	fd_out = give_output_fd(cmnd->out);
+	if (fd_in >= 0)
+	{
+		if (dup2(fd_in, STDIN_FILENO) < 0)
+			exec_error_handler(...);
+		close(fd_in);
+	}
+	if (fd_out >=0)
+	{
+		if (dup2(fd_out, STDOUT_FILENO) < 0)
+			exec_error_handler(...);
+		close(fd_out);
+	}
+	if (fd_out == -2)
+	{
+		if (dup2(var->pipe_fd[1], STDOUT_FILENO) < 0)
+			exec_error_handler(...);
+	}
+	close(var->pipe_fd[0]);
+	close(var->pipe_fd[1]);
+}
+
+static void	st_create_outfile_cmnd(t_redirect *out)
+{
+	int			fd;
+	t_redirect	*tmp;
+
+	if (out != NULL)
+	{
+		tmp = out;
+		while (tmp)
+		{
+			if (tmp->type == OUTFILE || tmp->type == OUTFILE_APPEND)
+			{
+				if (access(tmp->value, F_OK) != 0)
+					fd = open(tmp->value, O_CREAT, 0644);
+				else
+					fd = -1;
+				if (fd != -1)
+					close(fd);
+			}
+			tmp = tmp->next;
+		}
+	}
+}
+
+void	create_all_outfiles(t_exec_var *var)
+{
+	t_command	*command;
+
+	if (var != NULL)
+	{
+		if (var->cmnd_list != NULL)
+		{
+			command = var->cmnd_list;
+			while (command)
+			{
+				st_create_outfile_cmnd(command->out);
+				command = command->next;
+			}
 		}
 	}
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                       ::::::::             */
-/*   types.h                                           :+:    :+:             */
+/*   types.h                                            :+:      :+:    :+:   */
 /*                                                    +:+                     */
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/09/15 11:01:53 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/09/15 13:34:11 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/09/18 14:10:40 by jhendrik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,5 +67,7 @@ typedef struct s_exec_var
 	int			last_cmnd;
 	pid_t		process;
 }	t_exec_var;
+
+typedef int	(*t_f_bltin)(t_exec_var, t_command);
 
 #endif

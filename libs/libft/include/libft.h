@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   libft.h                                            :+:    :+:            */
+/*   libft.h                                           :+:    :+:             */
 /*                                                     +:+                    */
 /*   By: jhendrik <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/28 13:26:40 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/07/07 11:27:08 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/09/18 10:33:45 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ int		ft_tolower(int c);
 /*This function returns the lowercase letter 
  * representation in ASCII of c if c is an uppercase letter. 
  * Otherwise, it returns c.*/
+int	ft_isspace(int c);
+/*This function checks whether the function is a space character */
 
 // FUNCTIONS FOR CONVERSION ---------------------
 int		ft_atoi(const char *str);
@@ -199,6 +201,9 @@ void	ft_striteri(char *s, void (*f)(unsigned int, char*));
  * passing the function f() its index first and 
  * then the pointer to the character. 
  * If s is NULL, the function does not do anything.*/
+void	ft_free_str_array(char **array);
+/*This function frees every entry in array and then array,
+  if it is NULL nothing happens */ 
 
 // SINGLE LINKED LIST STRUCT AND FUNCTIONS ------
 typedef struct s_list

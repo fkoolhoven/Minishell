@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         ::::::::             #
-#    Makefile                                           :+:    :+:             #
+#    Makefile                                          :+:    :+:              #
 #                                                      +:+                     #
 #    By: jhendrik <marvin@codam.nl>                   +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/28 10:58:27 by jhendrik      #+#    #+#                  #
-#    Updated: 2023/08/31 15:30:24 by jhendrik      ########   odam.nl          #
+#    Updated: 2023/09/18 10:34:42 by jhendrik      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,6 +34,7 @@ SRCFILES := functions_chars/ft_isalpha.c \
 			functions_chars/ft_isprint.c \
 			functions_chars/ft_tolower.c \
 			functions_chars/ft_toupper.c \
+			functions_chars/ft_isspace.c \
 			functions_str/ft_strlen.c \
 			functions_str/ft_strlcpy.c \
 			functions_str/ft_strlcat.c \
@@ -48,6 +49,7 @@ SRCFILES := functions_chars/ft_isalpha.c \
 			functions_str/ft_split.c \
 			functions_str/ft_strmapi.c \
 			functions_str/ft_striteri.c \
+			functions_str/ft_free_str_array.c \
 			functions_mem/ft_memset.c \
 			functions_mem/ft_bzero.c \
 			functions_mem/ft_memcpy.c \
