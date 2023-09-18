@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/09/13 13:05:59 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/09/15 10:24:37 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/09/18 15:00:26 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -48,6 +48,29 @@ static char	*st_give_filename(const char *s_nb1, int j)
 				we do not protect for this in this function 
 				However, it seems a good idea to look into this again and
 				to protect this function against write failures
+			4.	Doesn't handle the following cases :
+						
+					<< EOF cat
+						> hello
+						> $USER
+						> $(USER)
+						> \$USER
+						> $ USER
+						> \$ USER
+						> '$USER'
+						> "$USER"
+						> hello
+						> EOF
+					USER: command not found
+					hello
+					jhendrik
+
+					$USER
+					$ USER
+					$ USER
+					'jhendrik'
+					"jhendrik"
+					hello
 
 	NOTE:
 			1.	The function readline gives a string without newline,
@@ -105,7 +128,7 @@ static void	st_manage_one_heredoc(char *filename, t_redirect *node)
 			node->type = HEREDOC_FAIL;
 		}
 	}
-	if (filename == NULL && node != NULL)
+	else
 		node->type == HEREDOC_FAIL;
 }
 
