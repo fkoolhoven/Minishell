@@ -6,7 +6,7 @@
 #    By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/31 14:20:16 by jhendrik          #+#    #+#              #
-#    Updated: 2023/09/07 17:10:49 by fkoolhov         ###   ########.fr        #
+#    Updated: 2023/09/20 19:56:12 by fkoolhov         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ SUBDIR		:= . \
 			   utils
 SRC_SUBDIR	:= $(foreach dir, $(SUB_DIR),$(addprefix $(SRC_DIR)/,$(dir)))
 
-SRC			:= main.c token.c token_utils.c token_tokenize.c parser.c parser_lists.c parser_utils.c expand.c signals.c
+SRC			:= main.c token.c token_utils.c token_tokenize.c parser.c parser_lists.c parser_tokens.c parser_utils.c expand.c signals.c
 OBJ			:= $(addprefix $(OBJ_DIR)/,$(SRC:.c=.o))
 LIBS		:= $(LIB_DIR)/libft.a
 MINI_HEADER	:= ./inc/minishell.h

@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   token_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: felicia <felicia@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 16:35:30 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/04 20:44:47 by felicia          ###   ########.fr       */
+/*   Updated: 2023/09/20 19:39:04 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+// too many functions in file
 
 bool	char_is_single_quote(char c)
 {

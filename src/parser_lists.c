@@ -6,13 +6,15 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 15:00:42 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/07 16:57:22 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/09/20 19:36:18 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// Contains the modified linked list functions from libft. Modified for command struct and redirect struct
+// Contains the modified linked list functions from libft.
+// Modified for command struct and redirect struct
+// Has one function too many for norminette
 
 t_command	*lstlast_command(t_command *lst)
 {
@@ -30,7 +32,6 @@ t_command	*lstlast_command(t_command *lst)
 	}
 	return (ptr_prv);
 }
-
 
 t_command	*lstnew_command(char **command, t_redirect *in, t_redirect *out)
 {
@@ -76,7 +77,6 @@ t_redirect	*lstlast_redirect(t_redirect *lst)
 	return (ptr_prv);
 }
 
-
 t_redirect	*lstnew_redirect(int type, char *value)
 {
 	t_redirect	*node;
@@ -102,4 +102,3 @@ void	lstadd_back_redirect(t_redirect **lst, t_redirect *new)
 		last->next = new;
 	}
 }
-

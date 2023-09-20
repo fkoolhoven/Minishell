@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   token_tokenize.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: felicia <felicia@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 16:36:40 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/04 20:41:22 by felicia          ###   ########.fr       */
+/*   Updated: 2023/09/20 19:39:37 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+// last function is too long
 
 int	find_next_quote(char quote, char *input, int *i)
 {
@@ -65,7 +67,7 @@ void	tokenize_word(t_token *token, char *input, int *i)
 		token->expand = true;
 }
 
-char *get_filename_or_delimiter(char *input, int *i)
+char	*get_filename_or_delimiter(char *input, int *i)
 {
 	char	*filename;
 	int		strlen;
@@ -98,7 +100,7 @@ void	tokenize_operator(t_token *token, char *input, int *i)
 		}
 		else
 			token->type = INFILE;
-	}	
+	}
 	else if (input[*i] == '>')
 	{
 		if (input[*i + 1] == '>')

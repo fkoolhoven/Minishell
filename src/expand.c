@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 15:47:26 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/07 16:35:36 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/09/20 18:16:29 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void    expand_variable(t_token *token)
 
 void    expand_parameters(t_list **tokens)
 {
+    int         parser_check;
 	t_token 	*current_token;
     t_list      *list_start = *tokens;
 
@@ -39,5 +40,7 @@ void    expand_parameters(t_list **tokens)
             expand_variable(current_token);
 		*tokens = (*tokens)->next;
 	}
-    parse_tokens(list_start);
+    parser_check = parse_tokens(list_start);
+    if (parser_check != EXIT_SUCCESS)
+        return ;
 }
