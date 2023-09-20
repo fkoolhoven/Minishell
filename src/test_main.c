@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/05 16:54:34 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/09/13 11:30:47 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/09/20 15:23:46 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -28,12 +28,12 @@ static void	st_print_hashnodes(t_hash_node *head)
 	}
 }
 
-static void	st_print_hasharray(t_hash_table *env_table)
+void	print_hasharray(t_hash_table *env_table, t_hash_node **head)
 {
 	int	i;
 
 	printf("Printing hash array for env \n");
-	if (env_table->array == NULL)
+	if (head == NULL)
 		printf("(NULL)\n");
 	else
 	{
@@ -41,13 +41,13 @@ static void	st_print_hasharray(t_hash_table *env_table)
 		while (i < (env_table->size))
 		{
 			printf("Index: %i\n", i);
-			st_print_hashnodes((env_table->array)[i]);
+			st_print_hashnodes((head)[i]);
 			i++;
 		}
 	}
 }
 
-static void	st_print_hashtable(t_hash_table *env_table)
+void	print_hashtable(t_hash_table *env_table)
 {
 	printf("Printing hash table for env \n");
 	if (env_table == NULL)
@@ -55,16 +55,39 @@ static void	st_print_hashtable(t_hash_table *env_table)
 	else
 	{
 		printf("Size: %i\n", env_table->size);
-		st_print_hasharray(env_table);
+		print_hasharray(env_table, env_table->array);
 	}
 }
 
-int	main(void)
+static void	st_print_env(char **envp)
+{
+	int	i;
+	
+	printf("PRINTING environment var of shell\n");
+	if (envp == NULL)
+		printf("(NULL)\n");
+	else
+	{
+		i = 0;
+		while (envp[i])
+		{
+			printf("%s", envp[i]);
+			printf("\n");
+			i++;
+		}
+	}
+}
+
+int	main(int argc, char **argv, char **envp)
 {
 	t_hash_table	*env;
 
-	env = init_env();
-	st_print_hashtable(env);
+	if (argc < 1 || argv == NULL)
+		return (EXIT_FAILURE);
+	printf("HELLO I'm in main\n");
+	st_print_env(envp);
+	env = init_env(envp);
+	print_hashtable(env);
 	terminate_hashtable(env);
 	return (0);
 }

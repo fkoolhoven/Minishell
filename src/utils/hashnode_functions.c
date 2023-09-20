@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   init_env.c                                         :+:    :+:            */
+/*   hashnode_functions.c                              :+:    :+:             */
 /*                                                     +:+                    */
 /*   By: jhendrik <marvin@42.fr>                      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/05 14:03:59 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/09/05 14:55:07 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/09/20 15:28:51 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -20,6 +20,7 @@ t_hash_node	*new_hash_node(char *key, char *value)
 		return (NULL);
 	node->key = key;
 	node->value = value;
+	node->next = NULL;
 	return (node);
 }
 
