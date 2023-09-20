@@ -6,7 +6,7 @@
 #    By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/31 14:20:16 by jhendrik          #+#    #+#              #
-#    Updated: 2023/09/13 11:39:59 by jhendrik      ########   odam.nl          #
+#    Updated: 2023/09/20 16:20:40 by jhendrik      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,8 @@ OBJ_DIR		:= obj
 LIB_DIR		:= libs/libft
 SUBDIR		:= . \
 			   builtins \
-			   utils
+			   utils \
+			   env_functions
 SRC_SUBDIR	:= $(foreach dir, $(SUB_DIR),$(addprefix $(SRC_DIR)/,$(dir)))
 
 SRC			:= test_main.c \
@@ -31,7 +32,12 @@ SRC			:= test_main.c \
 			   token_utils.c \
 			   token_tokenize.c \
 			   utils/hashnode_functions.c \
-			   utils/init_env.c
+			   utils/hashnode_add_delete.c \
+			   env_functions/env_terminate.c \
+			   env_functions/env_utils.c \
+			   env_functions/init_env.c \
+			   env_functions/init_keyvalue_pairs.c \
+			   env_functions/test_ft.c 
 OBJ			:= $(addprefix $(OBJ_DIR)/,$(SRC:.c=.o))
 LIBS		:= $(LIB_DIR)/libft.a
 MINI_HEADER	:= ./inc/minishell.h

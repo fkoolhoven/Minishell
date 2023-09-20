@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:09:26 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/20 15:21:27 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/09/20 17:00:29 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,16 +39,16 @@ typedef struct s_token
 
 typedef struct s_hash_node
 {
-	char	*key;
-	char	*value;
+	char				*key;
+	char				*value;
 	struct s_hash_node	*next;
-}	t_hash_node;
+}	t_hnode;
 
 typedef struct s_hash_table
 {
-	int	size;
-	t_hash_node	**array;
-}	t_hash_table;
+	int			size;
+	t_hnode	**array;
+}	t_htable;
 
 // token.c
 void	tokenize_input(char *input);
@@ -66,22 +66,36 @@ bool	char_is_quote(char c);
 bool	char_is_operator(char c);
 
 // utils/hashnode_functions.c
-t_hash_node	*new_hash_node(char *key, char *value);
-t_hash_node	*hasharray_last(t_hash_node *array);
-void		hasharray_add_back(t_hash_node **array, t_hash_node *new);
-void		hasharray_add_front(t_hash_node **array, t_hash_node *new);
-void		hasharray_delone(t_hash_node *node);
-void		hasharray_clear(t_hash_node **array);
-int			hasharray_size(t_hash_node *array);
+t_hnode	*new_hash_node(char *key, char *value);
+t_hnode	*hasharray_last(t_hnode *array);
+int		hasharray_size(t_hnode *array);
 
-//utils/init_env.c
-t_hash_table	*init_env(char **envp);
-void			terminate_hashtable(t_hash_table *env_table);
-t_hash_node		**init_hash_array(t_hash_table *env_table, char **envp);
-void			terminate_hasharray(t_hash_node ***head, int size);
-t_hash_node		**hasharray_calloc(size_t cnt, size_t size);
-int				give_hash_index(char *key, t_hash_table *env_table);
-void	print_hashtable(t_hash_table *env_table);
-void	print_hasharray(t_hash_table *env_table, t_hash_node **head);
+// utils/hashnode_add_delete.c 
+void	hasharray_add_back(t_hnode **array, t_hnode *new);
+void	hasharray_add_front(t_hnode **array, t_hnode *new);
+void	hasharray_delone(t_hnode *node);
+void	hasharray_clear(t_hnode **array);
+
+// env_functions/env_terminate.c 
+void	terminate_hasharray(t_hnode ***head, int size);
+void	terminate_hashtable(t_htable *env_table);
+
+// env_functions/env_utils.c 
+int		give_hash_index(char *key, t_htable *env_table);
+t_hnode	**hasharray_calloc(size_t cnt, size_t size);
+char	*give_key(char *variable);
+char	*give_value(char *variable);
+
+// env_functions/init_env.c 
+t_hnode	**init_hash_array(t_htable *env_table, char **envp);
+t_htable	*init_env(char **envp);
+
+// env_functions/init_keyvalue_pairs.c 
+int	init_keyvalue(t_hnode ***head, t_htable *env_table, char **envp);
+
+// env_functions/test_ft.c 
+void	print_hasharray(t_htable *env_table, t_hnode **head);
+void	print_strarray(char **envp);
+void	print_hashtable(t_htable *env_table);
 
 #endif
