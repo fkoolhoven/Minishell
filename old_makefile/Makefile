@@ -6,7 +6,7 @@
 #    By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/31 14:20:16 by jhendrik          #+#    #+#              #
-#    Updated: 2023/09/21 18:26:16 by fkoolhov         ###   ########.fr        #
+#    Updated: 2023/09/05 17:27:13 by fkoolhov         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ CC			:= cc
 RM			:= rm
 
 CFLAGS		?= -Wall -Wextra -Werror
-FLAGS		?= -v -Llibs/libft/ -lft -lreadline
+FLAGS		?= -lreadline
 
 INC			:= ./inc/
 SRC_DIR		:= src
@@ -26,19 +26,10 @@ SUBDIR		:= . \
 			   utils
 SRC_SUBDIR	:= $(foreach dir, $(SUB_DIR),$(addprefix $(SRC_DIR)/,$(dir)))
 
-SRC			:= main.c \
-			   token.c \
-			   token_utils.c \
-			   token_tokenize.c parser.c parser_lists.c parser_tokens.c parser_utils.c expand.c signals.c \
-			   utils/hashnode_functions.c \
-			   utils/init_env.c \
-			   utils/print_hashtable.c 
+SRC			:= main.c token.c token_utils.c token_tokenize.c parser.c parser_lists.c parser_utils.c
 OBJ			:= $(addprefix $(OBJ_DIR)/,$(SRC:.c=.o))
 LIBS		:= $(LIB_DIR)/libft.a
 MINI_HEADER	:= ./inc/minishell.h
-
-
-# LIBNAME		:= libft.a
 
 VPATH = $(SRCDIRS)
 
@@ -60,9 +51,7 @@ $(LIB_DIR)/obj:
 
 $(NAME): $(OBJ) $(MINI_HEADER)
 	@echo $(Light_Blue) Building program ... $(NAME) $(Reset)
-
-	$(CC)  -I $(INC) $(OBJ) -o $(NAME) -v -Llibs/libft/ -lft -lreadline
-
+	$(CC) $(FLAGS) $(LIBS) -I $(INC) $(OBJ) -o $(NAME)
 	@echo $(Green) Program $(NAME) successfully build $(Reset)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(MINI_HEADER)

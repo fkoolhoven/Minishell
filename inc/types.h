@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                       ::::::::             */
+/*                                                        :::      ::::::::   */
 /*   types.h                                            :+:      :+:    :+:   */
-/*                                                    +:+                     */
-/*   By: jhendrik <marvin@42.fr>                     +#+                      */
-/*                                                  +#+                       */
-/*   Created: 2023/09/15 11:01:53 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/09/18 14:10:40 by jhendrik         ###   ########.fr       */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/09/15 11:01:53 by jhendrik          #+#    #+#             */
+/*   Updated: 2023/09/21 18:23:26 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ typedef struct s_token
 {
 	enum e_type	type;
 	char		*value;
+	bool		expand;
 }	t_token;
 
 typedef struct s_hash_node
@@ -67,6 +68,16 @@ typedef struct s_exec_var
 	int			last_cmnd;
 	pid_t		process;
 }	t_exec_var;
+
+typedef struct s_parser_var
+{
+	t_redirect	*in;
+	t_redirect	*out;
+	size_t		amount_of_words;
+	char		**old_command;
+	char		**command;
+	t_command	*command_list;
+}	t_parser_var;
 
 typedef int	(*t_f_bltin)(t_exec_var, t_command);
 

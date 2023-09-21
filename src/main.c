@@ -6,11 +6,12 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:08:39 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/21 18:09:16 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/09/21 19:34:25 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+// #include "../libs/libft/include/libft.h"
 
 /* SIMPLE IMPLEMENTATION OF INTERFACE
    Things to change in future:
@@ -20,32 +21,48 @@
 
 */
 
+// ctrl-C displays a new prompt on a new line.
+// ctrl-D exits the shell.
+// ctrl-\ does nothing.
+
+
 int	main(void)
 {
+
 	char			*user_input;
+	t_list			*tokens;
 	t_hash_table	*env;
 
+	tokens = NULL;
 	env = init_env();
 	st_print_hashtable(env);
-	terminate_hashtable(env);
 
 	while (1)
 	{
+		signal(SIGINT, &catch_signals);
+		signal(SIGQUIT, SIG_IGN);
+
 		user_input = readline("--> ");
 		if (!(user_input))
 		{
-			printf("Exiting... because input empty\n");
+			printf("Exiting shell...\n");
 			exit(EXIT_SUCCESS);
 		}
-		if (ft_strnstr(user_input, "exit", ft_strlen(user_input)) != NULL)
+		else if (ft_strnstr(user_input, "exit", ft_strlen(user_input)) != NULL)
 		{
 			free(user_input);
 			printf("Exiting ...\n");
 			exit(EXIT_SUCCESS);
 		}
-		tokenize_input(user_input);
-		add_history(user_input);
-		free(user_input);
+		else
+		{
+			tokens = tokenize_input(user_input);
+			print_tokens(tokens); // function for testing / checks
+			expand_parameters(&tokens, env);
+			add_history(user_input);
+			free(user_input);
+		}
 	}
+	terminate_hashtable(env);
 	return (0);
 }

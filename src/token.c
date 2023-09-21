@@ -6,21 +6,22 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:25:50 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/08/31 16:43:04 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/09/21 18:47:44 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-
 
 void	print_tokens(t_list *tokens)
 {
 	while (tokens)
 	{
 		t_token *current_token = (t_token *)tokens->content;
-        printf("type of token = %i\nvalue of token = %s\n", current_token->type, current_token->value);
-        tokens = tokens->next;
+        printf("TOKEN type = %i\n", current_token->type);
+		printf("TOKEN value = %s\n", current_token->value);
+		printf("TOKEN expand = %i\n", current_token->expand);
+		printf("\n");
+		tokens = tokens->next;
 	}
 }
 
@@ -36,6 +37,7 @@ t_token	*initialize_token(void)
 	}
 	token->type = -1;
 	token->value = NULL;
+	token->expand = false;
 	return (token);
 }
 
@@ -64,7 +66,7 @@ void	add_token_to_list(t_list **tokens, t_token *token)
 	}
 }
 
-void	tokenize_input(char *input)
+t_list	*tokenize_input(char *input)
 {
 	t_list	*tokens;
 	t_token	*token;
@@ -81,23 +83,17 @@ void	tokenize_input(char *input)
 		token = initialize_token();
 		add_token_to_list(&tokens, token);
 		if (char_is_single_quote(input[i]))
-		{
-			printf("found single quote\n");
 			tokenize_single_quote(token, input, &i);
-		}
 		else if (char_is_double_quote(input[i]))
-		{
-			printf("found double quote\n");
 			tokenize_double_quote(token, input, &i);
-		}
 		else if (char_is_operator(input[i]))
-		{
 			tokenize_operator(token, input, &i);
-		}
 		else
-		{
 			tokenize_word(token, input, &i);
-		}
 	}
-	print_tokens(tokens);
+	if (!tokens)
+		return (NULL);
+	
+	// expand_parameters(&tokens);
+	return (tokens);
 }
