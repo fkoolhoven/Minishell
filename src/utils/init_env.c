@@ -1,14 +1,15 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   init_env.c                                        :+:    :+:             */
-/*                                                     +:+                    */
-/*   By: jhendrik <marvin@42.fr>                      +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2023/09/05 15:00:47 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/09/13 11:55:06 by jhendrik      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   init_env.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/09/05 15:00:47 by jhendrik          #+#    #+#             */
+/*   Updated: 2023/09/21 17:01:34 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "minishell.h"
 
 int	give_hash_index(char *key, t_hash_table *env_table)
@@ -120,8 +121,8 @@ t_hash_node	**init_hash_array(t_hash_table *env_table)
 {
 	int			check;
 	t_hash_node	**head;
-	const char *keys[]={"USER", "PATH", "PWD","HOME","LOGNAME", "LOGNAME", NULL};
-	const char	*values[]={"alien", "/Users/alien", "Current directory", "/Users/alien", "jean_the_alien", "other_alien"};
+	const char *keys[]={"USER", "PATH", "PWD","HOME","LOGNAME", "LOGNAME", "$var", NULL};
+	const char	*values[]={"alien", "/Users/alien", "Current directory", "/Users/alien", "jean_the_alien", "other_alien", "expandable"};
 
 	if (env_table == NULL)
 		return (NULL);

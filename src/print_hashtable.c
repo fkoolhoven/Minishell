@@ -1,17 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   test_main.c                                       :+:    :+:             */
-/*                                                     +:+                    */
-/*   By: jhendrik <marvin@42.fr>                      +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2023/09/05 16:54:34 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/09/13 11:30:47 by jhendrik      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   print_hashtable.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/09/05 16:54:34 by jhendrik          #+#    #+#             */
+/*   Updated: 2023/09/21 18:11:14 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "minishell.h"
 
-static void	st_print_hashnodes(t_hash_node *head)
+void	st_print_hashnodes(t_hash_node *head)
 {
 	t_hash_node *tmp;
 
@@ -28,7 +29,7 @@ static void	st_print_hashnodes(t_hash_node *head)
 	}
 }
 
-static void	st_print_hasharray(t_hash_table *env_table)
+void	st_print_hasharray(t_hash_table *env_table)
 {
 	int	i;
 
@@ -47,7 +48,7 @@ static void	st_print_hasharray(t_hash_table *env_table)
 	}
 }
 
-static void	st_print_hashtable(t_hash_table *env_table)
+void	st_print_hashtable(t_hash_table *env_table)
 {
 	printf("Printing hash table for env \n");
 	if (env_table == NULL)
@@ -57,14 +58,4 @@ static void	st_print_hashtable(t_hash_table *env_table)
 		printf("Size: %i\n", env_table->size);
 		st_print_hasharray(env_table);
 	}
-}
-
-int	main(void)
-{
-	t_hash_table	*env;
-
-	env = init_env();
-	st_print_hashtable(env);
-	terminate_hashtable(env);
-	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:08:39 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/08/31 16:21:53 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/09/21 18:09:16 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,16 @@
 
 int	main(void)
 {
-	char	*user_input;
+	char			*user_input;
+	t_hash_table	*env;
+
+	env = init_env();
+	st_print_hashtable(env);
+	terminate_hashtable(env);
 
 	while (1)
 	{
 		user_input = readline("--> ");
-		tokenize_input(user_input);
 		if (!(user_input))
 		{
 			printf("Exiting... because input empty\n");
@@ -39,6 +43,7 @@ int	main(void)
 			printf("Exiting ...\n");
 			exit(EXIT_SUCCESS);
 		}
+		tokenize_input(user_input);
 		add_history(user_input);
 		free(user_input);
 	}

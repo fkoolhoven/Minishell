@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                       :+:    :+:             */
+/*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:09:26 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/15 11:08:08 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/09/21 18:10:49 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,11 @@ void		hasharray_add_front(t_hash_node **array, t_hash_node *new);
 void		hasharray_delone(t_hash_node *node);
 void		hasharray_clear(t_hash_node **array);
 int			hasharray_size(t_hash_node *array);
+
+// print_hashtable.c
+void	st_print_hashnodes(t_hash_node *head);
+void	st_print_hasharray(t_hash_table *env_table);
+void	st_print_hashtable(t_hash_table *env_table);
 
 //utils/init_env.c
 t_hash_table	*init_env();

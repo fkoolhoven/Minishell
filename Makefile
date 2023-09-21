@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    Makefile                                          :+:    :+:              #
+#    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/31 14:20:16 by jhendrik          #+#    #+#              #
-#    Updated: 2023/09/13 11:39:59 by jhendrik      ########   odam.nl          #
+#    Updated: 2023/09/21 18:09:01 by fkoolhov         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,8 @@ SUBDIR		:= . \
 			   utils
 SRC_SUBDIR	:= $(foreach dir, $(SUB_DIR),$(addprefix $(SRC_DIR)/,$(dir)))
 
-SRC			:= test_main.c \
+SRC			:= main.c \
+				print_hashtable.c \
 			   token.c \
 			   token_utils.c \
 			   token_tokenize.c \
