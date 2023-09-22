@@ -6,7 +6,7 @@
 #    By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/31 14:20:16 by jhendrik          #+#    #+#              #
-#    Updated: 2023/09/22 14:11:36 by fkoolhov         ###   ########.fr        #
+#    Updated: 2023/09/22 17:57:50 by fkoolhov         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,8 +14,8 @@ NAME		:= minishell
 CC			:= cc
 RM			:= rm
 
-CFLAGS		?= -Wall -Wextra -Werror #-fsanitize=address
-FLAGS		?= -v -Llibs/libft/ -lft -lreadline #-fsanitize=address
+CFLAGS		?= -Wall -Wextra -Werror -fsanitize=address -g
+FLAGS		?= -v -Llibs/libft/ -lft -lreadline -fsanitize=address
 
 INC			:= ./inc/
 SRC_DIR		:= src

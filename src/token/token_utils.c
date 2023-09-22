@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 16:35:30 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/20 19:39:04 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/09/22 17:52:41 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ bool	char_is_operator(char c)
 		return (false);
 }
 
-bool	next_token_is_found(char *input, int i)
+bool	next_token(char *input, int i)
 {
 	if (char_is_operator(input[i]))
 		return (true);

@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 16:36:40 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/22 15:07:11 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/09/22 17:52:33 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	find_next_quote(char quote, char *input, int *i)
 	return (strlen);
 }
 
-// tokenizes everything between double quotes, also checking for $ as expandable
+// Tokenizes everything between double quotes, also checking for $ as expandable
 void	tokenize_double_quote(t_token *token, char *input, int *i)
 {
 	int	strlen;
@@ -41,7 +41,7 @@ void	tokenize_double_quote(t_token *token, char *input, int *i)
 		token->expand = true;
 }
 
-// tokenizes everything between double quotes, seeing $ as regular character
+// Tokenizes everything between double quotes, seeing $ as regular character
 void	tokenize_single_quote(t_token *token, char *input, int *i)
 {
 	int	strlen;
@@ -56,7 +56,7 @@ void	tokenize_word(t_token *token, char *input, int *i)
 	int	strlen;
 
 	strlen = 0;
-	while (!ft_isspace(input[*i]) && input[*i] && !next_token_is_found(input, *i))
+	while (!ft_isspace(input[*i]) && input[*i] && !next_token(input, *i))
 	{
 		strlen++;
 		(*i)++;
@@ -80,7 +80,7 @@ char	*get_filename_or_delimiter(char *input, int *i)
 		ft_putendl_fd("missing filename for redirection", STDERR_FILENO);
 		return (NULL);
 	}
-	while (!ft_isspace(input[*i]) && input[*i] && !next_token_is_found(input, *i))
+	while (!ft_isspace(input[*i]) && input[*i] && !next_token(input, *i))
 	{
 		(*i)++;
 		strlen++;

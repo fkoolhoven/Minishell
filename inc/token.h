@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:39:28 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/22 15:06:54 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/09/22 17:52:57 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ bool	char_is_double_quote(char c);
 bool	char_is_quote(char c);
 bool	char_is_operator(char c);
 bool	found_expandable(char *input, int i);
-bool	next_token_is_found(char *input, int i);
+bool	next_token(char *input, int i);
 bool	token_contains_expandable(char *str);
 
 #endif

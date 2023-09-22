@@ -6,16 +6,15 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 15:47:26 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/22 15:43:42 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/09/22 18:03:26 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// free everything to prevent mem leaks!
 // Replaces the expandable (for example $var) with the associated value form
 // the env hashtable
-void	replace_var(t_token *token, char *var, int start, int rm_strlen)
+void	replace_var(t_token *token, char *value, int start, int rm_strlen)
 {
 	char	*beginning;
 	char	*end;
@@ -25,22 +24,21 @@ void	replace_var(t_token *token, char *var, int start, int rm_strlen)
 	beginning = ft_substr(token->value, 0, start);
 	end_strlen = ft_strlen(token->value) - start - rm_strlen;
 	end = ft_substr(token->value, start + rm_strlen, end_strlen);
-	new_string = ft_strjoin(beginning, var);
+	new_string = ft_strjoin(beginning, value); // leak, free new_string after use
 	new_string = ft_strjoin(new_string, end);
-	// free(beginning);
-	// free(var);
-	// free(end);
+	free(beginning);
+	free(end);
 	free(token->value);
 	token->value = new_string;
 }
 
-// free substring in this func
 // Goes through the value (char *) of the token and finds all the expandables
 void	expand_variable(t_token *token, t_htable *env)
 {
 	int		i;
 	int		start;
-	char	*var;
+	char	*key;
+	char	*value;
 
 	i = 0;
 	while (token->value[i])
@@ -51,9 +49,10 @@ void	expand_variable(t_token *token, t_htable *env)
 			i++;
 			while (token->value[i] && !ft_isspace(token->value[i]) && token->value[i] != '$')
 				i++;
-			var = ft_substr(token->value, start, i - start);
-			var = find_env_value(env, var);
-			replace_var(token, var, start, i - start);
+			key = ft_substr(token->value, start, i - start);
+			value = find_env_value(env, key);
+			free(key);
+			replace_var(token, value, start, i - start);
 			i = start - 1;
 		}
 		i++;

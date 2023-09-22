@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:08:39 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/22 15:37:03 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/09/22 17:55:26 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 // ctrl-C displays a new prompt on a new line.
 // ctrl-D exits the shell.
 // ctrl-\ does nothing.
+// should clear buffer after signal
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -54,7 +55,9 @@ int	main(int argc, char **argv, char **envp)
 		else
 		{
 			tokens = tokenize_input(user_input);
-			print_tokens(tokens); // function for testing / checks
+			if (tokens == NULL)
+				ft_putendl_fd("Error\n", STDERR_FILENO);
+			print_tokens(tokens);
 			expand_parameters(&tokens, env);
 			add_history(user_input);
 			free(user_input);
