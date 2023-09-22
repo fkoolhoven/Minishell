@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/09/20 16:02:22 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/09/20 16:42:52 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/09/22 10:16:15 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -67,7 +67,7 @@ char	*give_key(char *variable)
 
 	if (variable == NULL)
 		return (NULL);
-	split = ft_split(variable, '=');
+	split = split_first_occurance(variable, '=');
 	if (split == NULL)
 		return (NULL);
 	key = split[0];
@@ -82,7 +82,7 @@ char	*give_value(char *variable)
 
 	if (variable == NULL)
 		return (NULL);
-	split = ft_split(variable, '=');
+	split = split_first_occurance(variable, '=');
 	if (split == NULL)
 		return (NULL);
 	value = split[1];

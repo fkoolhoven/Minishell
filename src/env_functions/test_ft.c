@@ -6,10 +6,24 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/09/20 16:11:51 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/09/20 16:44:00 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/09/22 10:44:25 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
+
+void	print_hashnode(t_hnode *node, t_htable *env)
+{
+	int	index;
+
+	if (node == NULL)
+		printf("(NULL)\n");
+	else
+	{
+		index = give_hash_index(node->key, env);
+		printf("This node has index %i\n", index);
+		printf("Node own pointer: %p \n \t key: %s \n \t value: %s \n \t next: %p \n", node, node->key, node->value, node->next);
+	}
+}
 
 static void	st_print_hashnodes(t_hnode *head)
 {

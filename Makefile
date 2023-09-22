@@ -6,7 +6,7 @@
 #    By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/31 14:20:16 by jhendrik          #+#    #+#              #
-#    Updated: 2023/09/20 16:20:40 by jhendrik      ########   odam.nl          #
+#    Updated: 2023/09/22 10:21:51 by jhendrik      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,6 +37,9 @@ SRC			:= test_main.c \
 			   env_functions/env_utils.c \
 			   env_functions/init_env.c \
 			   env_functions/init_keyvalue_pairs.c \
+			   env_functions/add_delete_pair.c \
+			   env_functions/find_key.c \
+			   env_functions/split_first_occurance.c \
 			   env_functions/test_ft.c 
 OBJ			:= $(addprefix $(OBJ_DIR)/,$(SRC:.c=.o))
 LIBS		:= $(LIB_DIR)/libft.a
