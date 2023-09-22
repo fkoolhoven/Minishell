@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/09/20 16:02:22 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/09/22 10:16:15 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/09/22 12:57:22 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -33,7 +33,7 @@ int	give_hash_index(char *key, t_htable *env_table)
 t_hnode	**hasharray_calloc(size_t cnt, size_t size)
 {
 	t_hnode	**head;
-	size_t		i;
+	size_t	i;
 
 	head = malloc(cnt * size);
 	if (head == NULL)

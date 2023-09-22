@@ -6,14 +6,14 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/09/20 16:01:17 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/09/20 16:48:55 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/09/22 12:57:47 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
 
 t_hnode	**init_hash_array(t_htable *env_table, char **envp)
 {
-	int			check;
+	int		check;
 	t_hnode	**head;
 
 	if (env_table == NULL)

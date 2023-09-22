@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   libft.h                                            :+:    :+:            */
+/*   libft.h                                           :+:    :+:             */
 /*                                                     +:+                    */
 /*   By: jhendrik <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/28 13:26:40 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/07/07 11:27:08 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/09/22 12:37:14 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,6 +199,7 @@ void	ft_striteri(char *s, void (*f)(unsigned int, char*));
  * passing the function f() its index first and 
  * then the pointer to the character. 
  * If s is NULL, the function does not do anything.*/
+void	ft_free_str_array(char **array);
 
 // SINGLE LINKED LIST STRUCT AND FUNCTIONS ------
 typedef struct s_list

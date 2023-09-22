@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/09/20 15:46:06 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/09/20 16:43:26 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/09/22 11:44:27 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -41,24 +41,6 @@ static int	st_add_hnode(char *key, char *value, t_htable *env, t_hnode ***head)
 	return (EXIT_SUCCESS);
 }
 
-static int	st_init_path(char *key, char *value, t_htable *env, t_hnode ***head)
-{
-	int		check;
-	char	*new_value;
-
-	if (key == NULL || value == NULL || env == NULL || head == NULL)
-		return (EXIT_FAILURE);
-	if (*head == NULL)
-		return (EXIT_FAILURE);
-	new_value = ft_strjoin("user/test/path:", (const char *)value);
-	if (new_value == NULL)
-		return (EXIT_FAILURE);
-	check = st_add_hnode(key, new_value, env, head);
-	if (check == EXIT_FAILURE)
-		return (free(new_value), EXIT_FAILURE);
-	return (free(value), EXIT_SUCCESS);
-}
-
 static int	st_add_pair(char *key, char *value, t_htable *env, t_hnode ***head)
 {
 	int	check;
@@ -67,18 +49,9 @@ static int	st_add_pair(char *key, char *value, t_htable *env, t_hnode ***head)
 		return (EXIT_FAILURE);
 	if (*head == NULL)
 		return (EXIT_FAILURE);
-	if (ft_strncmp("PATH", key, ft_strlen(key)) == 0)
-	{
-		check = st_init_path(key, value, env, head);
-		if (check == EXIT_FAILURE)
-			return (st_error(key, value, head, env), EXIT_FAILURE);
-	}
-	else
-	{
-		check = st_add_hnode(key, value, env, head);
-		if (check == EXIT_FAILURE)
-			return (st_error(key, value, head, env), EXIT_FAILURE);
-	}
+	check = st_add_hnode(key, value, env, head);
+	if (check == EXIT_FAILURE)
+		return (st_error(key, value, head, env), EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
 

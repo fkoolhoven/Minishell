@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/09/22 09:38:21 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/09/22 10:32:59 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/09/22 12:59:56 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -47,12 +47,12 @@ static void	st_error_malloc(char **split)
 
 static char	**st_fill_strarray(char const *s, char c, char **split, size_t size)
 {
-	int	delimiter_index;
+	int	del_index;
 	int	str_len;
 
 	if (s == NULL || split == NULL)
 		return (NULL);
-	delimiter_index = st_give_delindex(s, c);
+	del_index = st_give_delindex(s, c);
 	str_len = ft_strlen((char *)s);
 	split[size - 1] = NULL;
 	if (size == 2)
@@ -64,12 +64,12 @@ static char	**st_fill_strarray(char const *s, char c, char **split, size_t size)
 	}
 	else if (size == 3)
 	{
-		split[0] = (char *)malloc(delimiter_index + 1);
-		split[1] = (char *)malloc(str_len - delimiter_index);
+		split[0] = (char *)malloc(del_index + 1);
+		split[1] = (char *)malloc(str_len - del_index);
 		if (split[0] == NULL || split[1] == NULL)
 			return (st_error_malloc(split), NULL);
-		ft_strlcpy(split[0], s, delimiter_index + 1);
-		ft_strlcpy(split[1], (s + delimiter_index + 1), str_len - delimiter_index);
+		ft_strlcpy(split[0], s, del_index + 1);
+		ft_strlcpy(split[1], (s + del_index + 1), str_len - del_index);
 	}
 	return (split);
 }

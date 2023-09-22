@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/09/20 16:11:51 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/09/22 10:44:25 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/09/22 12:53:48 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -92,4 +92,38 @@ void	print_strarray(char **envp)
 			i++;
 		}
 	}
+}
+
+static int	st_comparing(char *env, char **new_env)
+{
+	int	j;
+
+	j = 0;
+	while (new_env[j])
+	{
+		if (ft_strncmp(env, new_env[j], ft_strlen(env)) == 0)
+			return (0);
+		j++;
+	}
+	return (1);
+}
+
+int	comparing_envs(char **env, char **new_env)
+{
+	int	i;
+	int	j;
+
+	if (env != NULL && new_env != NULL)
+	{
+		i = 0;
+		while (env[i])
+		{
+			j = st_comparing(env[i], new_env);
+			if (j == 1)
+				return (1);
+			i++;
+		}
+		return (0);
+	}
+	return (-1);
 }

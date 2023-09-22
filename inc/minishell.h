@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:09:26 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/22 10:44:38 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/09/22 13:06:34 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,10 +104,18 @@ char	*find_env_value(t_htable *env, char *key);
 // env_functions/split_first_occurance.c 
 char	**split_first_occurance(char const *s, char c);
 
+// env_functions/convert_to_strarray.c 
+char	**convert_htable_to_strarray(t_htable *env);
+
+// env_functions/convert_utils.c 
+int		size_table(t_htable *env);
+char	*give_envstr(t_hnode *node);
+
 // env_functions/test_ft.c 
 void	print_hasharray(t_htable *env_table, t_hnode **head);
 void	print_strarray(char **envp);
 void	print_hashtable(t_htable *env_table);
 void	print_hashnode(t_hnode *node, t_htable *env);
+int		comparing_envs(char **env, char **new_env);
 
 #endif
