@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/09/13 13:05:59 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/09/18 15:00:26 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/09/22 14:22:47 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -105,6 +105,7 @@ static void	st_input_to_heredoc(int fd, char *limit)
 			2.	Assumes that node->value is allocated using malloc ...?
 
    */
+
 static void	st_manage_one_heredoc(char *filename, t_redirect *node)
 {
 	char	*limit;
@@ -122,7 +123,7 @@ static void	st_manage_one_heredoc(char *filename, t_redirect *node)
 			free(node->value);
 			node->value = filename;
 		}
-		else 
+		else
 		{
 			free(filename);
 			node->type = HEREDOC_FAIL;
@@ -147,7 +148,7 @@ static void	st_check_manage_heredocs(t_redirect *in, int i)
 		while (tmp != NULL)
 		{
 			if (tmp->type == HEREDOC)
-			{	
+			{
 				filename = st_give_filename(s_nb1, j);
 				if (filename != NULL)
 					st_manage_one_heredoc(filename, tmp);
@@ -165,14 +166,20 @@ static void	st_check_manage_heredocs(t_redirect *in, int i)
 		of de input flow heredocs bevat
 		Als er een input flow is (ofwel input != NULL)
 		wordt het doorgestuurd naar st_check_manage_heredocs()
-		die gaat de hele input flow lijst af om voor heredocs te checken
-		Als die een heredoc tegenkomt, zorgt die ervoor dat er een unieke
-		file name gemaakt wordt voor de tijdelijke heredoc file en dat hier input inkomt
-		Wanneer dat gedaan is wordt het type veranderd naar HEREDOC_INFILE of HEREDOC_FAIL,
+		die gaat de hele input flow lijst af 
+		om voor heredocs te checken
+		Als die een heredoc tegenkomt, 
+		zorgt die ervoor dat er een unieke
+		file name gemaakt wordt voor de tijdelijke 
+		heredoc file en dat hier input inkomt
+		Wanneer dat gedaan is wordt het type veranderd 
+		naar HEREDOC_INFILE of HEREDOC_FAIL,
 		afhankelijk van of het gelukt is 
-		Als het type HEREDOC_INFILE is, dan is de value veranderd naar de unieke filename,
-		PAS OP !!!! 	---> 	de filename is apart gealloceerd, dit betekent dat deze later
-								gefreed moet worden!!!
+		Als het type HEREDOC_INFILE is, 
+		dan is de value veranderd naar de unieke filename,
+		PAS OP !!!! 	---> 	
+			de filename is apart gealloceerd, dit betekent dat deze later
+				gefreed moet worden!!!
 
    */
 
