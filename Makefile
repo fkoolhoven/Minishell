@@ -6,7 +6,7 @@
 #    By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/31 14:20:16 by jhendrik          #+#    #+#              #
-#    Updated: 2023/09/22 14:02:24 by fkoolhov         ###   ########.fr        #
+#    Updated: 2023/09/22 14:11:36 by fkoolhov         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,8 @@ SUBDIR		:= . \
 			   expander \
 			   parser \
 			   signals \
-			   token
+			   token \
+			   env_functions
 SRC_SUBDIR	:= $(foreach dir, $(SUB_DIR),$(addprefix $(SRC_DIR)/,$(dir)))
 
 SRC			:= main.c \
@@ -44,8 +45,17 @@ SRC			:= main.c \
 			   expander/expand.c \
 			   signals/signals.c \
 			   utils/hashnode_functions.c \
-			   utils/init_env.c \
-			   utils/print_hashtable.c 
+			   utils/hashnode_add_delete.c \
+			   env_functions/env_terminate.c \
+			   env_functions/env_utils.c \
+			   env_functions/init_env.c \
+			   env_functions/init_keyvalue_pairs.c \
+			   env_functions/add_delete_pair.c \
+			   env_functions/find_key.c \
+			   env_functions/split_first_occurance.c \
+			   env_functions/convert_to_strarray.c \
+			   env_functions/convert_utils.c \
+			   env_functions/test_ft.c 
 OBJ			:= $(addprefix $(OBJ_DIR)/,$(SRC:.c=.o))
 LIBS		:= $(LIB_DIR)/libft.a
 MINI_HEADER	:= ./inc/minishell.h

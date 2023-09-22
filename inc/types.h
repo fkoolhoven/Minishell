@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 11:01:53 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/09/21 18:23:26 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/09/22 14:24:43 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,16 +34,16 @@ typedef struct s_token
 
 typedef struct s_hash_node
 {
-	char	*key;
-	char	*value;
+	char				*key;
+	char				*value;
 	struct s_hash_node	*next;
-}	t_hash_node;
+}	t_hnode;
 
 typedef struct s_hash_table
 {
-	int	size;
-	t_hash_node	**array;
-}	t_hash_table;
+	int			size;
+	t_hnode	**array;
+}	t_htable;
 
 typedef struct s_redirect
 {

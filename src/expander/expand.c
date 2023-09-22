@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 15:47:26 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/22 12:28:37 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/09/22 14:37:03 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,20 +34,9 @@ void	replace_var(t_token *token, char *var, int start, int rm_strlen)
 	token->value = new_string;
 }
 
-// write function to search value based on key in hash table
-// key is without dollar sign in hashtable
-char	*find_value_in_hashtable(char *key, t_hash_table *env)
-{
-	t_hash_node	*node;
-
-	node = env->array[4];
-	free(key);
-	return (node->value);
-}
-
 // free substring in this func
 // Goes through the value (char *) of the token and finds all the expandables
-void	expand_variable(t_token *token, t_hash_table *env)
+void	expand_variable(t_token *token, t_htable *env)
 {
 	int		i;
 	int		start;
@@ -63,7 +52,7 @@ void	expand_variable(t_token *token, t_hash_table *env)
 			while (token->value[i] && !ft_isspace(token->value[i]) && token->value[i] != '$')
 				i++;
 			var = ft_substr(token->value, start, i - start);
-			var = find_value_in_hashtable(var, env);
+			var = find_env_value(env, var);
 			replace_var(token, var, start, i - start);
 			i = start - 1;
 		}
@@ -72,7 +61,7 @@ void	expand_variable(t_token *token, t_hash_table *env)
 }
 
 // Goes through the list of tokens and sees which tokens contain an expandable
-void	expand_parameters(t_list **tokens, t_hash_table *env)
+void	expand_parameters(t_list **tokens, t_htable *env)
 {
 	int		parser_check;
 	t_token	*current_token;

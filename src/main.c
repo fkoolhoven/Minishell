@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:08:39 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/22 12:45:48 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/09/22 14:32:51 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,17 +29,17 @@
 // 	system("leaks -q minishell");
 // }
 
-int	main(void)
+int	main(int argc, char **envp)
 {
-	char			*user_input;
-	t_list			*tokens;
-	t_hash_table	*env;
+	char		*user_input;
+	t_list		*tokens;
+	t_htable	*env;
 
 	// atexit(check_leaks);
 	tokens = NULL;
-	env = init_env();
-	st_print_hashtable(env);
-
+	env = init_env(envp);
+	print_hashtable(env);
+	argc = 0;
 	while (1)
 	{
 		signal(SIGINT, &catch_signals);
@@ -59,8 +59,11 @@ int	main(void)
 		else
 		{
 			tokens = tokenize_input(user_input);
+			printf("here0\n");
 			print_tokens(tokens); // function for testing / checks
+			printf("here1\n");
 			expand_parameters(&tokens, env);
+			printf("here2\n");
 			add_history(user_input);
 			free(user_input);
 		}
