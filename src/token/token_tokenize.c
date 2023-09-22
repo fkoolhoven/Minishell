@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 16:36:40 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/22 14:59:19 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/09/22 15:07:11 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	tokenize_word(t_token *token, char *input, int *i)
 	int	strlen;
 
 	strlen = 0;
-	while (!isspace(input[*i]) && input[*i] && !next_token_is_found(input, *i))
+	while (!ft_isspace(input[*i]) && input[*i] && !next_token_is_found(input, *i))
 	{
 		strlen++;
 		(*i)++;
@@ -73,14 +73,14 @@ char	*get_filename_or_delimiter(char *input, int *i)
 	int		strlen;
 
 	strlen = 0;
-	while (isspace(input[*i])) // ft_isspace
+	while (ft_isspace(input[*i]) && input[*i])
 		(*i)++;
 	if (!input[*i] || char_is_operator(input[*i]))
 	{
 		ft_putendl_fd("missing filename for redirection", STDERR_FILENO);
 		return (NULL);
 	}
-	while (!isspace(input[*i]) && input[*i] && !next_token_is_found(input, *i))
+	while (!ft_isspace(input[*i]) && input[*i] && !next_token_is_found(input, *i))
 	{
 		(*i)++;
 		strlen++;
@@ -89,7 +89,7 @@ char	*get_filename_or_delimiter(char *input, int *i)
 	return (filename);
 }
 
-void	tokenize_operator(t_token *token, char *input, int *i)
+int	tokenize_operator(t_token *token, char *input, int *i)
 {
 	if (input[*i] == '<')
 	{

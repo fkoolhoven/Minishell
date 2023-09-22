@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:25:50 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/22 15:00:01 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/09/22 15:06:35 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ t_list	*tokenize_input(char *input)
 	i = 0;
 	while (input[i])
 	{
-		while (isspace(input[i]))
+		while (ft_isspace(input[i]) && input[i])
 			i++;
 		if (!input[i])
 			break ;
@@ -78,8 +78,7 @@ t_list	*tokenize_input(char *input)
 			tokenize_single_quote(token, input, &i);
 		else if (char_is_double_quote(input[i]))
 			tokenize_double_quote(token, input, &i);
-		else if (char_is_operator(input[i]))
-			if (tokenize_operator(token, input, &i) == EXIT_FAILURE)
+		else if (char_is_operator(input[i]) && tokenize_operator(token, input, &i))
 				return (NULL);
 		else
 			tokenize_word(token, input, &i);

@@ -1,14 +1,15 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                       ::::::::             */
-/*   test_ft.c                                         :+:    :+:             */
-/*                                                    +:+                     */
-/*   By: jhendrik <marvin@42.fr>                     +#+                      */
-/*                                                  +#+                       */
-/*   Created: 2023/09/20 16:11:51 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/09/22 12:53:48 by jhendrik      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   test_ft.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/09/20 16:11:51 by jhendrik          #+#    #+#             */
+/*   Updated: 2023/09/22 15:39:59 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "minishell.h"
 
 void	print_hashnode(t_hnode *node, t_htable *env)
@@ -78,7 +79,7 @@ void	print_hashtable(t_htable *env_table)
 void	print_strarray(char **envp)
 {
 	int	i;
-	
+
 	printf("PRINTING environment var of shell\n");
 	if (envp == NULL)
 		printf("(NULL)\n");

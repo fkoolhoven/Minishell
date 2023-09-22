@@ -1,14 +1,15 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                       ::::::::             */
-/*   init_keyvalue_pairs.c                             :+:    :+:             */
-/*                                                    +:+                     */
-/*   By: jhendrik <marvin@42.fr>                     +#+                      */
-/*                                                  +#+                       */
-/*   Created: 2023/09/20 15:46:06 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/09/22 11:44:27 by jhendrik      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   init_keyvalue_pairs.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/09/20 15:46:06 by jhendrik          #+#    #+#             */
+/*   Updated: 2023/09/22 15:37:49 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "minishell.h"
 
 static void	st_error(char *key, char *value, t_hnode ***head, t_htable *env)
@@ -61,7 +62,6 @@ int	init_keyvalue(t_hnode ***head, t_htable *env_table, char **envp)
 	int			check;
 	char		*key;
 	char		*value;
-
 	if (head == NULL || env_table == NULL || envp == NULL)
 		return (-1);
 	if (*head == NULL)
