@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 11:01:53 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/09/22 14:24:43 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/09/22 14:38:38 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ typedef struct s_hash_node
 
 typedef struct s_hash_table
 {
-	int			size;
+	int		size;
 	t_hnode	**array;
 }	t_htable;
 
@@ -54,9 +54,9 @@ typedef struct s_redirect
 
 typedef struct s_command
 {
-	char				**command; // contains one command and its arguments, to be passed to execve [0] is command, rest is args
-	struct s_redirect	*out; // contains a list of all output redirections in order (pipe, outfile or append outfile)
-	struct s_redirect	*in; // contains a list of all input redirections in order (pipe, heredoc or infile)
+	char				**command;
+	struct s_redirect	*out;
+	struct s_redirect	*in;
 	struct s_command	*next;
 }	t_command;
 

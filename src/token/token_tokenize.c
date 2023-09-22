@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 16:36:40 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/20 19:39:37 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/09/22 14:59:19 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,12 +73,12 @@ char	*get_filename_or_delimiter(char *input, int *i)
 	int		strlen;
 
 	strlen = 0;
-	while (isspace(input[*i]))
+	while (isspace(input[*i])) // ft_isspace
 		(*i)++;
 	if (!input[*i] || char_is_operator(input[*i]))
 	{
-		printf("missing filename for redirection\n");
-		exit(EXIT_FAILURE);
+		ft_putendl_fd("missing filename for redirection", STDERR_FILENO);
+		return (NULL);
 	}
 	while (!isspace(input[*i]) && input[*i] && !next_token_is_found(input, *i))
 	{
@@ -120,7 +120,10 @@ void	tokenize_operator(t_token *token, char *input, int *i)
 	if (token->type != PIPE)
 	{
 		token->value = get_filename_or_delimiter(input, i);
+		if (!token->value)
+			return (EXIT_FAILURE);
 		if (token->value[0] == '$')
 			token->expand = true;
 	}
+	return (EXIT_SUCCESS);
 }
