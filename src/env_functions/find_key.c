@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/09/20 16:53:05 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/09/20 17:10:42 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/09/22 14:38:53 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -20,7 +20,7 @@ static char	*st_search_key(t_hnode *list, char *key)
 	tmp = list;
 	while (tmp)
 	{
-		if (ft_strncmp(key, tmp->key, ft_strlen(key)) == 0)
+		if (ft_strncmp(key + 1, tmp->key, ft_strlen(key) - 1) == 0)
 			return (tmp->value);
 		tmp = tmp->next;
 	}
