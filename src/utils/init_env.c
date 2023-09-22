@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 15:00:47 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/09/21 17:01:34 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/09/22 12:21:21 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ t_hash_node	**init_hash_array(t_hash_table *env_table)
 	int			check;
 	t_hash_node	**head;
 	const char *keys[]={"USER", "PATH", "PWD","HOME","LOGNAME", "LOGNAME", "$var", NULL};
-	const char	*values[]={"alien", "/Users/alien", "Current directory", "/Users/alien", "jean_the_alien", "other_alien", "expandable"};
+	const char	*values[]={"alien", "/Users/alien", "Current directory", "/Users/alien", "jean_the_alien", "other_alien", "success"};
 
 	if (env_table == NULL)
 		return (NULL);

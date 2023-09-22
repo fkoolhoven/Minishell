@@ -6,14 +6,16 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 15:47:26 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/21 19:35:55 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/09/22 12:28:37 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 // free everything to prevent mem leaks!
-void	replace_var_with_value(t_token *token, char *var, int start, int rm_strlen)
+// Replaces the expandable (for example $var) with the associated value form
+// the env hashtable
+void	replace_var(t_token *token, char *var, int start, int rm_strlen)
 {
 	char	*beginning;
 	char	*end;
@@ -25,19 +27,26 @@ void	replace_var_with_value(t_token *token, char *var, int start, int rm_strlen)
 	end = ft_substr(token->value, start + rm_strlen, end_strlen);
 	new_string = ft_strjoin(beginning, var);
 	new_string = ft_strjoin(new_string, end);
+	// free(beginning);
+	// free(var);
+	// free(end);
+	free(token->value);
 	token->value = new_string;
 }
 
+// write function to search value based on key in hash table
+// key is without dollar sign in hashtable
 char	*find_value_in_hashtable(char *key, t_hash_table *env)
 {
-	t_hash_node *node;
+	t_hash_node	*node;
 
-	// write function to search value based on key in hash table
 	node = env->array[4];
 	free(key);
 	return (node->value);
 }
 
+// free substring in this func
+// Goes through the value (char *) of the token and finds all the expandables
 void	expand_variable(t_token *token, t_hash_table *env)
 {
 	int		i;
@@ -45,28 +54,31 @@ void	expand_variable(t_token *token, t_hash_table *env)
 	char	*var;
 
 	i = 0;
-	while (token->value[i]) // start over after one is replaced
+	while (token->value[i])
 	{
 		if (token->value[i] == '$')
 		{
 			start = i;
-			while (token->value[i] && !ft_isspace(token->value[i]))
+			i++;
+			while (token->value[i] && !ft_isspace(token->value[i]) && token->value[i] != '$')
 				i++;
-			var = ft_substr(token->value, start, i - start); // don't forget to free!
-			printf("variable found = %s\n", var); // this would be the key to the content in env list
+			var = ft_substr(token->value, start, i - start);
 			var = find_value_in_hashtable(var, env);
-			replace_var_with_value(token, var, start, i - start);
+			replace_var(token, var, start, i - start);
+			i = start - 1;
 		}
 		i++;
 	}
 }
 
+// Goes through the list of tokens and sees which tokens contain an expandable
 void	expand_parameters(t_list **tokens, t_hash_table *env)
 {
 	int		parser_check;
 	t_token	*current_token;
-	t_list	*list_start = *tokens;
+	t_list	*list_start;
 
+	list_start = *tokens;
 	while (*tokens)
 	{
 		current_token = (t_token *)(*tokens)->content;

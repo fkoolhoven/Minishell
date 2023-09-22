@@ -6,24 +6,13 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:25:50 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/21 18:47:44 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/09/22 11:58:42 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	print_tokens(t_list *tokens)
-{
-	while (tokens)
-	{
-		t_token *current_token = (t_token *)tokens->content;
-        printf("TOKEN type = %i\n", current_token->type);
-		printf("TOKEN value = %s\n", current_token->value);
-		printf("TOKEN expand = %i\n", current_token->expand);
-		printf("\n");
-		tokens = tokens->next;
-	}
-}
+
 
 t_token	*initialize_token(void)
 {

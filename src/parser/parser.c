@@ -6,62 +6,25 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:59:40 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/20 20:09:22 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/09/22 12:03:41 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// This file is the basis for the parsing process. Right now it also includes
-// some functions for testing purposes. Didn't check for leaks yet.
-
-// PRINT FUNCTIONS FOR TESTING PURPOSES:
-void	print_redirections(t_redirect *lst)
-{
-	while (lst)
-	{
-		printf("type = %i, value = %s\n", lst->type, lst->value);
-		lst = lst->next;
-	}
-}
-
-void	print_string_array(char **str_array)
-{
-	int	i;
-
-	i = 0;
-	while (str_array[i])
-	{
-		printf("%s ", str_array[i]);
-		i++;
-	}
-}
-
-void	print_command_list(t_command *list)
-{
-	while (list)
-	{
-		printf("\nINPUTS:\n");
-		print_redirections(list->in);
-		printf("\nCOMMAND + ARGS:\n");
-		print_string_array(list->command);
-		printf("\n\nOUTPUTS:\n");
-		print_redirections(list->out);
-		list = list->next;
-	}
-}
+// This file is the basis for the parsing process. R
 
 // END OF TEST FUNCTIONS! BELOW PROGRAM FUNCTIONS!
 
 // Adds new command struct (node) to command list.
-void	add_command_to_list(t_parser_var *vars)
+void	add_command_to_list(t_parser_var *var)
 {
 	t_command	*new_command;
 
-	if (!vars->command_list)
+	if (!var->command_list)
 	{
-		vars->command_list = lstnew_command(vars->command, vars->in, vars->out);
-		if (vars->command_list == NULL)
+		var->command_list = lstnew_command(var->command, var->in, var->out);
+		if (var->command_list == NULL)
 		{
 			printf("Error allocating for command_list\n");
 			exit(EXIT_FAILURE);
@@ -69,57 +32,57 @@ void	add_command_to_list(t_parser_var *vars)
 	}
 	else
 	{
-		new_command = lstnew_command(vars->command, vars->in, vars->out);
+		new_command = lstnew_command(var->command, var->in, var->out);
 		if (new_command == NULL)
 		{
 			printf("Error allocating for new_command\n");
 			exit(EXIT_FAILURE);
 		}
-		lstadd_back_command(&vars->command_list, new_command);
+		lstadd_back_command(&var->command_list, new_command);
 	}
 }
 
 // Resets the variables needed for creating another command struct.
-void	reset_vars(t_list **tokens, t_token **token, t_parser_var *vars)
+void	reset_vars(t_list **tokens, t_token **token, t_parser_var *var)
 {
-	vars->in = NULL;
-	vars->out = NULL;
-	vars->command = NULL;
-	vars->amount_of_words = 0;
+	var->in = NULL;
+	var->out = NULL;
+	var->command = NULL;
+	var->amount_of_words = 0;
 	*token = (t_token *)(*tokens)->content;
 }
 
 // Initializes the vars struct and its contents.
 t_parser_var	*init_parser_vars(void)
 {
-	t_parser_var	*vars;
+	t_parser_var	*var;
 
-	vars = malloc(sizeof(t_parser_var));
-	if (vars == NULL)
+	var = malloc(sizeof(t_parser_var));
+	if (var == NULL)
 	{
-		ft_putendl_fd("minishell: malloc error parser vars", STDERR_FILENO);
+		ft_putendl_fd("minishell: malloc error parser var", STDERR_FILENO);
 		return (NULL);
 	}
-	vars->in = NULL;
-	vars->out = NULL;
-	vars->amount_of_words = 0;
-	vars->old_command = NULL;
-	vars->command = NULL;
-	vars->command_list = NULL;
-	return (vars);
+	var->in = NULL;
+	var->out = NULL;
+	var->amount_of_words = 0;
+	var->old_command = NULL;
+	var->command = NULL;
+	var->command_list = NULL;
+	return (var);
 }
 
-int	parse_until_pipe(t_list **tokens, t_token **token, t_parser_var *vars)
+int	parse_until_pipe(t_list **tokens, t_token **token, t_parser_var *var)
 {
 	*token = (t_token *)(*tokens)->content;
 	while (*tokens && (*token)->type != WORD && (*token)->type != PIPE)
 	{
-		if (parse_redirect(tokens, token, vars))
+		if (parse_redirect(tokens, token, var))
 			return (EXIT_FAILURE);
 	}
 	while (*tokens && (*token)->type == WORD)
 	{
-		if (parse_word(tokens, token, vars))
+		if (parse_word(tokens, token, var))
 			return (EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);
@@ -132,29 +95,29 @@ int	parse_until_pipe(t_list **tokens, t_token **token, t_parser_var *vars)
 // Combines all three in linked list of of type t_command.
 int	parse_tokens(t_list *tokens)
 {
-	t_parser_var	*vars;
+	t_parser_var	*var;
 	t_token			*token;
 
-	vars = init_parser_vars();
-	if (!vars)
+	var = init_parser_vars();
+	if (!var)
 		return (EXIT_FAILURE);
 	while (tokens)
 	{
-		reset_vars(&tokens, &token, vars);
+		reset_vars(&tokens, &token, var);
 		while (tokens && token->type != PIPE)
 		{
-			if (parse_until_pipe(&tokens, &token, vars))
+			if (parse_until_pipe(&tokens, &token, var))
 				return (EXIT_FAILURE);
 		}
 		if (tokens && token->type == PIPE)
 		{
-			if (parse_pipe(&tokens, &token, vars))
+			if (parse_pipe(&tokens, &token, var))
 				return (EXIT_FAILURE);
 		}
-		if (vars->command)
-			add_command_to_list(vars);
+		if (var->command)
+			add_command_to_list(var);
 	}
-	print_command_list(vars->command_list);
-	free(vars);
+	print_command_list(var->command_list);
+	free(var);
 	return (EXIT_SUCCESS);
 }

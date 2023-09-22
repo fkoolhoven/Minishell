@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:39:28 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/21 18:43:58 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/09/22 12:00:08 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,10 @@
 
 // token.c
 t_list	*tokenize_input(char *input);
-void	print_tokens(t_list *tokens); // function for testing / checks
+void	print_tokens(t_list *tokens);
+
+// token_test.c TEST FUNCTIONS!
+void	print_tokens(t_list *tokens);
 
 // token_tokenize.c
 void	tokenize_double_quote(t_token *token, char *input, int *i);

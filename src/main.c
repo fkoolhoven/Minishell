@@ -6,12 +6,11 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:08:39 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/21 19:34:25 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/09/22 12:45:48 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-// #include "../libs/libft/include/libft.h"
 
 /* SIMPLE IMPLEMENTATION OF INTERFACE
    Things to change in future:
@@ -25,14 +24,18 @@
 // ctrl-D exits the shell.
 // ctrl-\ does nothing.
 
+// void	check_leaks(void)
+// {
+// 	system("leaks -q minishell");
+// }
 
 int	main(void)
 {
-
 	char			*user_input;
 	t_list			*tokens;
 	t_hash_table	*env;
 
+	// atexit(check_leaks);
 	tokens = NULL;
 	env = init_env();
 	st_print_hashtable(env);
@@ -41,7 +44,6 @@ int	main(void)
 	{
 		signal(SIGINT, &catch_signals);
 		signal(SIGQUIT, SIG_IGN);
-
 		user_input = readline("--> ");
 		if (!(user_input))
 		{
