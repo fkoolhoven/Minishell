@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:39:28 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/22 12:00:08 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/09/22 15:00:31 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	print_tokens(t_list *tokens);
 void	tokenize_double_quote(t_token *token, char *input, int *i);
 void	tokenize_single_quote(t_token *token, char *input, int *i);
 void	tokenize_word(t_token *token, char *input, int *i);
-void	tokenize_operator(t_token *token, char *input, int *i);
+int		tokenize_operator(t_token *token, char *input, int *i);
 
 // token_utils.c
 bool	char_is_single_quote(char c);

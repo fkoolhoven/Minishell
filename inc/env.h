@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 14:29:02 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/22 14:29:25 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/09/22 14:39:33 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	*give_key(char *variable);
 char	*give_value(char *variable);
 
 // env_functions/init_env.c 
-t_hnode	**init_hash_array(t_htable *env_table, char **envp);
+t_hnode		**init_hash_array(t_htable *env_table, char **envp);
 t_htable	*init_env(char **envp);
 
 // env_functions/init_keyvalue_pairs.c 
