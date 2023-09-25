@@ -1,19 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand.h                                           :+:      :+:    :+:   */
+/*   token_terminate.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/07 15:47:32 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/25 13:26:52 by fkoolhov         ###   ########.fr       */
+/*   Created: 2023/09/25 12:48:37 by fkoolhov          #+#    #+#             */
+/*   Updated: 2023/09/25 13:27:44 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXPAND_H
-# define EXPAND_H
+#include "minishell.h"
 
-// expand.c
-int	expand_parameters(t_list **list_start, t_htable *env);
+// typedef struct s_token
+// {
+// 	enum e_type	type;
+// 	char		*value;
+// 	bool		expand;
+// }	t_token;
 
-#endif
+
+void	terminate_token_list(t_list **tokens)
+{
+	if (*tokens != NULL)
+		printf("here\n");
+}

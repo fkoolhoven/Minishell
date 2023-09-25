@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:08:39 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/22 17:55:26 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/09/25 13:27:11 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,12 @@ int	main(int argc, char **argv, char **envp)
 {
 	char		*user_input;
 	t_list		*tokens;
+	t_list		*loc;
 	t_htable	*env;
 
 	tokens = NULL;
 	env = init_env(envp);
-	print_hashtable(env);
+	//print_hashtable(env);
 	argc = 0;
 	argv = NULL;
 	while (1)
@@ -55,10 +56,12 @@ int	main(int argc, char **argv, char **envp)
 		else
 		{
 			tokens = tokenize_input(user_input);
+			loc = tokens;
 			if (tokens == NULL)
 				ft_putendl_fd("Error\n", STDERR_FILENO);
 			print_tokens(tokens);
 			expand_parameters(&tokens, env);
+			terminate_token_list(&loc);
 			add_history(user_input);
 			free(user_input);
 		}
