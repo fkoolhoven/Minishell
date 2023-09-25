@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: felicia <felicia@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:08:39 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/04 14:55:08 by felicia          ###   ########.fr       */
+/*   Updated: 2023/09/22 17:55:26 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,27 +20,49 @@
 
 */
 
-int	main(void)
-{
-	char	*user_input;
+// ctrl-C displays a new prompt on a new line.
+// ctrl-D exits the shell.
+// ctrl-\ does nothing.
+// should clear buffer after signal
 
+int	main(int argc, char **argv, char **envp)
+{
+	char		*user_input;
+	t_list		*tokens;
+	t_htable	*env;
+
+	tokens = NULL;
+	env = init_env(envp);
+	print_hashtable(env);
+	argc = 0;
+	argv = NULL;
 	while (1)
 	{
+		signal(SIGINT, &catch_signals);
+		signal(SIGQUIT, SIG_IGN);
 		user_input = readline("--> ");
 		if (!(user_input))
 		{
-			printf("Exiting... because input empty\n");
+			printf("Exiting shell...\n");
 			exit(EXIT_SUCCESS);
 		}
-		if (ft_strnstr(user_input, "exit", ft_strlen(user_input)) != NULL)
+		else if (ft_strnstr(user_input, "exit", ft_strlen(user_input)) != NULL)
 		{
 			free(user_input);
 			printf("Exiting ...\n");
 			exit(EXIT_SUCCESS);
 		}
-		tokenize_input(user_input);
-		add_history(user_input);
-		free(user_input);
+		else
+		{
+			tokens = tokenize_input(user_input);
+			if (tokens == NULL)
+				ft_putendl_fd("Error\n", STDERR_FILENO);
+			print_tokens(tokens);
+			expand_parameters(&tokens, env);
+			add_history(user_input);
+			free(user_input);
+		}
 	}
+	terminate_hashtable(env);
 	return (0);
 }

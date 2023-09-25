@@ -6,24 +6,11 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:25:50 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/05 18:18:35 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/09/22 17:53:27 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	print_tokens(t_list *tokens)
-{
-	while (tokens)
-	{
-		t_token *current_token = (t_token *)tokens->content;
-        printf("TOKEN type = %i\n", current_token->type);
-		printf("TOKEN value = %s\n", current_token->value);
-		printf("TOKEN expand = %i\n", current_token->expand);
-		printf("\n");
-		tokens = tokens->next;
-	}
-}
 
 t_token	*initialize_token(void)
 {
@@ -32,8 +19,8 @@ t_token	*initialize_token(void)
 	token = malloc(sizeof(t_token));
 	if (token == NULL)
 	{
-		printf("malloc error token\n");
-		exit (EXIT_FAILURE);
+		ft_putendl_fd("malloc error token", STDERR_FILENO);
+		return (NULL);
 	}
 	token->type = -1;
 	token->value = NULL;
@@ -41,7 +28,7 @@ t_token	*initialize_token(void)
 	return (token);
 }
 
-void	add_token_to_list(t_list **tokens, t_token *token)
+int	add_token_to_list(t_list **tokens, t_token *token)
 {
 	t_list	*new_node;
 
@@ -50,8 +37,8 @@ void	add_token_to_list(t_list **tokens, t_token *token)
 		new_node = ft_lstnew(token);
 		if (*tokens == NULL)
 		{
-			printf("malloc error new tokens list node\n");
-			exit(EXIT_FAILURE);
+			ft_putendl_fd("malloc error new tokens list node", STDERR_FILENO);
+			return (EXIT_FAILURE);
 		}
 		ft_lstadd_back(tokens, new_node);
 	}
@@ -60,13 +47,15 @@ void	add_token_to_list(t_list **tokens, t_token *token)
 		*tokens = ft_lstnew(token);
 		if (*tokens == NULL)
 		{
-			printf("malloc error new tokens list\n");
-			exit(EXIT_FAILURE);
+			ft_putendl_fd("malloc error new tokens list", STDERR_FILENO);
+			return (EXIT_FAILURE);
 		}
 	}
+	return (EXIT_SUCCESS);
 }
 
-void	tokenize_input(char *input)
+// Function too long
+t_list	*tokenize_input(char *input)
 {
 	t_list	*tokens;
 	t_token	*token;
@@ -76,21 +65,25 @@ void	tokenize_input(char *input)
 	i = 0;
 	while (input[i])
 	{
-		while (isspace(input[i]))
+		while (ft_isspace(input[i]) && input[i])
 			i++;
 		if (!input[i])
 			break ;
 		token = initialize_token();
-		add_token_to_list(&tokens, token);
+		if (!token)
+			return (NULL);
+		if (add_token_to_list(&tokens, token) == EXIT_FAILURE)
+			return (NULL);
 		if (char_is_single_quote(input[i]))
 			tokenize_single_quote(token, input, &i);
 		else if (char_is_double_quote(input[i]))
 			tokenize_double_quote(token, input, &i);
-		else if (char_is_operator(input[i]))
-			tokenize_operator(token, input, &i);
+		else if (char_is_operator(input[i]) && tokenize_operator(token, input, &i))
+			return (NULL);
 		else
 			tokenize_word(token, input, &i);
 	}
-	// print_tokens(tokens);
-	parse_tokens(tokens);
+	if (!tokens)
+		return (NULL);
+	return (tokens);
 }

@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 11:22:13 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/08/31 16:24:55 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/09/21 16:57:44 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@
 		This function returns an int.
  */
 
-static int	ft_isspace(int c)
+int	ft_isspace(int c)
 {
 	if (c == '\t' || c == '\n' || c == '\v')
 		return (1);

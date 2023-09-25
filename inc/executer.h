@@ -1,31 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   executer.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/30 16:09:26 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/22 14:30:24 by fkoolhov         ###   ########.fr       */
+/*   Created: 2023/09/15 10:59:43 by jhendrik          #+#    #+#             */
+/*   Updated: 2023/09/22 14:29:43 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#ifndef EXEC_H
+# define EXEC_H
 
-# include <stdio.h>
-# include <stdlib.h>
-# include <stdbool.h>
-# include <readline/readline.h>
-# include <readline/history.h>
 # include "./types.h"
-# include "./executer.h"
-# include <ctype.h> // we should add our own isspace() to libft!
-# include "./../libs/libft/include/libft.h"
-# include "token.h"
-# include "parser.h"
-# include "expand.h"
-# include "signals.h"
-# include "env.h"
+
+// exec_utils.c ------------------------------------------
+int				size_cmndlist(t_command *cmnd_list);
+
+// exec.c -------------------------------------------------
+int				execute(t_command *cmnd_list, char **environ);
+void			child_process(t_exec_var *var, int j);
+void			parent_process(t_exec_var *var, int j);
 
 #endif

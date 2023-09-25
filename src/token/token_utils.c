@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   token_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: felicia <felicia@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 16:35:30 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/04 20:44:47 by felicia          ###   ########.fr       */
+/*   Updated: 2023/09/22 17:52:41 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+// too many functions in file
 
 bool	char_is_single_quote(char c)
 {
@@ -44,7 +46,7 @@ bool	char_is_operator(char c)
 		return (false);
 }
 
-bool	next_token_is_found(char *input, int i)
+bool	next_token(char *input, int i)
 {
 	if (char_is_operator(input[i]))
 		return (true);
