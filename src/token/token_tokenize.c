@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 16:36:40 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/25 15:25:36 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/09/25 16:19:55 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,11 +115,6 @@ int	tokenize_operator(t_token *token, char *input, int *i)
 	{
 		token->type = PIPE;
 		token->value = ft_calloc(2, sizeof(char));
-		if (token->value == NULL)
-		{
-			ft_putendl_fd("Malloc fail pipe token", STDERR_FILENO);
-			return (EXIT_FAILURE);
-		}
 		token->value[0] = '|';
 	}
 	(*i)++;

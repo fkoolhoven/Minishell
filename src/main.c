@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:08:39 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/25 15:50:51 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/09/25 16:08:23 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 int	main(int argc, char **argv, char **envp)
 {
 	char		*user_input;
-	t_command	**command_list;
+	t_command	*command_list;
 	t_list		*tokens;
 	t_htable	*env;
 
@@ -64,8 +64,8 @@ int	main(int argc, char **argv, char **envp)
 			if (command_list == NULL)
 				ft_putendl_fd("Error parser\n", STDERR_FILENO);
 			terminate_token_list(&tokens);
-			print_command_list(*command_list);
-			terminate_command_list(command_list);
+			print_command_list(command_list);
+			terminate_command_list(&command_list);
 			add_history(user_input);
 			free(user_input);
 		}

@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:39:28 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/25 15:41:41 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/09/25 16:08:07 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define PARSER_H
 
 // parser.c
-t_command	**parse_tokens(t_list **tokens);
+t_command	*parse_tokens(t_list **tokens);
 
 // parser_test.c TEST FUNCTIONS!
 void		print_redirections(t_redirect *lst);
