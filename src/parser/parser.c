@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:59:40 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/25 16:21:44 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/09/25 17:30:38 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,8 +117,7 @@ t_command	*parse_tokens(t_list **list_start)
 			if (parse_pipe(&tokens, &token, var))
 				return (NULL);
 		}
-		if (var->command)
-			add_command_to_list(var);
+		add_command_to_list(var);
 	}
 	command_list = var->command_list;
 	free(var);
