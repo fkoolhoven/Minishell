@@ -6,12 +6,12 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/09/15 13:32:56 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/09/18 14:45:18 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/09/25 15:50:23 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
 // size_cmndlist returns the amount of commands in cmnd_list
-int	size_cmndlist(t_command *cmnd_list)
+/* int	size_cmndlist(t_command *cmnd_list)
 {
 	int	i;
 	
@@ -36,7 +36,7 @@ static void	st_open_file_failed(t_redirect *node)
 	}
 	else
 		ft_putstr_fd("\t Warning: Filename is (NULL)\n", 2);
-}
+} */
 
 /* give_input_fd
    		To do:		1.	Shorten the function
@@ -44,7 +44,7 @@ static void	st_open_file_failed(t_redirect *node)
 		Explanation:	This function iterates through the redirect list for input
 						and returns the last file it should use as input
    */
-int	give_input_fd(t_redirect *in)
+/* int	give_input_fd(t_redirect *in)
 {
 	int			fd_prv;
 	int			fd_cur;
@@ -79,7 +79,7 @@ int	give_input_fd(t_redirect *in)
 	}
 	return (fd_cur);
 }
-
+*/
 /* give_output_fd
    			To do:		1.	Shorten function
 						2.	...
@@ -87,7 +87,7 @@ int	give_input_fd(t_redirect *in)
 							searches for the last node with a valid output file
 							It assumes all the output files already exist!!!
    */
-int	give_output_fd(t_redirect *out)
+/* int	give_output_fd(t_redirect *out)
 {
 	int			fd_prv;
 	int			fd_cur;
@@ -126,7 +126,7 @@ int	give_output_fd(t_redirect *out)
 			return (fd_cur);
 		tmp = tmp->next;
 	}
-}
+} */
 
 static void	st_unlink_heredoc_input(t_redirect *in)
 {
@@ -181,7 +181,7 @@ void heredoc_unlinker(t_command *command_list)
 						Now we have changed the stdout and stdin as necessary,
 							we can close the pipefd and move on
    */
-void	swap_filedescriptors(t_exec_var *var, t_command *cmnd)
+/* void	swap_filedescriptors(t_exec_var *var, t_command *cmnd)
 {
 	int	fd_in;
 	int	fd_out;
@@ -249,4 +249,4 @@ void	create_all_outfiles(t_exec_var *var)
 			}
 		}
 	}
-}
+} */

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand.c                                           :+:      :+:    :+:   */
+/*   expand.c                                          :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 15:47:26 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/25 15:02:49 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/09/25 15:40:38 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	expand_parameters(t_list **list_start, t_htable *env)
 			expand_variable(current_token, env);
 		tokens = tokens->next;
 	}
-	parser_check = parse_tokens(list_start);
+	parser_check = parse_tokens(list_start, env);
 	if (parser_check != EXIT_SUCCESS)
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);

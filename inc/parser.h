@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.h                                           :+:      :+:    :+:   */
+/*   parser.h                                          :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:39:28 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/25 15:00:53 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/09/25 15:38:59 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define PARSER_H
 
 // parser.c
-int			parse_tokens(t_list **tokens);
+int			parse_tokens(t_list **tokens, t_htable *env);
 
 // parser_test.c TEST FUNCTIONS!
 void		print_redirections(t_redirect *lst);

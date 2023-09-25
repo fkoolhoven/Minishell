@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.c                                           :+:      :+:    :+:   */
+/*   parser.c                                          :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:59:40 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/25 15:20:19 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/09/25 15:38:59 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int	parse_until_pipe(t_list **tokens, t_token **token, t_parser_var *var)
 // input redirections, a linked list of output redirections and a
 // char **command with the command and all its options/arguments
 // Combines all three in linked list of of type t_command.
-int	parse_tokens(t_list **list_start)
+int	parse_tokens(t_list **list_start, t_htable *env)
 {
 	t_parser_var	*var;
 	t_token			*token;
@@ -123,6 +123,7 @@ int	parse_tokens(t_list **list_start)
 	}
 	// terminate_token_list(list_start);
 	print_command_list(var->command_list);
+	test_heredoc(var->command_list, env);
 	// terminate_command_list(&var->command_list);
 	free(var);
 	return (EXIT_SUCCESS);

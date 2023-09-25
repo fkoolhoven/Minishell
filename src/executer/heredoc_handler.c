@@ -1,30 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   heredoc_handler.c                                  :+:      :+:    :+:   */
+/*   heredoc_handler.c                                 :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 13:05:59 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/09/22 17:47:00 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/09/25 16:48:09 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*st_give_filename(const char *s_nb1, int j)
+static char	*st_give_filename(char *s_nb1, int j)
 {
-	const char	*tmp;
-	char		*filename;
-	const char	*s_nb2;
+	char	*tmp;
+	char	*filename;
+	char	*s_nb2;
 
 	if (s_nb1 == NULL)
 		return (NULL);
-	s_nb2 = (const char *)ft_itoa_base(j, 16, "0123456789ABCDEF");
+	s_nb2 = ft_itoa_base(j, 16, "0123456789ABCDEF");
 	if (s_nb2 == NULL)
 		return (free(s_nb1), NULL);
-	tmp = (const char *)ft_strjoin((const char *)"HEREDOC", s_nb1);
-	free(s_nb1);
+	tmp = ft_strjoin("HEREDOC", s_nb1);
 	if (tmp == NULL)
 		return (free(s_nb2), NULL);
 	filename = ft_strjoin(tmp, s_nb2);
@@ -80,7 +79,7 @@ static char	*st_give_filename(const char *s_nb1, int j)
 				If you doubt, try : 	<< EOF wc -l + own input
 										<< EOF << eof wc -l + own input
    */
-static void	st_input_to_heredoc(int fd, char *limit)
+static void	st_input_to_heredoc(int fd, char *limit, t_htable *env)
 {
 	char	*user_input;
 	int		i;
@@ -88,11 +87,13 @@ static void	st_input_to_heredoc(int fd, char *limit)
 	i = 1;
 	while (i == 1)
 	{
-		user_input = readline(">");
+		user_input = readline("> ");
 		if (!(user_input))
 			i = -1;
-		else if (ft_strncmp(user_input, limit, ft_strlen(user_input)) == 0)
+		else if (ft_strncmp(user_input, limit, ft_strlen(limit)) == 0)
 			i = 0;
+		else if (ft_strchr((const char *)user_input, '$') != NULL)
+			add_expanded_input(fd, user_input, env);
 		else
 		{
 			ft_putstr_fd(user_input, fd);
@@ -107,7 +108,7 @@ static void	st_input_to_heredoc(int fd, char *limit)
 
    */
 
-static void	st_manage_one_heredoc(char *filename, t_redirect *node)
+static void	st_manage_one_heredoc(char *filename, t_redirect *node, t_htable *env)
 {
 	char	*limit;
 	int		fd_heredoc;
@@ -118,7 +119,7 @@ static void	st_manage_one_heredoc(char *filename, t_redirect *node)
 		if (fd_heredoc >= 0)
 		{
 			limit = node->value;
-			st_input_to_heredoc(fd_heredoc, limit);
+			st_input_to_heredoc(fd_heredoc, limit, env);
 			close(fd_heredoc);
 			node->type = HEREDOC_INFILE;
 			free(node->value);
@@ -131,20 +132,20 @@ static void	st_manage_one_heredoc(char *filename, t_redirect *node)
 		}
 	}
 	else
-		node->type == HEREDOC_FAIL;
+		node->type = HEREDOC_FAIL;
 }
 
-static void	st_check_manage_heredocs(t_redirect *in, int i)
+static void	st_check_manage_heredocs(t_redirect *in, int i, t_htable *env)
 {
 	int			j;
 	t_redirect	*tmp;
 	char		*filename;
-	const char	*s_nb1;
+	char		*s_nb1;
 
 	if (in != NULL)
 	{
 		tmp = in;
-		s_nb1 = (const char *)ft_itoa_base(i, 16, "0123456789ABCDEF");
+		s_nb1 = ft_itoa_base(i, 16, "0123456789ABCDEF");
 		j = 0;
 		while (tmp != NULL)
 		{
@@ -152,13 +153,14 @@ static void	st_check_manage_heredocs(t_redirect *in, int i)
 			{
 				filename = st_give_filename(s_nb1, j);
 				if (filename != NULL)
-					st_manage_one_heredoc(filename, tmp);
+					st_manage_one_heredoc(filename, tmp, env);
 				else
 					tmp->type = HEREDOC_FAIL;
 				j++;
 			}
 			tmp = tmp->next;
 		}
+		free(s_nb1);
 	}
 }
 
@@ -184,12 +186,12 @@ static void	st_check_manage_heredocs(t_redirect *in, int i)
 
    */
 
-int	manage_heredocs(t_command *command_list)
+int	manage_heredocs(t_command *command_list, t_htable *env)
 {
 	t_command	*tmp;
 	int			i;
 
-	if (command_list == NULL)
+	if (command_list == NULL || env == NULL)
 		return (1);
 	tmp = command_list;
 	i = 0;
@@ -197,7 +199,7 @@ int	manage_heredocs(t_command *command_list)
 	{
 		if (tmp->in != NULL)
 		{
-			st_check_manage_heredocs(tmp->in, i);
+			st_check_manage_heredocs(tmp->in, i, env);
 			i++;
 		}
 		tmp = tmp->next;
