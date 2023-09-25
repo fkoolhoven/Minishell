@@ -1,5 +1,6 @@
 To Felicia:
 - Fix memory leaks
 - Write terminate functions for tokens list, command list and redirect lists
+- Write terminate in case of error functions
 - Figure out signals
 - Fix norminette
