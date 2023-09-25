@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 12:48:37 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/25 15:17:44 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/09/25 15:28:51 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,8 @@ void	terminate_token_list(t_list **list_start)
 	{
 		printf("TERMINATING TOKEN\n");
 		token = (t_token *)tokens->content;
-		printf("1, value = %s, loc = %p\n", token->value, &token->value);
-		if (token->value)
-		{
-			printf("1.5\n");
-			free(token->value);
-		}
-		printf("2\n");
+		// free(token->value);
 		free(token);
-		printf("3\n");
 		tokens = tokens->next;
-		printf("4\n");
 	}
 }

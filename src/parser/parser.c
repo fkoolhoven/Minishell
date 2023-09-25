@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:59:40 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/25 15:20:19 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/09/25 15:46:28 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,35 +95,34 @@ int	parse_until_pipe(t_list **tokens, t_token **token, t_parser_var *var)
 // input redirections, a linked list of output redirections and a
 // char **command with the command and all its options/arguments
 // Combines all three in linked list of of type t_command.
-int	parse_tokens(t_list **list_start)
+t_command	**parse_tokens(t_list **list_start)
 {
 	t_parser_var	*var;
 	t_token			*token;
 	t_list			*tokens;
+	t_command		**command_list;
 
 	tokens = *list_start;
 	var = init_parser_vars();
 	if (!var)
-		return (EXIT_FAILURE);
+		return (NULL);
 	while (tokens)
 	{
 		reset_vars(&tokens, &token, var);
 		while (tokens && token->type != PIPE)
 		{
 			if (parse_until_pipe(&tokens, &token, var))
-				return (EXIT_FAILURE);
+				return (NULL);
 		}
 		if (tokens && token->type == PIPE)
 		{
 			if (parse_pipe(&tokens, &token, var))
-				return (EXIT_FAILURE);
+				return (NULL);
 		}
 		if (var->command)
 			add_command_to_list(var);
 	}
-	// terminate_token_list(list_start);
-	print_command_list(var->command_list);
-	// terminate_command_list(&var->command_list);
+	command_list = &var->command_list;
 	free(var);
-	return (EXIT_SUCCESS);
+	return (command_list);
 }

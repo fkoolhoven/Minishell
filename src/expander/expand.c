@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 15:47:26 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/25 15:02:49 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/09/25 15:50:41 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,8 @@ void	expand_variable(t_token *token, t_htable *env)
 }
 
 // Goes through the list of tokens and sees which tokens contain an expandable
-int	expand_parameters(t_list **list_start, t_htable *env)
+void	expand(t_list **list_start, t_htable *env)
 {
-	int		parser_check;
 	t_token	*current_token;
 	t_list	*tokens;
 
@@ -74,8 +73,4 @@ int	expand_parameters(t_list **list_start, t_htable *env)
 			expand_variable(current_token, env);
 		tokens = tokens->next;
 	}
-	parser_check = parse_tokens(list_start);
-	if (parser_check != EXIT_SUCCESS)
-		return (EXIT_FAILURE);
-	return (EXIT_SUCCESS);
 }

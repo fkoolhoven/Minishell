@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 13:41:43 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/25 13:50:52 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/09/25 15:31:23 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void	terminate_command_list(t_command **list_start)
 		printf("TERMINATING COMMAND\n");
 		temp = command->next;
 		free(command->in);
+		ft_free_str_array(command->command);
 		free(command->out);
 		free(command);
 		command = temp;

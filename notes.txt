@@ -4,3 +4,5 @@ To Felicia:
 - Figure out signals
 - Fix norminette
 - Rewrite pointer stuff in parser to be more readable
+- Rewrite expander / parser so they return to main
+- Figure out error handling for token/expand/parse

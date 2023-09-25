@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 15:47:32 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/25 13:26:52 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/09/25 15:50:46 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,6 @@
 # define EXPAND_H
 
 // expand.c
-int	expand_parameters(t_list **list_start, t_htable *env);
+void	expand(t_list **list_start, t_htable *env);
 
 #endif
