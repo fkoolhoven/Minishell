@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:08:39 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/25 16:08:23 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/09/25 16:46:09 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,16 +56,18 @@ int	main(int argc, char **argv, char **envp)
 		else
 		{
 			tokens = tokenize_input(user_input);
-			if (tokens == NULL)
-				ft_putendl_fd("Error tokens\n", STDERR_FILENO);
-			print_tokens(tokens);
-			expand(&tokens, env);
-			command_list = parse_tokens(&tokens);
-			if (command_list == NULL)
-				ft_putendl_fd("Error parser\n", STDERR_FILENO);
-			terminate_token_list(&tokens);
-			print_command_list(command_list);
-			terminate_command_list(&command_list);
+			if (tokens != NULL)
+			{
+				print_tokens(tokens);
+				expand(&tokens, env);
+				command_list = parse_tokens(&tokens);
+				if (command_list != NULL)
+				{
+					terminate_token_list(&tokens);
+					print_command_list(command_list);
+					terminate_command_list(&command_list);
+				}
+			}
 			add_history(user_input);
 			free(user_input);
 		}
