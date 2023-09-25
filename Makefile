@@ -6,7 +6,7 @@
 #    By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/31 14:20:16 by jhendrik          #+#    #+#              #
-#    Updated: 2023/09/25 12:48:14 by fkoolhov         ###   ########.fr        #
+#    Updated: 2023/09/25 15:15:57 by fkoolhov         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,6 +43,7 @@ SRC			:= main.c \
 			   parser/parser_lists.c \
 			   parser/parser_tokens.c \
 			   parser/parser_utils.c \
+			   parser/parser_terminate.c \
 			   expander/expand.c \
 			   signals/signals.c \
 			   utils/hashnode_functions.c \

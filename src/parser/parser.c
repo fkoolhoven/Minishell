@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:59:40 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/25 13:22:35 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/09/25 15:20:19 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,11 +77,13 @@ int	parse_until_pipe(t_list **tokens, t_token **token, t_parser_var *var)
 	*token = (t_token *)(*tokens)->content;
 	while (*tokens && (*token)->type != WORD && (*token)->type != PIPE)
 	{
+		printf("parsing red %s\n", (*token)->value);
 		if (parse_redirect(tokens, token, var))
 			return (EXIT_FAILURE);
 	}
 	while (*tokens && (*token)->type == WORD)
 	{
+		printf("parsing wrd %s\n", (*token)->value);
 		if (parse_word(tokens, token, var))
 			return (EXIT_FAILURE);
 	}
@@ -93,11 +95,13 @@ int	parse_until_pipe(t_list **tokens, t_token **token, t_parser_var *var)
 // input redirections, a linked list of output redirections and a
 // char **command with the command and all its options/arguments
 // Combines all three in linked list of of type t_command.
-int	parse_tokens(t_list *tokens)
+int	parse_tokens(t_list **list_start)
 {
 	t_parser_var	*var;
 	t_token			*token;
+	t_list			*tokens;
 
+	tokens = *list_start;
 	var = init_parser_vars();
 	if (!var)
 		return (EXIT_FAILURE);
@@ -117,7 +121,9 @@ int	parse_tokens(t_list *tokens)
 		if (var->command)
 			add_command_to_list(var);
 	}
-	// print_command_list(var->command_list);
+	// terminate_token_list(list_start);
+	print_command_list(var->command_list);
+	// terminate_command_list(&var->command_list);
 	free(var);
 	return (EXIT_SUCCESS);
 }

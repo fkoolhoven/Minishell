@@ -3,3 +3,4 @@ To Felicia:
 - Write terminate functions for tokens list, command list and redirect lists
 - Figure out signals
 - Fix norminette
+- Rewrite pointer stuff in parser to be more readable

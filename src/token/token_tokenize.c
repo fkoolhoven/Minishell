@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 16:36:40 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/22 17:52:33 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/09/25 15:17:00 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,7 @@ int	tokenize_operator(t_token *token, char *input, int *i)
 	else if (input[*i] == '|')
 	{
 		token->type = PIPE;
+		// token->value = ft_calloc(2, sizeof(char));
 		token->value = "|";
 	}
 	(*i)++;
