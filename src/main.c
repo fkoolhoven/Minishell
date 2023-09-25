@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:08:39 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/22 17:55:26 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/09/25 15:02:11 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	main(int argc, char **argv, char **envp)
 
 	tokens = NULL;
 	env = init_env(envp);
-	print_hashtable(env);
+	//print_hashtable(env);
 	argc = 0;
 	argv = NULL;
 	while (1)

@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:25:50 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/22 17:53:27 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/09/25 14:54:35 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,11 @@ t_list	*tokenize_input(char *input)
 			tokenize_single_quote(token, input, &i);
 		else if (char_is_double_quote(input[i]))
 			tokenize_double_quote(token, input, &i);
-		else if (char_is_operator(input[i]) && tokenize_operator(token, input, &i))
-			return (NULL);
+		else if (char_is_operator(input[i]))
+		{
+			if (tokenize_operator(token, input, &i) != EXIT_SUCCESS)
+				return (NULL);
+		}
 		else
 			tokenize_word(token, input, &i);
 	}

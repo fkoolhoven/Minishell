@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:39:28 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/22 17:52:57 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/09/25 12:57:55 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,8 @@ bool	char_is_operator(char c);
 bool	found_expandable(char *input, int i);
 bool	next_token(char *input, int i);
 bool	token_contains_expandable(char *str);
+
+// token_terminate.c
+void	terminate_token_list(t_list **tokens);
 
 #endif

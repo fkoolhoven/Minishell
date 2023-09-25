@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:39:28 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/22 11:58:27 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/09/25 15:00:53 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define PARSER_H
 
 // parser.c
-int			parse_tokens(t_list *tokens);
+int			parse_tokens(t_list **tokens);
 
 // parser_test.c TEST FUNCTIONS!
 void		print_redirections(t_redirect *lst);
@@ -36,5 +36,8 @@ int			parse_pipe(t_list **tokens, t_token **token, t_parser_var *var);
 // parser_utils.c
 bool		token_is_input_type(t_token *token);
 bool		token_is_output_type(t_token *token);
+
+// parser_terminate.c
+void		terminate_command_list(t_command **list_start);
 
 #endif
