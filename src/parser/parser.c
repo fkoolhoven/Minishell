@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:59:40 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/25 17:30:38 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/09/25 19:17:46 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,12 +110,12 @@ t_command	*parse_tokens(t_list **list_start)
 		while (tokens && token->type != PIPE)
 		{
 			if (parse_until_pipe(&tokens, &token, var))
-				return (NULL);
+				return (parser_terminate_error(list_start, var));
 		}
 		if (tokens && token->type == PIPE)
 		{
 			if (parse_pipe(&tokens, &token, var))
-				return (NULL);
+				return (parser_terminate_error(list_start, var));
 		}
 		add_command_to_list(var);
 	}
