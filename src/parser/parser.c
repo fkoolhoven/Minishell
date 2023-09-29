@@ -6,15 +6,13 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:59:40 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/25 19:17:46 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/09/29 11:58:38 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// This file is the basis for the parsing process. R
-
-// END OF TEST FUNCTIONS! BELOW PROGRAM FUNCTIONS!
+// This file is the basis for the parsing process
 
 // Adds new command struct (node) to command list.
 void	add_command_to_list(t_parser_var *var)
@@ -103,7 +101,7 @@ t_command	*parse_tokens(t_list **list_start)
 	tokens = *list_start;
 	var = init_parser_vars();
 	if (!var)
-		return (NULL);
+		return (terminate_token_list_error(list_start));
 	while (tokens)
 	{
 		reset_vars(&tokens, &token, var);

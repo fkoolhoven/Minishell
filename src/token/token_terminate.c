@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 12:48:37 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/25 18:48:54 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/09/29 11:53:14 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void	terminate_token_list(t_list **list_start)
 	tokens = *list_start;
 	while (tokens)
 	{
-		printf("TERMINATING TOKEN\n");
 		temp = tokens->next;
 		token = (t_token *)tokens->content;
 		free(token);
@@ -39,7 +38,6 @@ void	*terminate_token_list_error(t_list **list_start)
 	tokens = *list_start;
 	while (tokens)
 	{
-		printf("TERMINATING TOKEN ERROR\n");
 		temp = tokens->next;
 		token = (t_token *)tokens->content;
 		if (token->value)

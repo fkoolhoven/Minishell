@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 13:41:43 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/25 19:17:50 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/09/29 11:51:25 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,7 @@ void	terminate_redirect_list(t_redirect *redirect)
 	while (redirect)
 	{
 		temp = redirect->next;
-		if (redirect->value)
-			free(redirect->value);
+		free(redirect->value);
 		free(redirect);
 		redirect = temp;
 	}
@@ -44,15 +43,12 @@ void	terminate_command_list_error(t_command **list_start)
 	t_command	*temp;
 
 	command = *list_start;
-	printf("WANT TO TERMINATE COMMAND command = %p\n", command);
 	while (command)
 	{
-		printf("TERMINATING COMMAND\n");
 		temp = command->next;
 		terminate_redirect_list_error(command->in);
-		// ft_free_str_array(command->command);
-		free(command->command);
 		terminate_redirect_list_error(command->out);
+		free(command->command);
 		free(command);
 		command = temp;
 	}
@@ -66,11 +62,10 @@ void	terminate_command_list(t_command **list_start)
 	command = *list_start;
 	while (command)
 	{
-		printf("TERMINATING COMMAND\n");
 		temp = command->next;
 		terminate_redirect_list(command->in);
-		ft_free_str_array(command->command);
 		terminate_redirect_list(command->out);
+		ft_free_str_array(command->command);
 		free(command);
 		command = temp;
 	}
