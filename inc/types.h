@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   types.h                                           :+:    :+:             */
+/*   types.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 11:01:53 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/09/29 14:16:24 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/09/29 15:53:40 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ typedef struct s_exec_var
 	t_command	*cmnd_list;
 	t_htable	*env;
 	char		**env_str;
-	int			fd_pipe[2];
+	int			*fd_pipe;
 	int			last_cmnd;
 	pid_t		process;
 }	t_exec_var;
@@ -80,6 +80,6 @@ typedef struct s_parser_var
 	t_command	*command_list;
 }	t_parser_var;
 
-typedef int	(*t_f_bltin)(t_exec_var, t_command);
+typedef int	(*t_f_bltin)(t_exec_var *, t_command *);
 
 #endif

@@ -6,7 +6,7 @@
 #    By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/31 14:20:16 by jhendrik          #+#    #+#              #
-#    Updated: 2023/09/25 17:44:01 by fkoolhov         ###   ########.fr        #
+#    Updated: 2023/09/29 15:58:00 by fkoolhov         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,8 +14,8 @@ NAME		:= minishell
 CC			:= cc
 RM			:= rm
 
-CFLAGS		?= -Wall -Wextra -Werror -fsanitize=address -g
-FLAGS		?= -v -Llibs/libft/ -lft -lreadline -fsanitize=address
+CFLAGS		?= -Wall -Wextra -Werror #-fsanitize=address -g
+FLAGS		?= -v -Llibs/libft/ -lft -lreadline #-fsanitize=address
 
 INC			:= ./inc/
 SRC_DIR		:= src
@@ -57,7 +57,8 @@ SRC			:= main.c \
 			   env_functions/split_first_occurance.c \
 			   env_functions/convert_to_strarray.c \
 			   env_functions/convert_utils.c \
-			   env_functions/test_ft.c 
+			   env_functions/test_ft.c \
+			   builtins/export.c
 OBJ			:= $(addprefix $(OBJ_DIR)/,$(SRC:.c=.o))
 LIBS		:= $(LIB_DIR)/libft.a
 MINI_HEADER	:= ./inc/minishell.h

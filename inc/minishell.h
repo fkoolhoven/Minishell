@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:09:26 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/22 14:30:24 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/09/29 15:29:57 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # include "parser.h"
 # include "expand.h"
 # include "signals.h"
+# include "executer.h"
 # include "env.h"
 
 #endif
