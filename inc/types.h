@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   types.h                                            :+:      :+:    :+:   */
+/*   types.h                                           :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 11:01:53 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/09/22 14:38:38 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/09/29 14:16:24 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,8 @@ typedef struct s_command
 typedef struct s_exec_var
 {
 	t_command	*cmnd_list;
-	char		**env;
+	t_htable	*env;
+	char		**env_str;
 	int			fd_pipe[2];
 	int			last_cmnd;
 	pid_t		process;
