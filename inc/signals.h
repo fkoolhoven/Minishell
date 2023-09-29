@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 17:09:22 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/07 18:06:25 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/09/29 14:27:22 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,6 @@
 # include <signal.h>
 
 // signals.c
-void	catch_signals(int signal);
+void	catch_sigint_parent(int sig);
 
 #endif

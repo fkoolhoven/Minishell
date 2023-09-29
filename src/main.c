@@ -6,72 +6,72 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:08:39 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/25 16:46:09 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/09/29 14:45:43 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* SIMPLE IMPLEMENTATION OF INTERFACE
-   Things to change in future:
-   			- better exit function which frees everything
-			- make sure it gives correct exit status
-			- ...
-
-*/
-
-// ctrl-C displays a new prompt on a new line.
-// ctrl-D exits the shell.
-// ctrl-\ does nothing.
-// should clear buffer after signal
-
-int	main(int argc, char **argv, char **envp)
+void	parse_and_exec(t_htable *env, char *user_input, int *exit_code)
 {
-	char		*user_input;
 	t_command	*command_list;
 	t_list		*tokens;
-	t_htable	*env;
 
 	tokens = NULL;
-	env = init_env(envp);
-	//print_hashtable(env);
-	argc = 0;
-	argv = NULL;
+	tokens = tokenize_input(user_input);
+	if (tokens != NULL)
+	{
+		print_tokens(tokens);
+		expand(&tokens, env);
+		command_list = parse_tokens(&tokens);
+		if (command_list != NULL)
+		{
+			terminate_token_list(&tokens);
+			print_command_list(command_list);
+			terminate_command_list(&command_list);
+		}
+		else
+			*exit_code = EXIT_FAILURE;
+	}
+	else
+		*exit_code = EXIT_FAILURE;
+}
+
+int	minishell(t_htable *env)
+{
+	char	*user_input;
+	int		exit_code;
+
+	exit_code = EXIT_SUCCESS;
 	while (1)
 	{
-		signal(SIGINT, &catch_signals);
-		signal(SIGQUIT, SIG_IGN);
 		user_input = readline("--> ");
 		if (!(user_input))
 		{
 			printf("Exiting shell...\n");
-			exit(EXIT_SUCCESS);
-		}
-		else if (ft_strnstr(user_input, "exit", ft_strlen(user_input)) != NULL)
-		{
-			free(user_input);
-			printf("Exiting ...\n");
-			exit(EXIT_SUCCESS);
+			exit(exit_code);
 		}
 		else
 		{
-			tokens = tokenize_input(user_input);
-			if (tokens != NULL)
-			{
-				print_tokens(tokens);
-				expand(&tokens, env);
-				command_list = parse_tokens(&tokens);
-				if (command_list != NULL)
-				{
-					terminate_token_list(&tokens);
-					print_command_list(command_list);
-					terminate_command_list(&command_list);
-				}
-			}
+			parse_and_exec(env, user_input, &exit_code);
+			printf("Exit code = %i\n", exit_code);
 			add_history(user_input);
 			free(user_input);
 		}
 	}
 	terminate_hashtable(env);
-	return (0);
+}
+
+int	main(int argc, char **argv, char **envp)
+{
+	t_htable	*env;
+
+	env = init_env(envp);
+	//print_hashtable(env);
+	argc = 0;
+	argv = NULL;
+	signal(SIGINT, &catch_sigint_parent);
+	signal(SIGQUIT, SIG_IGN);
+	minishell(env);
+	return (EXIT_SUCCESS);
 }
