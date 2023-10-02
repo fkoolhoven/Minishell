@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 10:59:43 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/09/25 15:31:01 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/02 13:59:52 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define EXEC_H
 
 # include "./types.h"
+# include <sys/wait.h>
 
 // heredoc_handler.c ------------------------------------
 int	manage_heredocs(t_command *command_list, t_htable *env);

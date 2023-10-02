@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:59:40 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/25 15:38:59 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/02 13:56:02 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,7 @@ int	parse_tokens(t_list **list_start, t_htable *env)
 	}
 	// terminate_token_list(list_start);
 	print_command_list(var->command_list);
+	// TEST HEREDOC !!! DON'T leave this here !!!
 	test_heredoc(var->command_list, env);
 	// terminate_command_list(&var->command_list);
 	free(var);

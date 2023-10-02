@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/09/25 14:51:57 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/09/25 15:34:59 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/02 13:56:37 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -25,8 +25,8 @@ int	main(int argc, char **argv, char **envp)
 	argv = NULL;
 	while (1)
 	{
-		signal(SIGINT, &catch_signals);
-		signal(SIGQUIT, SIG_IGN);
+		wrap_sighandler(SIGINT, &catch_sigint_parent);
+		wrap_sighandler(SIGQUIT, SIG_IGN);
 		user_input = readline("--> ");
 		if (!(user_input))
 		{

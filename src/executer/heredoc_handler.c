@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 13:05:59 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/09/25 16:48:09 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/02 14:21:07 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,23 +107,48 @@ static void	st_input_to_heredoc(int fd, char *limit, t_htable *env)
 			2.	Assumes that node->value is allocated using malloc ...?
 
    */
-
+/*
 static void	st_manage_one_heredoc(char *filename, t_redirect *node, t_htable *env)
 {
 	char	*limit;
 	int		fd_heredoc;
+	int		status;
+	pid_t	process;
 
 	if (filename != NULL && node != NULL)
 	{
-		fd_heredoc = open(filename, O_CREAT | O_RDWR | O_EXCL, 0644);
-		if (fd_heredoc >= 0)
+		process = fork();
+		if (process >= 0)
 		{
-			limit = node->value;
-			st_input_to_heredoc(fd_heredoc, limit, env);
-			close(fd_heredoc);
-			node->type = HEREDOC_INFILE;
-			free(node->value);
-			node->value = filename;
+			if (process == 0)
+			{
+				// WARNING make function to catch the signal control+C
+//				signal(SIGINT, &catch_sigint_heredoc);
+				fd_heredoc = open(filename, O_CREAT | O_RDWR | O_EXCL, 0644);
+				if (fd_heredoc >= 0)
+				{
+					limit = node->value;
+					st_input_to_heredoc(fd_heredoc, limit, env);
+					close(fd_heredoc);
+				}
+				// RESET sigint 
+//				signal(SIGINT, &catch_sigint_parent);
+				exit(EXIT_SUCCESS);
+			}
+			else
+			{
+				waitpid(process, &status, 0);
+				if (WIFSIGNALED(status))
+				{
+
+				}
+				else
+				{
+					node->type = HEREDOC_INFILE;
+					free(node->value);
+					node->value = filename;
+				}
+			}
 		}
 		else
 		{
@@ -133,11 +158,91 @@ static void	st_manage_one_heredoc(char *filename, t_redirect *node, t_htable *en
 	}
 	else
 		node->type = HEREDOC_FAIL;
+} */ 
+
+static int	st_heredoc_child(char *filename, t_redirect *node, t_htable *env)
+{
+	int	fd_heredoc;
+
+	if (filename == NULL || node == NULL || env == NULL)
+		exit(EXIT_FAILURE);
+	fd_heredoc = open(filename, O_CREAT | O_RDWR | O_EXCL, 0644);
+	if (fd_heredoc < 0)
+	{
+		free(filename);
+		exit(EXIT_FAILURE);
+	}
+	else
+	{
+		wrap_sighandler(SIGINT, SIG_DFL);
+		st_input_to_heredoc(fd_heredoc, node->value, env);
+		close(fd_heredoc);
+		exit(EXIT_SUCCESS);
+	}
 }
 
-static void	st_check_manage_heredocs(t_redirect *in, int i, t_htable *env)
+static int	st_heredoc_parent(pid_t process, char *filename, t_redirect *node)
+{
+	int	status;
+
+	wrap_sighandler(SIGINT, SIG_IGN);
+	waitpid(process, &status, 0);
+	wrap_sighandler(SIGINT, &catch_sigint_parent);
+	if (WIFSIGNALED(status))
+	{
+		node->type = HEREDOC_FAIL;
+		if (filename != NULL)
+		{
+			unlink((const char *)filename);
+			free(filename);
+		}
+		return (128 + WTERMSIG(status));
+	}
+	else if (WIFEXITED(status))
+	{
+		if (WEXITSTATUS(status) == EXIT_FAILURE)
+		{
+			node->type = HEREDOC_FAIL;
+			if (filename != NULL)
+			{
+				unlink((const char *)filename);
+				free(filename);
+			}
+		}
+		else
+		{
+			node->type = HEREDOC_INFILE;
+			free(node->value);
+			node->value = filename;
+		}
+		return (WEXITSTATUS(status));
+	}
+	else
+		return (EXIT_FAILURE);
+}
+
+static int	st_manage_one_heredoc(char *filename, t_redirect *node, t_htable *env)
+{
+	pid_t	process;
+
+	if (filename == NULL || node == NULL || env == NULL)
+		return (EXIT_FAILURE);
+	if (env->array == NULL)
+		return (EXIT_FAILURE);
+	process = fork();
+	if (process < 0)
+		return (EXIT_FAILURE);
+	if (process == 0)
+		return (st_heredoc_child(filename, node, env));
+	else 
+		return (st_heredoc_parent(process, filename, node));
+}
+
+
+static int	st_check_manage_heredocs(t_redirect *in, int i, t_htable *env)
 {
 	int			j;
+	int			check;
 	t_redirect	*tmp;
 	char		*filename;
 	char		*s_nb1;
@@ -147,21 +252,26 @@ static void	st_check_manage_heredocs(t_redirect *in, int i, t_htable *env)
 		tmp = in;
 		s_nb1 = ft_itoa_base(i, 16, "0123456789ABCDEF");
 		j = 0;
+		check = EXIT_SUCCESS;
 		while (tmp != NULL)
 		{
 			if (tmp->type == HEREDOC)
 			{
-				filename = st_give_filename(s_nb1, j);
-				if (filename != NULL)
-					st_manage_one_heredoc(filename, tmp, env);
-				else
-					tmp->type = HEREDOC_FAIL;
-				j++;
+					filename = st_give_filename(s_nb1, j);
+					if (filename != NULL)
+						check = st_manage_one_heredoc(filename, tmp, env);
+					else
+						tmp->type = HEREDOC_FAIL;
+					j++;
 			}
+			if (check != EXIT_SUCCESS)
+				return (check);
 			tmp = tmp->next;
 		}
 		free(s_nb1);
+		return (check);
 	}
+	return (EXIT_SUCCESS);
 }
 
 /* manage_heredocs():
@@ -190,19 +300,23 @@ int	manage_heredocs(t_command *command_list, t_htable *env)
 {
 	t_command	*tmp;
 	int			i;
+	int			check;
 
 	if (command_list == NULL || env == NULL)
 		return (1);
 	tmp = command_list;
 	i = 0;
+	check = EXIT_SUCCESS;
 	while (tmp != NULL)
 	{
 		if (tmp->in != NULL)
 		{
-			st_check_manage_heredocs(tmp->in, i, env);
+			check = st_check_manage_heredocs(tmp->in, i, env);
 			i++;
 		}
+		if (check != EXIT_SUCCESS)
+			return (heredoc_unlinker(command_list), check);
 		tmp = tmp->next;
 	}
-	return (0);
+	return (EXIT_SUCCESS);
 }

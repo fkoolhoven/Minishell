@@ -6,7 +6,7 @@
 #    By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/31 14:20:16 by jhendrik          #+#    #+#              #
-#    Updated: 2023/09/25 15:48:27 by jhendrik      ########   odam.nl          #
+#    Updated: 2023/10/02 14:02:30 by jhendrik      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,6 +46,7 @@ SRC			:= test_main.c \
 			   parser/parser_terminate.c \
 			   expander/expand.c \
 			   signals/signals.c \
+			   signals/sig_wrapper.c \
 			   utils/hashnode_functions.c \
 			   utils/hashnode_add_delete.c \
 			   env_functions/env_terminate.c \

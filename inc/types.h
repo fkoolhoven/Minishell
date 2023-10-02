@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   types.h                                            :+:      :+:    :+:   */
+/*   types.h                                           :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 11:01:53 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/09/22 14:38:38 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/02 14:22:10 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ enum e_type
 	OUTFILE,
 	OUTFILE_APPEND,
 	HEREDOC_INFILE,
-	HEREDOC_FAIL
+	HEREDOC_FAIL,
+	HEREDOC_UNLINKED
 };
 
 typedef struct s_token
@@ -79,6 +80,7 @@ typedef struct s_parser_var
 	t_command	*command_list;
 }	t_parser_var;
 
-typedef int	(*t_f_bltin)(t_exec_var, t_command);
+typedef int		(*t_f_bltin)(t_exec_var, t_command);
+typedef void	(*t_sighandle)(int);
 
 #endif

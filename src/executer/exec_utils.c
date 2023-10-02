@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/09/15 13:32:56 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/09/25 15:50:23 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/02 14:22:44 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -135,7 +135,10 @@ static void	st_unlink_heredoc_input(t_redirect *in)
 		while (in != NULL)
 		{
 			if (in->type == HEREDOC_INFILE)
+			{
 				unlink((const char *)(in->value));
+				in->type = HEREDOC_UNLINKED;
+			}
 			in = in->next;
 		}
 	}
