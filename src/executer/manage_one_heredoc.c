@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/10/04 11:02:25 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/04 11:42:56 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/04 12:10:13 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -85,10 +85,10 @@ int	manage_one_heredoc(char *filename, t_redirect *node, t_htable *env)
 	if (filename == NULL || node == NULL || env == NULL)
 		return (EXIT_FAILURE);
 	if (env->array == NULL)
-		return (EXIT_FAILURE);
+		return (free(filename), EXIT_FAILURE);
 	process = fork();
 	if (process < 0)
-		return (EXIT_FAILURE);
+		return (free(filename), EXIT_FAILURE);
 	if (process == 0)
 		return (st_heredoc_child(filename, node, env));
 	else

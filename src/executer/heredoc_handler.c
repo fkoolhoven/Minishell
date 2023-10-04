@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 13:05:59 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/10/04 11:57:49 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/04 12:09:03 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int	manage_heredocs(t_command *command_list, t_htable *env)
 	int			check;
 
 	if (command_list == NULL || env == NULL)
-		return (1);
+		return (EXIT_FAILURE);
 	tmp = command_list;
 	i = 0;
 	check = EXIT_SUCCESS;
@@ -120,5 +120,5 @@ int	manage_heredocs(t_command *command_list, t_htable *env)
 			return (heredoc_unlinker(command_list), check);
 		tmp = tmp->next;
 	}
-	return (EXIT_SUCCESS);
+	return (check);
 }
