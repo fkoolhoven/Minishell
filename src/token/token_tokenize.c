@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 16:36:40 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/25 16:44:27 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/04 13:02:05 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,28 @@ void	tokenize_single_quote(t_token *token, char *input, int *i)
 	token->value = ft_substr(input, *i - strlen - 1, strlen);
 }
 
+
+// keep going until operator or space is found
+// don't recognize operator if it is in between quotes
 void	tokenize_word(t_token *token, char *input, int *i)
 {
-	int	strlen;
+	int		strlen;
+	char	quote;
 
 	strlen = 0;
-	while (!ft_isspace(input[*i]) && input[*i] && !next_token(input, *i))
+	while (!ft_isspace(input[*i]) && !char_is_operator(input[*i]) && input[*i])
 	{
+		if (char_is_quote(input[*i]))
+		{
+			quote = input[*i];
+			strlen++;
+			(*i)++;
+			while (input[*i] != quote && input[*i])
+			{
+				strlen++;
+				(*i)++;
+			}
+		}
 		strlen++;
 		(*i)++;
 	}

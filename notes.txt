@@ -5,3 +5,6 @@ To Felicia:
 - Figure out error handling for token/expand/parse
 - Check for mem leaks is expand can't find var
 - Test thoroughly for mem leaks at errors
+- Write remove quotes function
+- Tokenize on spaces in parser
+- Only expand in double quotes
