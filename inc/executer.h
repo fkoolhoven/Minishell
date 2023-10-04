@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 10:59:43 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/10/04 12:22:44 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/04 13:06:04 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "./types.h"
 # include <sys/wait.h>
+# include <fcntl.h>
 
 // heredoc_handler.c ------------------------------------
 int	manage_heredocs(t_command *command_list, t_htable *env);
@@ -29,6 +30,9 @@ void	expand_put_var(t_heredoc_var var, int *first, int last);
 // manage_one_heredoc.c 
 int	manage_one_heredoc(char *filename, t_redirect *node, t_htable *env);
 
+// heredoc_unlinker.c 
+void	heredoc_unlinker(t_command *command_list);
+
 // test_heredoc.c --------------------------------------------
 void	display_file(char *filename);
 void	display_heredocs(t_command *cmnd_list);
@@ -38,7 +42,6 @@ void	test_heredoc(t_command *cmnd_list, t_htable *env);
 int		size_cmndlist(t_command *cmnd_list);
 int		give_input_fd(t_redirect *in);
 int		give_output_fd(t_redirect *out);
-void	heredoc_unlinker(t_command *command_list);
 void	swap_filedescriptors(t_exec_var *var, t_command *cmnd);
 void	create_all_outfiles(t_exec_var *var);
 

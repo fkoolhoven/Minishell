@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:08:39 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/04 12:48:02 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/04 12:56:46 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int	parse_and_exec(t_htable *env, char *user_input, int exit_code)
 	t_list		*tokens;
 	int			check;
 
+	exit_code = 1;
 	tokens = NULL;
 	tokens = tokenize_input(user_input);
 	if (tokens == NULL)
@@ -33,8 +34,9 @@ int	parse_and_exec(t_htable *env, char *user_input, int exit_code)
 	if (check != EXIT_SUCCESS)
 		return (terminate_command_list(&command_list), check);
 	display_heredocs(command_list);
-	heredoc_unlinker(cmnd_list);
+	heredoc_unlinker(command_list);
 	terminate_command_list(&command_list);
+	return (EXIT_SUCCESS);
 }
 
 int	minishell(t_htable *env)

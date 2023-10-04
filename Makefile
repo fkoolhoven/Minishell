@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
+#    Makefile                                          :+:    :+:              #
 #                                                     +:+ +:+         +:+      #
 #    By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/31 14:20:16 by jhendrik          #+#    #+#              #
-#    Updated: 2023/09/25 17:44:01 by fkoolhov         ###   ########.fr        #
+#    Updated: 2023/10/04 13:06:32 by jhendrik      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,6 +46,13 @@ SRC			:= main.c \
 			   parser/parser_terminate.c \
 			   expander/expand.c \
 			   signals/signals.c \
+			   signals/sig_wrapper.c \
+			   executer/heredoc_handler.c \
+			   executer/heredoc_unlinker.c \
+			   executer/heredoc_utils.c \
+			   executer/input_heredoc.c \
+			   executer/manage_one_heredoc.c \
+			   executer/test_heredoc.c \
 			   utils/hashnode_functions.c \
 			   utils/hashnode_add_delete.c \
 			   env_functions/env_terminate.c \
