@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:08:39 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/29 15:55:34 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/04 10:39:14 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	size_cmndlist(t_command *cmnd_list)
 {
 	int	i;
-	
+
 	if (cmnd_list == NULL)
 		return (0);
 	i = 0;

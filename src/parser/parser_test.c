@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 11:55:41 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/25 17:31:52 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/04 12:02:06 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	print_string_array(char **str_array)
 	i = 0;
 	while (str_array[i])
 	{
+		printf("%i = ", i);
 		printf("%s ", str_array[i]);
 		i++;
 	}
