@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 10:59:43 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/10/02 13:59:52 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/04 11:41:22 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,14 @@
 int	manage_heredocs(t_command *command_list, t_htable *env);
 
 // input_heredoc.c --------------------------------------
-void	add_expanded_input(int fd, char *user_input, t_htable *env);
+void	input_to_heredoc(int fd, char *limit, t_htable *env);
+
+// heredoc_utils.c 
+void	put_str_between(t_heredoc_var var, int first, int last);
+void	expand_put_var(t_heredoc_var var, int *first, int last);
+
+// manage_one_heredoc.c 
+int	manage_one_heredoc(char *filename, t_redirect *node, t_htable *env);
 
 // test_heredoc.c --------------------------------------------
 void	display_file(char *filename);

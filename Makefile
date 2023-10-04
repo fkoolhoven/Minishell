@@ -6,7 +6,7 @@
 #    By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/31 14:20:16 by jhendrik          #+#    #+#              #
-#    Updated: 2023/10/02 14:02:30 by jhendrik      ########   odam.nl          #
+#    Updated: 2023/10/04 11:58:54 by jhendrik      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -61,6 +61,8 @@ SRC			:= test_main.c \
 			   env_functions/test_ft.c \
 			   executer/heredoc_handler.c \
 			   executer/input_heredoc.c \
+			   executer/manage_one_heredoc.c \
+			   executer/heredoc_utils.c \
 			   executer/test_heredoc.c \
 			   executer/exec_utils.c
 OBJ			:= $(addprefix $(OBJ_DIR)/,$(SRC:.c=.o))

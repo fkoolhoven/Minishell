@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/09/25 14:54:21 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/02 13:10:30 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/04 12:01:06 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -49,8 +49,6 @@ static void	st_display_heredocs_cmnd(t_redirect *in)
 		{
 			if (tmp->type == HEREDOC_INFILE)
 				display_file(tmp->value);
-			if (tmp->type == HEREDOC_FAIL)
-				printf("HEREDOC_FAIL encountered\n");
 			tmp = tmp->next;
 		}
 	}

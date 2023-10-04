@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 13:05:59 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/10/02 14:21:07 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/04 11:57:49 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,243 +32,45 @@ static char	*st_give_filename(char *s_nb1, int j)
 	return (filename);
 }
 
-/* The function below has some problems,
-   			1.	It does not add the input given for the heredoc 
-				to the working history, and you can't just use 
-				add_history(user_input) because it will become a 
-				seperate entry, which is not how bash handles history with
-				heredocs 
-			2.	If control+D is used bash gives a warning because the
-				heredoc has been ended without using the given delimiter
-				... This probably has something to do with signals and signal 
-				handling, still have to look into this because the function now
-				just stops adding to the heredoc and the other functions using 
-				it will go on to check for the other heredocs
-			3.	If writing in the function ft_putstr_fd() goes wrong,
-				we do not protect for this in this function 
-				However, it seems a good idea to look into this again and
-				to protect this function against write failures
-			4.	Doesn't handle the following cases :
-						
-					<< EOF cat
-						> hello
-						> $USER
-						> $(USER)
-						> \$USER
-						> $ USER
-						> \$ USER
-						> '$USER'
-						> "$USER"
-						> hello
-						> EOF
-					USER: command not found
-					hello
-					jhendrik
-
-					$USER
-					$ USER
-					$ USER
-					'jhendrik'
-					"jhendrik"
-					hello
-
-	NOTE:
-			1.	The function readline gives a string without newline,
-				This means that when using heredoc you need to add the
-				newline to the temporary file.
-				If you doubt, try : 	<< EOF wc -l + own input
-										<< EOF << eof wc -l + own input
-   */
-static void	st_input_to_heredoc(int fd, char *limit, t_htable *env)
-{
-	char	*user_input;
-	int		i;
-
-	i = 1;
-	while (i == 1)
-	{
-		user_input = readline("> ");
-		if (!(user_input))
-			i = -1;
-		else if (ft_strncmp(user_input, limit, ft_strlen(limit)) == 0)
-			i = 0;
-		else if (ft_strchr((const char *)user_input, '$') != NULL)
-			add_expanded_input(fd, user_input, env);
-		else
-		{
-			ft_putstr_fd(user_input, fd);
-			ft_putstr_fd("\n", fd);
-		}
-		free(user_input);
-	}
-}
-/* This function has some problems:
-   			1.	It uses the function st_input_to_heredoc, which has problems
-			2.	Assumes that node->value is allocated using malloc ...?
-
-   */
-/*
-static void	st_manage_one_heredoc(char *filename, t_redirect *node, t_htable *env)
-{
-	char	*limit;
-	int		fd_heredoc;
-	int		status;
-	pid_t	process;
-
-	if (filename != NULL && node != NULL)
-	{
-		process = fork();
-		if (process >= 0)
-		{
-			if (process == 0)
-			{
-				// WARNING make function to catch the signal control+C
-//				signal(SIGINT, &catch_sigint_heredoc);
-				fd_heredoc = open(filename, O_CREAT | O_RDWR | O_EXCL, 0644);
-				if (fd_heredoc >= 0)
-				{
-					limit = node->value;
-					st_input_to_heredoc(fd_heredoc, limit, env);
-					close(fd_heredoc);
-				}
-				// RESET sigint 
-//				signal(SIGINT, &catch_sigint_parent);
-				exit(EXIT_SUCCESS);
-			}
-			else
-			{
-				waitpid(process, &status, 0);
-				if (WIFSIGNALED(status))
-				{
-
-				}
-				else
-				{
-					node->type = HEREDOC_INFILE;
-					free(node->value);
-					node->value = filename;
-				}
-			}
-		}
-		else
-		{
-			free(filename);
-			node->type = HEREDOC_FAIL;
-		}
-	}
-	else
-		node->type = HEREDOC_FAIL;
-} */ 
-
-static int	st_heredoc_child(char *filename, t_redirect *node, t_htable *env)
-{
-	int	fd_heredoc;
-
-	if (filename == NULL || node == NULL || env == NULL)
-		exit(EXIT_FAILURE);
-	fd_heredoc = open(filename, O_CREAT | O_RDWR | O_EXCL, 0644);
-	if (fd_heredoc < 0)
-	{
-		free(filename);
-		exit(EXIT_FAILURE);
-	}
-	else
-	{
-		wrap_sighandler(SIGINT, SIG_DFL);
-		st_input_to_heredoc(fd_heredoc, node->value, env);
-		close(fd_heredoc);
-		exit(EXIT_SUCCESS);
-	}
-}
-
-static int	st_heredoc_parent(pid_t process, char *filename, t_redirect *node)
-{
-	int	status;
-
-	wrap_sighandler(SIGINT, SIG_IGN);
-	waitpid(process, &status, 0);
-	wrap_sighandler(SIGINT, &catch_sigint_parent);
-	if (WIFSIGNALED(status))
-	{
-		node->type = HEREDOC_FAIL;
-		if (filename != NULL)
-		{
-			unlink((const char *)filename);
-			free(filename);
-		}
-		return (128 + WTERMSIG(status));
-	}
-	else if (WIFEXITED(status))
-	{
-		if (WEXITSTATUS(status) == EXIT_FAILURE)
-		{
-			node->type = HEREDOC_FAIL;
-			if (filename != NULL)
-			{
-				unlink((const char *)filename);
-				free(filename);
-			}
-		}
-		else
-		{
-			node->type = HEREDOC_INFILE;
-			free(node->value);
-			node->value = filename;
-		}
-		return (WEXITSTATUS(status));
-	}
-	else
-		return (EXIT_FAILURE);
-}
-
-static int	st_manage_one_heredoc(char *filename, t_redirect *node, t_htable *env)
-{
-	pid_t	process;
-
-	if (filename == NULL || node == NULL || env == NULL)
-		return (EXIT_FAILURE);
-	if (env->array == NULL)
-		return (EXIT_FAILURE);
-	process = fork();
-	if (process < 0)
-		return (EXIT_FAILURE);
-	if (process == 0)
-		return (st_heredoc_child(filename, node, env));
-	else 
-		return (st_heredoc_parent(process, filename, node));
-}
-
-
-static int	st_check_manage_heredocs(t_redirect *in, int i, t_htable *env)
+static int	st_manage_heredocs(t_redirect *in, char *s_nb1, t_htable *env)
 {
 	int			j;
 	int			check;
-	t_redirect	*tmp;
 	char		*filename;
-	char		*s_nb1;
+
+	if (in == NULL || s_nb1 == NULL)
+		return (EXIT_FAILURE);
+	j = 0;
+	check = EXIT_SUCCESS;
+	while (in != NULL)
+	{
+		if (in->type == HEREDOC)
+		{
+			filename = st_give_filename(s_nb1, j);
+			if (filename != NULL)
+				check = manage_one_heredoc(filename, in, env);
+			else
+				check = EXIT_FAILURE;
+			j++;
+		}
+		if (check != EXIT_SUCCESS)
+			return (check);
+		in = in->next;
+	}
+	return (check);
+}
+
+static int	st_check_manage_heredocs(t_redirect *in, int i, t_htable *env)
+{
+	char	*s_nb1;
+	int		check;
 
 	if (in != NULL)
 	{
-		tmp = in;
 		s_nb1 = ft_itoa_base(i, 16, "0123456789ABCDEF");
-		j = 0;
-		check = EXIT_SUCCESS;
-		while (tmp != NULL)
-		{
-			if (tmp->type == HEREDOC)
-			{
-					filename = st_give_filename(s_nb1, j);
-					if (filename != NULL)
-						check = st_manage_one_heredoc(filename, tmp, env);
-					else
-						tmp->type = HEREDOC_FAIL;
-					j++;
-			}
-			if (check != EXIT_SUCCESS)
-				return (check);
-			tmp = tmp->next;
-		}
-		free(s_nb1);
+		check = st_manage_heredocs(in, s_nb1, env);
+		if (s_nb1 != NULL)
+			free(s_nb1);
 		return (check);
 	}
 	return (EXIT_SUCCESS);

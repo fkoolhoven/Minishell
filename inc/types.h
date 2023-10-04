@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 11:01:53 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/10/02 14:22:10 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/04 11:18:49 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ enum e_type
 	OUTFILE,
 	OUTFILE_APPEND,
 	HEREDOC_INFILE,
-	HEREDOC_FAIL,
 	HEREDOC_UNLINKED
 };
 
@@ -60,6 +59,13 @@ typedef struct s_command
 	struct s_redirect	*in;
 	struct s_command	*next;
 }	t_command;
+
+typedef struct s_heredoc_var
+{
+	int			fd;
+	char		*input;
+	t_htable	*env;
+}	t_heredoc_var;
 
 typedef struct s_exec_var
 {
