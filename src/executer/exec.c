@@ -6,37 +6,32 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/09/15 10:41:54 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/09/29 14:23:41 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/04 18:32:10 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
 
-static void	st_execute_one_cmnd(t_exec_var *var)
+static int	st_execute_one_cmnd(t_exec_var *var)
 {
 	int	bltin_index;
 
-	if (var != NULL)
+	if (var == NULL)
+		return (EXIT_FAILURE);
+	if (var->cmnd_list == NULL)
+		return (EXIT_FAILURE);
+	bltin_index = check_if_builtin(var, var->cmnd_list);
+	if (bltin_index >= 0)
+		return (execute_builtin(var, var->cmnd_list, bltin_index));
+	else
 	{
-		if (var->cmnd_list != NULL)
-		{
-			bltin_index = check_if_builtin(var, var->cmnd_list);
-			if (bltin_index >= 0)
-				exit(execute_builtin(var, var->cmnd_list, bltin_index));
-			else
-			{
-				var->process = fork();
-				if (var->process < 0)
-					exec_error_handler(...);
-				else if (var->process == 0)
-					child_process(var, var->cmnd_list);
-				else 
-					parent_one_command(var);
-			}
-			exit(EXIT_FAILURE);
-		}
-		exit(EXIT_FAILURE);
+		var->process = fork();
+		if (var->process < 0)
+			return (exec_error_parent(var));
+		else if (var->process == 0)
+			child_process(var, var->cmnd_list);
+		else 
+			return (parent_one_command(var));
 	}
-	exit(EXIT_FAILURE);
 }
 
 /* st_execute_line
@@ -48,10 +43,11 @@ static void	st_execute_one_cmnd(t_exec_var *var)
 								and parent to continue or wait for other processes
    */
 
-static void	st_execute_line(t_exec_var *var)
+static int	st_execute_line(t_exec_var *var)
 {
 	t_command	*tmp;
 	int			j;
+	int			status;
 
 	if (var != NULL)
 	{
@@ -62,20 +58,21 @@ static void	st_execute_line(t_exec_var *var)
 			if (j < var->last_cmnd)
 			{
 				if (pipe(var->fd_pipe) < 0)
-					exec_error_handler(...);
+					return (exec_error_parent(var));
 			}
 			var->process = fork();
 			if (var->process < 0)
-				exec_error_handler(...);
+				return (exec_error_parent(var));
 			else if (var->process == 0)
 				child_process(var, tmp);
 			else
-				parent_process(var, j);
+				status = parent_process(var, j);
 			j++;
 			tmp = tmp->next;
 		}
+		return (status);
 	}
-	exit(EXIT_FAILURE);
+	return (EXIT_FAILURE);
 }
 
 /* execute
@@ -103,22 +100,19 @@ int	execute(t_command *cmnd_list, t_htable *environ)
 	t_exec_var	var;
 	int			fd[2];
 
-	if (cmnd_list != NULL && environ != NULL)
-	{
-		var.cmnd_list = cmnd_list;
-		var.env = environ;
-		var.env_str = convert_htable_to_strarray(environ); 
-		if (var.env_str == NULL)
-			return (EXIT_FAILURE);
-		var.fd_pipe = fd;
-		var.process = 1;
-		var.last_cmnd = size_cmndlist(cmnd_list);
-		create_all_outfiles(&var);
-		manage_heredocs(cmnd_list, environ);
-		if (var.last_cmnd == 1)
-			return (st_execute_one_cmnd(&var));
-		else
-			return (st_execute_line(&var));
-	}
-	return (EXIT_FAILURE);
+	if (cmnd_list == NULL || environ == NULL)
+		return (EXIT_FAILURE);
+	var.cmnd_list = cmnd_list;
+	var.env = environ;
+	var.env_str = convert_htable_to_strarray(environ); 
+	if (var.env_str == NULL)
+		return (EXIT_FAILURE);
+	var.fd_pipe = fd;
+	var.process = 1;
+	var.last_cmnd = size_cmndlist(cmnd_list);
+	create_all_outfiles(&var);
+	if (var.last_cmnd == 1)
+		return (st_execute_one_cmnd(&var));
+	else
+		return (st_execute_line(&var));
 }

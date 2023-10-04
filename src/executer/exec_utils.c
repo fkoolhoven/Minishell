@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/09/15 13:32:56 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/09/18 14:45:18 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/04 17:45:29 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -44,7 +44,7 @@ static void	st_open_file_failed(t_redirect *node)
 		Explanation:	This function iterates through the redirect list for input
 						and returns the last file it should use as input
    */
-int	give_input_fd(t_redirect *in)
+/* int	give_input_fd(t_redirect *in)
 {
 	int			fd_prv;
 	int			fd_cur;
@@ -78,6 +78,32 @@ int	give_input_fd(t_redirect *in)
 		tmp = tmp->next;
 	}
 	return (fd_cur);
+} */
+
+int	give_input_fd(t_redirect *in)
+{
+	int			fd;
+	t_redirect	*tmp;
+
+	if (in == NULL)
+		return (-1);
+	tmp = in;
+	fd = -2;
+	while (tmp != NULL)
+	{
+		if (fd >= 0)
+			close(fd);
+		if (tmp->type == INFILE || tmp->type == HEREDOC_INFILE)
+		{
+			fd = open(tmp->value, O_RDONLY);
+			if (fd < 0)
+				st_open_file_failed(tmp);
+		}
+		tmp = tmp->next;
+		if (tmp == NULL)
+			return (fd);
+	}
+	return (fd);
 }
 
 /* give_output_fd
@@ -87,7 +113,7 @@ int	give_input_fd(t_redirect *in)
 							searches for the last node with a valid output file
 							It assumes all the output files already exist!!!
    */
-int	give_output_fd(t_redirect *out)
+/* int	give_output_fd(t_redirect *out)
 {
 	int			fd_prv;
 	int			fd_cur;
@@ -126,40 +152,36 @@ int	give_output_fd(t_redirect *out)
 			return (fd_cur);
 		tmp = tmp->next;
 	}
-}
+} */
 
-static void	st_unlink_heredoc_input(t_redirect *in)
+int	give_output_fd(t_redirect *out)
 {
-	if (in != NULL)
-	{
-		while (in != NULL)
-		{
-			if (in->type == HEREDOC_INFILE)
-				unlink((const char *)(in->value));
-			in = in->next;
-		}
-	}
-}
+	int			fd;
+	t_redirect	*tmp;
 
-/* heredoc_unlinker
-   		To do: 		1.	Decide where to use it
-					2. 	...
-		Explanation:	This function iterates through the command list
-						and checks per command if the input redirect list contains
-						HEREDOC_INFILES, if it does it unlinks these files. 
-   */
-void heredoc_unlinker(t_command *command_list)
-{
-	t_command	*tmp;
-	
-	if (command_list != NULL)
+	if (out == NULL)
+		return (-1);
+	tmp = out;
+	fd = -2;
+	while (tmp != NULL)
 	{
-		tmp = command_list;
-		while (tmp)
+		if (tmp->type == PIPE)
+			return (fd);
+		if (fd >= 0)
+			close(fd);
+		if (tmp->type == OUTFILE)
 		{
-			st_unlink_heredoc_input(tmp->in);
-			tmp = tmp->next;
+			fd = open(tmp->value, O_WRONGLY | O_TRUNC);
+			if (fd < 0)
+				st_open_file_failed(tmp);
 		}
+		else if (tmp->type == OUTFILE_APPEND)
+		{
+			fd = open(tmp->value, O_WRONGLY);
+			if (fd < 0)
+				st_open_file_failed(tmp);
+		}
+		tmp = tmp->next;
 	}
 }
 /* swap_filedescriptors: 
@@ -181,7 +203,7 @@ void heredoc_unlinker(t_command *command_list)
 						Now we have changed the stdout and stdin as necessary,
 							we can close the pipefd and move on
    */
-void	swap_filedescriptors(t_exec_var *var, t_command *cmnd)
+int	swap_filedescriptors(t_exec_var *var, t_command *cmnd)
 {
 	int	fd_in;
 	int	fd_out;
@@ -191,20 +213,22 @@ void	swap_filedescriptors(t_exec_var *var, t_command *cmnd)
 	if (fd_in >= 0)
 	{
 		if (dup2(fd_in, STDIN_FILENO) < 0)
-			exec_error_handler(...);
+			return (exec_error_swap(fd_in, fd_out, var->pipe_fd));
 		close(fd_in);
 	}
-	if (fd_out >=0)
+	if (fd_out >= 0)
 	{
 		if (dup2(fd_out, STDOUT_FILENO) < 0)
-			exec_error_handler(...);
+			return (exec_error_swap(-1, fd_out, var->pipe_fd));
 		close(fd_out);
 	}
 	if (fd_out == -2)
 	{
 		if (dup2(var->pipe_fd[1], STDOUT_FILENO) < 0)
-			exec_error_handler(...);
+			return (exec_error_swap(-1, fd_out, var->pipe_fd));
 	}
+	if (fd_out < 0)
+		return (exec_error_swap(-1, fd_out, var->pipe_fd));
 	close(var->pipe_fd[0]);
 	close(var->pipe_fd[1]);
 }
@@ -222,7 +246,7 @@ static void	st_create_outfile_cmnd(t_redirect *out)
 			if (tmp->type == OUTFILE || tmp->type == OUTFILE_APPEND)
 			{
 				if (access(tmp->value, F_OK) != 0)
-					fd = open(tmp->value, O_CREAT, 0644);
+					fd = open(tmp->value, O_CREAT | O_EXCL, 0644);
 				else
 					fd = -1;
 				if (fd != -1)
