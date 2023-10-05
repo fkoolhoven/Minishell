@@ -1,6 +1,10 @@
 To Felicia:
-- Fix memory leaks
-- Write terminate functions for tokens list, command list and redirect lists
-- Write terminate in case of error functions
 - Figure out signals
 - Fix norminette
+- Rewrite pointer stuff in parser to be more readable
+- Figure out error handling for token/expand/parse
+- Check for mem leaks is expand can't find var
+- Test thoroughly for mem leaks at errors
+- Write remove quotes function
+- Tokenize on spaces in parser
+- Only expand in double quotes

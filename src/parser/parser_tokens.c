@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 18:03:26 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/20 20:07:21 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/09/25 17:40:38 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 // a char **command.
 
 // Adds new redirect struct (node) to redirect list for a certain command
-void	add_redirect_to_list(t_redirect **redirect_list, int type, char *value)
+int	add_redirect_to_list(t_redirect **redirect_list, int type, char *value)
 {
 	t_redirect	*new_redirect;
 
@@ -27,7 +27,7 @@ void	add_redirect_to_list(t_redirect **redirect_list, int type, char *value)
 		if (*redirect_list == NULL)
 		{
 			printf("Error allocating for redirect_list\n");
-			exit(EXIT_FAILURE);
+			return (EXIT_FAILURE);
 		}
 	}
 	else
@@ -36,10 +36,11 @@ void	add_redirect_to_list(t_redirect **redirect_list, int type, char *value)
 		if (new_redirect == NULL)
 		{
 			printf("Error allocating for new_redirect\n");
-			exit(EXIT_FAILURE);
+			return (EXIT_FAILURE);
 		}
 		lstadd_back_redirect(redirect_list, new_redirect);
 	}
+	return (EXIT_SUCCESS);
 }
 
 // Calculates amount of words in a sequence of tokens
@@ -61,9 +62,10 @@ size_t	calculate_amount_of_words(t_list *tokens, t_token *token)
 
 // Parses pipe and adds it to the end of out redirections list
 // gives error if multiple pipes or input ends with pipe
-int	parse_pipe(t_list **tokens, t_token **token, t_parser_var *vars)
+int	parse_pipe(t_list **tokens, t_token **token, t_parser_var *var)
 {
-	add_redirect_to_list(&vars->out, (*token)->type, (*token)->value);
+	if (add_redirect_to_list(&var->out, (*token)->type, (*token)->value))
+		return (EXIT_FAILURE);
 	*tokens = (*tokens)->next;
 	if (*tokens)
 	{
@@ -85,40 +87,49 @@ int	parse_pipe(t_list **tokens, t_token **token, t_parser_var *vars)
 }
 
 // Parses words per command and puts them in char **command
-int	parse_word(t_list **tokens, t_token **token, t_parser_var *vars)
+int	parse_word(t_list **tokens, t_token **token, t_parser_var *var)
 {
 	size_t	i;
 
-	vars->old_command = vars->command;
-	vars->amount_of_words += calculate_amount_of_words(*tokens, *token);
-	vars->command = ft_calloc(vars->amount_of_words + 1, sizeof(char *));
-	i = 0;
-	while (vars->old_command && vars->old_command[i])
+	var->old_command = var->command;
+	var->amount_of_words += calculate_amount_of_words(*tokens, *token);
+	var->command = ft_calloc(var->amount_of_words + 1, sizeof(char *));
+	if (var->command == NULL)
 	{
-		vars->command[i] = vars->old_command[i];
+		ft_putendl_fd("error alloc command", STDERR_FILENO);
+		return (EXIT_FAILURE);
+	}
+	i = 0;
+	while (var->old_command && var->old_command[i])
+	{
+		var->command[i] = var->old_command[i];
 		i++;
 	}
-	while (i < vars->amount_of_words)
+	while (i < var->amount_of_words)
 	{
-		vars->command[i] = (*token)->value;
+		var->command[i] = (*token)->value;
 		*tokens = (*tokens)->next;
 		if (*tokens)
 			*token = (t_token *)(*tokens)->content;
 		i++;
 	}
-	if (vars->old_command)
-		free(vars->old_command);
+	if (var->old_command)
+		free(var->old_command);
 	return (EXIT_SUCCESS);
 }
 
 // Parses redirections per command and
 // adds them to either list of in or out redirections list
-int	parse_redirect(t_list **tokens, t_token **token, t_parser_var *vars)
+int	parse_redirect(t_list **tokens, t_token **token, t_parser_var *var)
 {
+	int	error;
+
 	if (token_is_input_type(*token))
-		add_redirect_to_list(&vars->in, (*token)->type, (*token)->value);
+		error = add_redirect_to_list(&var->in, (*token)->type, (*token)->value);
 	else
-		add_redirect_to_list(&vars->out, (*token)->type, (*token)->value);
+		error = add_redirect_to_list(&var->out, (*token)->type, (*token)->value);
+	if (error != EXIT_SUCCESS)
+		return (EXIT_FAILURE);
 	*tokens = (*tokens)->next;
 	if (*tokens)
 		*token = (t_token *)(*tokens)->content;

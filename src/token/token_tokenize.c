@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 16:36:40 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/22 17:52:33 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/05 17:29:46 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,50 +14,29 @@
 
 // last function is too long
 
-int	find_next_quote(char quote, char *input, int *i)
-{
-	int	strlen;
-
-	strlen = 0;
-	(*i)++;
-	while (input[*i] != quote)
-	{
-		(*i)++;
-		strlen++;
-	}
-	(*i)++;
-	return (strlen);
-}
-
-// Tokenizes everything between double quotes, also checking for $ as expandable
-void	tokenize_double_quote(t_token *token, char *input, int *i)
-{
-	int	strlen;
-
-	strlen = find_next_quote(input[*i], input, i);
-	token->type = WORD;
-	token->value = ft_substr(input, *i - strlen - 1, strlen);
-	if (token_contains_expandable(token->value))
-		token->expand = true;
-}
-
-// Tokenizes everything between double quotes, seeing $ as regular character
-void	tokenize_single_quote(t_token *token, char *input, int *i)
-{
-	int	strlen;
-
-	strlen = find_next_quote(input[*i], input, i);
-	token->type = WORD;
-	token->value = ft_substr(input, *i - strlen - 1, strlen);
-}
-
+// keep going until operator or space is found
+// don't recognize operator if it is in between quotes
 void	tokenize_word(t_token *token, char *input, int *i)
 {
-	int	strlen;
+	int		strlen;
+	char	quote;
 
 	strlen = 0;
-	while (!ft_isspace(input[*i]) && input[*i] && !next_token(input, *i))
+	while (!ft_isspace(input[*i]) && !char_is_operator(input[*i]) && input[*i])
 	{
+		if (char_is_quote(input[*i]))
+		{
+			quote = input[*i];
+			strlen++;
+			(*i)++;
+			while (input[*i] != quote && input[*i])
+			{
+				strlen++;
+				(*i)++;
+			}
+		}
+		if (!input[*i])
+			break ;
 		strlen++;
 		(*i)++;
 	}
@@ -114,7 +93,8 @@ int	tokenize_operator(t_token *token, char *input, int *i)
 	else if (input[*i] == '|')
 	{
 		token->type = PIPE;
-		token->value = "|";
+		token->value = ft_calloc(2, sizeof(char));
+		token->value[0] = '|';
 	}
 	(*i)++;
 	if (token->type != PIPE)

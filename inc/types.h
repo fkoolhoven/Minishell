@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   types.h                                            :+:      :+:    :+:   */
+/*   types.h                                           :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 11:01:53 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/09/22 14:38:38 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/04 12:21:18 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ enum e_type
 	OUTFILE,
 	OUTFILE_APPEND,
 	HEREDOC_INFILE,
-	HEREDOC_FAIL
+	HEREDOC_UNLINKED
 };
 
 typedef struct s_token
@@ -60,10 +60,18 @@ typedef struct s_command
 	struct s_command	*next;
 }	t_command;
 
+typedef struct s_heredoc_var
+{
+	int			fd;
+	char		*input;
+	t_htable	*env;
+}	t_heredoc_var;
+
 typedef struct s_exec_var
 {
 	t_command	*cmnd_list;
-	char		**env;
+	t_htable	*env;
+	char		**env_str;
 	int			fd_pipe[2];
 	int			last_cmnd;
 	pid_t		process;
@@ -79,6 +87,7 @@ typedef struct s_parser_var
 	t_command	*command_list;
 }	t_parser_var;
 
-typedef int	(*t_f_bltin)(t_exec_var, t_command);
+typedef int	(*t_f_bltin)(t_exec_var *, t_command *);
+typedef void	(*t_sighandle)(int);
 
 #endif

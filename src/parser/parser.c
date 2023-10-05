@@ -6,15 +6,13 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:59:40 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/22 12:03:41 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/09/29 11:58:38 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// This file is the basis for the parsing process. R
-
-// END OF TEST FUNCTIONS! BELOW PROGRAM FUNCTIONS!
+// This file is the basis for the parsing process
 
 // Adds new command struct (node) to command list.
 void	add_command_to_list(t_parser_var *var)
@@ -93,31 +91,33 @@ int	parse_until_pipe(t_list **tokens, t_token **token, t_parser_var *var)
 // input redirections, a linked list of output redirections and a
 // char **command with the command and all its options/arguments
 // Combines all three in linked list of of type t_command.
-int	parse_tokens(t_list *tokens)
+t_command	*parse_tokens(t_list **list_start)
 {
 	t_parser_var	*var;
 	t_token			*token;
+	t_list			*tokens;
+	t_command		*command_list;
 
+	tokens = *list_start;
 	var = init_parser_vars();
 	if (!var)
-		return (EXIT_FAILURE);
+		return (terminate_token_list_error(list_start));
 	while (tokens)
 	{
 		reset_vars(&tokens, &token, var);
 		while (tokens && token->type != PIPE)
 		{
 			if (parse_until_pipe(&tokens, &token, var))
-				return (EXIT_FAILURE);
+				return (parser_terminate_error(list_start, var));
 		}
 		if (tokens && token->type == PIPE)
 		{
 			if (parse_pipe(&tokens, &token, var))
-				return (EXIT_FAILURE);
+				return (parser_terminate_error(list_start, var));
 		}
-		if (var->command)
-			add_command_to_list(var);
+		add_command_to_list(var);
 	}
-	print_command_list(var->command_list);
+	command_list = var->command_list;
 	free(var);
-	return (EXIT_SUCCESS);
+	return (command_list);
 }

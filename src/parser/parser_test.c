@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 11:55:41 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/22 11:56:15 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/09/25 17:31:52 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ void	print_command_list(t_command *list)
 		printf("\nINPUTS:\n");
 		print_redirections(list->in);
 		printf("\nCOMMAND + ARGS:\n");
-		print_string_array(list->command);
+		if (list->command)
+			print_string_array(list->command);
 		printf("\n\nOUTPUTS:\n");
 		print_redirections(list->out);
 		list = list->next;

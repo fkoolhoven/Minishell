@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 15:47:26 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/22 18:03:26 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/05 17:33:00 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	replace_var(t_token *token, char *value, int start, int rm_strlen)
 	end_strlen = ft_strlen(token->value) - start - rm_strlen;
 	end = ft_substr(token->value, start + rm_strlen, end_strlen);
 	new_string = ft_strjoin(beginning, value); // leak, free new_string after use
-	new_string = ft_strjoin(new_string, end);
+	new_string = ft_strjoin(new_string, end); // check strjoin and substr for errors!!!
 	free(beginning);
 	free(end);
 	free(token->value);
@@ -60,21 +60,17 @@ void	expand_variable(t_token *token, t_htable *env)
 }
 
 // Goes through the list of tokens and sees which tokens contain an expandable
-void	expand_parameters(t_list **tokens, t_htable *env)
+void	expand(t_list **list_start, t_htable *env)
 {
-	int		parser_check;
 	t_token	*current_token;
-	t_list	*list_start;
+	t_list	*tokens;
 
-	list_start = *tokens;
-	while (*tokens)
+	tokens = *list_start;
+	while (tokens)
 	{
-		current_token = (t_token *)(*tokens)->content;
+		current_token = (t_token *)tokens->content;
 		if (current_token->expand == true)
 			expand_variable(current_token, env);
-		*tokens = (*tokens)->next;
+		tokens = tokens->next;
 	}
-	parser_check = parse_tokens(list_start);
-	if (parser_check != EXIT_SUCCESS)
-		return ;
 }
