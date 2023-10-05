@@ -6,51 +6,13 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 16:36:40 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/04 13:02:05 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/05 17:29:46 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 // last function is too long
-
-int	find_next_quote(char quote, char *input, int *i)
-{
-	int	strlen;
-
-	strlen = 0;
-	(*i)++;
-	while (input[*i] != quote)
-	{
-		(*i)++;
-		strlen++;
-	}
-	(*i)++;
-	return (strlen);
-}
-
-// Tokenizes everything between double quotes, also checking for $ as expandable
-void	tokenize_double_quote(t_token *token, char *input, int *i)
-{
-	int	strlen;
-
-	strlen = find_next_quote(input[*i], input, i);
-	token->type = WORD;
-	token->value = ft_substr(input, *i - strlen - 1, strlen);
-	if (token_contains_expandable(token->value))
-		token->expand = true;
-}
-
-// Tokenizes everything between double quotes, seeing $ as regular character
-void	tokenize_single_quote(t_token *token, char *input, int *i)
-{
-	int	strlen;
-
-	strlen = find_next_quote(input[*i], input, i);
-	token->type = WORD;
-	token->value = ft_substr(input, *i - strlen - 1, strlen);
-}
-
 
 // keep going until operator or space is found
 // don't recognize operator if it is in between quotes
@@ -73,6 +35,8 @@ void	tokenize_word(t_token *token, char *input, int *i)
 				(*i)++;
 			}
 		}
+		if (!input[*i])
+			break ;
 		strlen++;
 		(*i)++;
 	}

@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 15:47:26 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/25 15:50:41 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/05 17:33:00 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	replace_var(t_token *token, char *value, int start, int rm_strlen)
 	end_strlen = ft_strlen(token->value) - start - rm_strlen;
 	end = ft_substr(token->value, start + rm_strlen, end_strlen);
 	new_string = ft_strjoin(beginning, value); // leak, free new_string after use
-	new_string = ft_strjoin(new_string, end);
+	new_string = ft_strjoin(new_string, end); // check strjoin and substr for errors!!!
 	free(beginning);
 	free(end);
 	free(token->value);
