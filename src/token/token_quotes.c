@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:47:37 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/05 17:46:02 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/06 15:49:47 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,58 +41,66 @@ int	find_next_quote(char *input, int i)
 	return (i);
 }
 
-char	*remove_quotes_from_value(t_token *token)
+char	*get_new_value_without_quotes(char *old_value, int *i)
 {
-	char	*old_value;
+	char	*temp;
 	char	*new_value;
 	int		first_quote;
-	int		second_quote;
+
+	first_quote = *i;
+	*i = find_next_quote(old_value, *i);
+	new_value = remove_char_from_string(old_value, first_quote);
+	if (new_value == NULL)
+		return (NULL);
+	(*i)--;
+	if (new_value[*i] == '\0')
+		return (new_value);
+	temp = remove_char_from_string(new_value, *i);
+	if (temp == NULL)
+	{
+		free(new_value);
+		return (NULL);
+	}
+	new_value = temp;
+	(*i)--;
+	return (new_value);
+}
+
+char	*remove_quotes_from_value(t_token *token)
+{
+	char	*value;
 	int		i;
 
-	old_value = token->value;
-	new_value = old_value;
+	value = token->value;
 	i = 0;
-	while (old_value[i])
+	while (value[i])
 	{
-		if (char_is_quote(old_value[i]))
+		if (char_is_quote(value[i]))
 		{
-			first_quote = i;
-			i = find_next_quote(old_value, i);
-			new_value = remove_char_from_string(old_value, first_quote);
-			if (new_value == NULL)
+			value = get_new_value_without_quotes(value, &i);
+			if (value == NULL)
 				return (NULL);
-			i--;
-			if (new_value[i] == '\0')
-				break ;
-			second_quote = i;
-			new_value = remove_char_from_string(new_value, second_quote);
-			if (new_value == NULL)
-				return (NULL);
-			i--;
-			old_value = new_value;
 		}
 		i++;
 	}
-	return (new_value);
+	return (value);
 }
 
 int	remove_quotes(t_list **list_start)
 {
 	t_token	*current_token;
 	t_list	*tokens;
-	char	*new_value;
 
 	tokens = *list_start;
 	while (tokens)
 	{
 		current_token = (t_token *)tokens->content;
-		new_value = remove_quotes_from_value(current_token);
-		if (new_value == NULL)
+		current_token->value = remove_quotes_from_value(current_token);
+		if (current_token->value == NULL)
 		{
 			terminate_token_list_error(list_start);
 			return (EXIT_FAILURE);
 		}
-		current_token->value = new_value;
 		tokens = tokens->next;
 	}
 	return (EXIT_SUCCESS);

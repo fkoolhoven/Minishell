@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:25:50 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/04 12:48:15 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/06 13:55:22 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ t_token	*initialize_token(void)
 	}
 	token->type = -1;
 	token->value = NULL;
-	token->expand = false;
 	return (token);
 }
 
