@@ -6,39 +6,56 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 15:47:26 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/05 17:33:00 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/06 12:40:20 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// Replaces the expandable (for example $var) with the associated value form
-// the env hashtable
-void	replace_var(t_token *token, char *value, int start, int rm_strlen)
+// Replaces the old variable (for example $USER) with new_value (for example
+// fkoolhov) from the env
+int	replace_var(t_token *token, char *new_value, int beginning_len, int rm_len)
 {
-	char	*beginning;
-	char	*end;
-	char	*new_string;
-	int		end_strlen;
+	char	*new_str;
+	int		end_len;
+	int		new_str_len;
 
-	beginning = ft_substr(token->value, 0, start);
-	end_strlen = ft_strlen(token->value) - start - rm_strlen;
-	end = ft_substr(token->value, start + rm_strlen, end_strlen);
-	new_string = ft_strjoin(beginning, value); // leak, free new_string after use
-	new_string = ft_strjoin(new_string, end); // check strjoin and substr for errors!!!
-	free(beginning);
-	free(end);
+	end_len = ft_strlen(token->value) - beginning_len - rm_len;
+	new_str_len = beginning_len + ft_strlen(new_value) + end_len;
+	new_str = ft_calloc(new_str_len + 1, sizeof(char));
+	if (new_str == NULL)
+	{
+		ft_putendl_fd("minishell: malloc error expander", STDERR_FILENO);
+		return (EXIT_FAILURE);
+	}
+	ft_strlcpy(new_str, token->value, beginning_len + 1);
+	ft_strlcat(new_str, new_value, new_str_len + 1);
+	ft_strlcat(new_str, token->value + beginning_len + rm_len, new_str_len + 1);
 	free(token->value);
-	token->value = new_string;
+	token->value = new_str;
+	return (EXIT_SUCCESS);
+}
+
+bool	end_of_expandable_is_found(char c)
+{
+	if (c == '\0')
+		return (true);
+	else if (ft_isspace(c))
+		return (true);
+	else if (c == '$')
+		return (true);
+	else if (char_is_quote(c))
+		return (true);
+	return (false);
 }
 
 // Goes through the value (char *) of the token and finds all the expandables
-void	expand_variable(t_token *token, t_htable *env)
+int	expand_variable(t_token *token, t_htable *env)
 {
 	int		i;
 	int		start;
 	char	*key;
-	char	*value;
+	char	*new_value;
 
 	i = 0;
 	while (token->value[i])
@@ -47,20 +64,22 @@ void	expand_variable(t_token *token, t_htable *env)
 		{
 			start = i;
 			i++;
-			while (token->value[i] && !ft_isspace(token->value[i]) && token->value[i] != '$')
+			while (!end_of_expandable_is_found(token->value[i]))
 				i++;
 			key = ft_substr(token->value, start, i - start);
-			value = find_env_value(env, key);
+			new_value = find_env_value(env, key);
 			free(key);
-			replace_var(token, value, start, i - start);
+			if (replace_var(token, new_value, start, i - start) == EXIT_FAILURE)
+				return (EXIT_FAILURE);
 			i = start - 1;
 		}
 		i++;
 	}
+	return (EXIT_SUCCESS);
 }
 
 // Goes through the list of tokens and sees which tokens contain an expandable
-void	expand(t_list **list_start, t_htable *env)
+int	expand(t_list **list_start, t_htable *env)
 {
 	t_token	*current_token;
 	t_list	*tokens;
@@ -70,7 +89,14 @@ void	expand(t_list **list_start, t_htable *env)
 	{
 		current_token = (t_token *)tokens->content;
 		if (current_token->expand == true)
-			expand_variable(current_token, env);
+		{
+			if (expand_variable(current_token, env) == EXIT_FAILURE)
+			{
+				terminate_token_list_error(list_start);
+				return (EXIT_FAILURE);
+			}
+		}
 		tokens = tokens->next;
 	}
+	return (EXIT_SUCCESS);
 }
