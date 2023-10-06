@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/09/15 10:41:54 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/04 18:32:10 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/06 12:03:00 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -107,6 +107,8 @@ int	execute(t_command *cmnd_list, t_htable *environ)
 	var.env_str = convert_htable_to_strarray(environ); 
 	if (var.env_str == NULL)
 		return (EXIT_FAILURE);
+	fd[0] = -1;
+	fd[1] = -1;
 	var.fd_pipe = fd;
 	var.process = 1;
 	var.last_cmnd = size_cmndlist(cmnd_list);

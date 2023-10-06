@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/09/18 12:02:47 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/04 18:30:23 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/06 12:48:37 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -50,8 +50,8 @@ void	child_process(t_exec_var *var, t_command *cmnd)
 			valid_cmnd = find_command_path(var, cmnd);
 			execve(valid_cmnd, cmnd->command, var->env);
 			if (valid_cmnd == NULL)
-				exit(exec_error_child(var, valid_cmnd, 127, "Command not found\n"));
-			exit(exec_error_child(var, valid_cmnd, 126, "Permission denied\n"));
+				exit(exec_error_child_notfound(var, valid_cmnd, cmnd));
+			exit(exec_error_child_denied(var, valid_cmnd, cmnd));
 		}
 		wrap_sighandler(SIGINT, &catch_sigint_parent);
 	}

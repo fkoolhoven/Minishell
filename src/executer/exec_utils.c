@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/09/15 13:32:56 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/04 17:45:29 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/06 12:18:57 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -30,12 +30,17 @@ static void	st_open_file_failed(t_redirect *node)
 {
 	if (node != NULL)
 	{
-		ft_putstr_fd("\t Warning: Opening of file ", 2);
-		ft_putstr_fd(node->value, 2);
-		ft_putstr_fd(" failed \n", 2);
+		if (node->value != NULL)
+		{
+			ft_putstr_fd("\t Warning: Opening of file ", 2);
+			ft_putstr_fd(node->value, 2);
+			ft_putstr_fd(" failed \n", 2);
+		}
+		else
+			ft_putstr_fd("\t Warning: Filename is (NULL)\n", 2);
 	}
 	else
-		ft_putstr_fd("\t Warning: Filename is (NULL)\n", 2);
+		ft_putstr_fd("\t Warning: Redirect node is (NULL)\n", 2);
 }
 
 /* give_input_fd
@@ -231,6 +236,7 @@ int	swap_filedescriptors(t_exec_var *var, t_command *cmnd)
 		return (exec_error_swap(-1, fd_out, var->pipe_fd));
 	close(var->pipe_fd[0]);
 	close(var->pipe_fd[1]);
+	return (EXIT_SUCCESS);
 }
 
 static void	st_create_outfile_cmnd(t_redirect *out)

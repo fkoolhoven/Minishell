@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/10/04 14:29:09 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/04 18:15:19 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/06 12:33:44 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -18,7 +18,7 @@ static char	*st_check(char *tmp1, char *cmnd, char **prev_valid)
 	if (tmp1 == NULL)
 		return (NULL);
 	if (prev_valid == NULL)
-		return (NULL);
+		return (free(tmp1), NULL);
 	rtn = ft_strjoin(tmp1, cmnd);
 	free(tmp1);
 	if (rtn == NULL)
@@ -93,5 +93,11 @@ char	*find_command_path(t_exec_var *var, t_command *cmnd)
 		return (NULL);
 	if (*(cmnd->command)[0] == '\0')
 		return (NULL);
+	if (ft_strchr((const char *)((cmnd->command)[0]), '/') != NULL)
+	{
+		if (access((const char *)(cmnd->command[0]), F_OK) == 0)
+			return (ft_strdup(cmnd->command[0]));
+		return (NULL);
+	}
 	return (st_find_path(var, cmnd));
 }
