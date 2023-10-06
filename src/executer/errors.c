@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/10/04 17:36:15 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/06 12:48:37 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/06 14:03:26 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -108,6 +108,16 @@ int	exec_error_parent(t_exec_var *var)
 			if ((var->fd_pipe)[1] >= 3)
 				close((var->fd_pipe)[1]);
 		}
+	}
+	return (EXIT_FAILURE);
+}
+
+int	exec_error_parent_nopipe(t_exec_var *var)
+{
+	if (var != NULL)
+	{
+		if (var->env_str != NULL)
+			ft_free_str_array(var->env_str);
 	}
 	return (EXIT_FAILURE);
 }

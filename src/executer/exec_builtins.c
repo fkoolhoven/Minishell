@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/09/18 09:57:46 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/09/18 14:31:35 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/06 15:07:35 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -69,12 +69,12 @@ static char	*st_give_cmnd_nopath(t_command *command)
 int	check_if_builtin(t_exec_var *var, t_command *command)
 {
 	const char	*builtins[]={"cd", "echo", "env", "exit", "export", "pwd", "unset", NULL};
-	const char	*no_path_cmnd;
+	char	*no_path_cmnd;
 	int			i;
 
 	if (var == NULL || command == NULL)
 		return (-2);
-	no_path_cmnd = (const char *)st_give_cmnd_nopath(command);
+	no_path_cmnd = st_give_cmnd_nopath(command);
 	if (no_path_cmnd == NULL)
 		return (-2);
 	i = 0;
@@ -103,14 +103,15 @@ int	execute_builtin(t_exec_var *var, t_command *cmnd, int bltin)
 {
 	t_f_bltin 	jmptbl[7];
 
-	jmptbl[0] = &cd;
-	jmptbl[1] = &echo;
-	jmptbl[2] = &env;
-	jmptbl[3] = &exit;
-	jmptbl[4] = &export;
-	jmptbl[5] = &pwd;
-	jmptbl[6] = &unset;
+	jmptbl[0] = &bltin_cd;
+	jmptbl[1] = &bltin_echo;
+	jmptbl[2] = &bltin_env;
+	jmptbl[3] = &bltin_exit;
+	jmptbl[4] = &bltin_export;
+	jmptbl[5] = &bltin_pwd;
+	jmptbl[6] = &bltin_unset;
 
+	printf("Executing builtin\n");
 	if (bltin >= 0 && bltin <= 6)
 		return (jmptbl[bltin](var, cmnd));
 	else

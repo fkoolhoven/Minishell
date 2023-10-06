@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/09/15 13:32:56 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/06 12:18:57 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/06 15:09:21 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -176,18 +176,19 @@ int	give_output_fd(t_redirect *out)
 			close(fd);
 		if (tmp->type == OUTFILE)
 		{
-			fd = open(tmp->value, O_WRONGLY | O_TRUNC);
+			fd = open(tmp->value, O_WRONLY | O_TRUNC);
 			if (fd < 0)
 				st_open_file_failed(tmp);
 		}
 		else if (tmp->type == OUTFILE_APPEND)
 		{
-			fd = open(tmp->value, O_WRONGLY);
+			fd = open(tmp->value, O_WRONLY);
 			if (fd < 0)
 				st_open_file_failed(tmp);
 		}
 		tmp = tmp->next;
 	}
+	return (fd);
 }
 /* swap_filedescriptors: 
 		To check:		1. if it actually works
@@ -218,24 +219,22 @@ int	swap_filedescriptors(t_exec_var *var, t_command *cmnd)
 	if (fd_in >= 0)
 	{
 		if (dup2(fd_in, STDIN_FILENO) < 0)
-			return (exec_error_swap(fd_in, fd_out, var->pipe_fd));
+			return (exec_error_swap(fd_in, fd_out, var->fd_pipe));
 		close(fd_in);
 	}
 	if (fd_out >= 0)
 	{
 		if (dup2(fd_out, STDOUT_FILENO) < 0)
-			return (exec_error_swap(-1, fd_out, var->pipe_fd));
+			return (exec_error_swap(-1, fd_out, var->fd_pipe));
 		close(fd_out);
 	}
 	if (fd_out == -2)
 	{
-		if (dup2(var->pipe_fd[1], STDOUT_FILENO) < 0)
-			return (exec_error_swap(-1, fd_out, var->pipe_fd));
+		if (dup2(var->fd_pipe[1], STDOUT_FILENO) < 0)
+			return (exec_error_swap(-1, fd_out, var->fd_pipe));
 	}
-	if (fd_out < 0)
-		return (exec_error_swap(-1, fd_out, var->pipe_fd));
-	close(var->pipe_fd[0]);
-	close(var->pipe_fd[1]);
+	close(var->fd_pipe[0]);
+	close(var->fd_pipe[1]);
 	return (EXIT_SUCCESS);
 }
 

@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/09/15 10:41:54 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/06 12:03:00 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/06 15:55:07 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -15,6 +15,7 @@ static int	st_execute_one_cmnd(t_exec_var *var)
 {
 	int	bltin_index;
 
+	printf("Executing one command \n");
 	if (var == NULL)
 		return (EXIT_FAILURE);
 	if (var->cmnd_list == NULL)
@@ -28,7 +29,7 @@ static int	st_execute_one_cmnd(t_exec_var *var)
 		if (var->process < 0)
 			return (exec_error_parent(var));
 		else if (var->process == 0)
-			child_process(var, var->cmnd_list);
+			return (child_process(var, var->cmnd_list));
 		else 
 			return (parent_one_command(var));
 	}
@@ -49,16 +50,19 @@ static int	st_execute_line(t_exec_var *var)
 	int			j;
 	int			status;
 
+	printf("Executing ... a lot\n");
+	printf("Amount of commands: %i \n", var->last_cmnd);
 	if (var != NULL)
 	{
 		j = 0;
 		tmp = var->cmnd_list;
-		while (tmp != NULL)
+		while (j < var->last_cmnd)
 		{
-			if (j < var->last_cmnd)
+			printf("j-th command: %i\n", j);
+			if (j < var->last_cmnd - 1)
 			{
 				if (pipe(var->fd_pipe) < 0)
-					return (exec_error_parent(var));
+					return (exec_error_parent_nopipe(var));
 			}
 			var->process = fork();
 			if (var->process < 0)
@@ -114,7 +118,7 @@ int	execute(t_command *cmnd_list, t_htable *environ)
 	var.last_cmnd = size_cmndlist(cmnd_list);
 	create_all_outfiles(&var);
 	if (var.last_cmnd == 1)
-		return (st_execute_one_cmnd(&var));
+		exit(st_execute_one_cmnd(&var));
 	else
-		return (st_execute_line(&var));
+		exit(st_execute_line(&var));
 }

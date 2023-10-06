@@ -6,7 +6,7 @@
 #    By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/31 14:20:16 by jhendrik          #+#    #+#              #
-#    Updated: 2023/10/04 13:06:32 by jhendrik      ########   odam.nl          #
+#    Updated: 2023/10/06 15:00:49 by jhendrik      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,8 +14,8 @@ NAME		:= minishell
 CC			:= cc
 RM			:= rm
 
-CFLAGS		?= -Wall -Wextra -Werror -fsanitize=address -g
-FLAGS		?= -v -Llibs/libft/ -lft -lreadline -fsanitize=address
+CFLAGS		?= -Wall -Wextra -Werror
+FLAGS		?= -v -Llibs/libft/ -lft -lreadline #-fsanitize=address
 
 INC			:= ./inc/
 SRC_DIR		:= src
@@ -53,6 +53,12 @@ SRC			:= main.c \
 			   executer/input_heredoc.c \
 			   executer/manage_one_heredoc.c \
 			   executer/test_heredoc.c \
+			   executer/exec.c \
+			   executer/errors.c \
+			   executer/exec_builtins.c \
+			   executer/exec_utils.c \
+			   executer/processes.c \
+			   executer/valid_path.c \
 			   utils/hashnode_functions.c \
 			   utils/hashnode_add_delete.c \
 			   env_functions/env_terminate.c \
@@ -64,7 +70,14 @@ SRC			:= main.c \
 			   env_functions/split_first_occurance.c \
 			   env_functions/convert_to_strarray.c \
 			   env_functions/convert_utils.c \
-			   env_functions/test_ft.c 
+			   env_functions/test_ft.c \
+			   builtins/cd.c \
+			   builtins/echo.c \
+			   builtins/env.c \
+			   builtins/exit.c \
+			   builtins/export.c \
+			   builtins/pwd.c \
+			   builtins/unset.c
 OBJ			:= $(addprefix $(OBJ_DIR)/,$(SRC:.c=.o))
 LIBS		:= $(LIB_DIR)/libft.a
 MINI_HEADER	:= ./inc/minishell.h
