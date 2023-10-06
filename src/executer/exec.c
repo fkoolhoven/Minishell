@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/09/15 10:41:54 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/06 15:55:07 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/06 16:19:26 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -28,10 +28,13 @@ static int	st_execute_one_cmnd(t_exec_var *var)
 		var->process = fork();
 		if (var->process < 0)
 			return (exec_error_parent(var));
-		else if (var->process == 0)
-			return (child_process(var, var->cmnd_list));
 		else 
-			return (parent_one_command(var));
+		{
+			if (var->process == 0)
+				return (child_process(var, var->cmnd_list));
+			else 
+				return (parent_one_command(var));
+		}
 	}
 }
 
@@ -118,7 +121,7 @@ int	execute(t_command *cmnd_list, t_htable *environ)
 	var.last_cmnd = size_cmndlist(cmnd_list);
 	create_all_outfiles(&var);
 	if (var.last_cmnd == 1)
-		exit(st_execute_one_cmnd(&var));
+		return (st_execute_one_cmnd(&var));
 	else
-		exit(st_execute_line(&var));
+		return (st_execute_line(&var));
 }

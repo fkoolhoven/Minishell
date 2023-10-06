@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/09/18 12:02:47 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/06 15:52:41 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/06 16:15:26 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -109,10 +109,11 @@ int	parent_one_command(t_exec_var *var)
 {
 	int	waitstatus;
 
+	printf("In parent process\n");
 	wrap_sighandler(SIGINT, SIG_IGN);
 	waitpid(var->process, &waitstatus, 0);
 	wrap_sighandler(SIGINT, &catch_sigint_parent);
-	heredoc_unlinker(var->cmnd_list);
+	printf("Going to return status\n");
 	if (WIFEXITED(waitstatus))
 		return (WEXITSTATUS(waitstatus));
 	else if (WIFSIGNALED(waitstatus))

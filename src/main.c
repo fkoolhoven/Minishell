@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:08:39 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/06 15:46:40 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/06 16:26:57 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ int	minishell(t_htable *env)
 	exit_code = EXIT_SUCCESS;
 	while (1)
 	{
+	//	printf("In beginning while loop\n");
 		user_input = readline("--> ");
 		if (!(user_input))
 		{
@@ -64,10 +65,12 @@ int	minishell(t_htable *env)
 		//	printf("\n");
 		//	rl_on_new_line();
 		//	rl_replace_line("", 0);
-			rl_redisplay();
+		//	rl_redisplay();
 		}
+	//	printf("In ending while loop\n");
 		free(user_input);
 	}
+	printf("Ended while loop\n");
 	terminate_hashtable(env);
 	return (exit_code);
 }
