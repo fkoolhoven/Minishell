@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 11:01:53 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/10/09 12:58:21 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/09 16:04:21 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ typedef struct s_exec_var
 	int			*fd_pipe;
 	int			last_cmnd;
 	int			exit_status;
+	int			fd_read;
 	pid_t		process;
 }	t_exec_var;
 

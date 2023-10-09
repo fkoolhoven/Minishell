@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/10/04 14:29:09 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/06 12:33:44 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/09 17:29:48 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -80,7 +80,7 @@ static char	*st_find_path(t_exec_var *var, t_command *cmnd)
 			return (ft_strdup(cmnd->command[0]));
 		return (NULL);
 	}
-	return (st_check_paths((cmnd->command[0]), paths));	
+	return (st_check_paths((cmnd->command[0]), paths));
 }
 
 char	*find_command_path(t_exec_var *var, t_command *cmnd)
