@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/09/18 12:02:47 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/06 16:15:26 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/09 15:49:14 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -30,20 +30,51 @@
 							or it doesn't exist (exit value is 127)
 
    */
-int	child_process(t_exec_var *var, t_command *cmnd)
+int	child_process_onecmnd(t_exec_var *var, t_command *cmnd)
 {
 	int		bltin_index;
 	int		check;
 	char	*valid_cmnd;
 
-	printf("In child process\n");
+//	printf("In child process\n");
 	if (var != NULL && cmnd != NULL)
 	{
-		check = swap_filedescriptors(var, cmnd);
-		ft_putstr_fd("Swapping fd's status:", 2);
+		check = swap_filedescriptors(var, cmnd, -1);
+//		ft_putstr_fd("Swapping fd's status:", 2);
 		if (check == EXIT_FAILURE)
 			exit(EXIT_FAILURE);
-		ft_putstr_fd("\t a success\n", 2);
+//		ft_putstr_fd("\t a success\n", 2);
+		bltin_index = check_if_builtin(var, cmnd);
+		wrap_sighandler(SIGINT, SIG_DFL);
+		if (bltin_index >= 0)
+			exit(execute_builtin(var, cmnd, bltin_index));
+		else
+		{
+			valid_cmnd = find_command_path(var, cmnd);
+			execve(valid_cmnd, cmnd->command, var->env_str);
+			if (valid_cmnd == NULL)
+				exit(exec_error_child_notfound(var, valid_cmnd, cmnd));
+			exit(exec_error_child_denied(var, valid_cmnd, cmnd));
+		}
+	}
+	exit(EXIT_FAILURE);
+}
+int	child_process(t_exec_var *var, t_command *cmnd, int fd_read)
+{
+	int		bltin_index;
+	int		check;
+	char	*valid_cmnd;
+
+//	printf("In child process\n");
+	if (var != NULL && cmnd != NULL)
+	{
+		if (fd_read >= 3)
+			ft_putstr_fd("fd_read >= 3\n", 2);
+		check = swap_filedescriptors(var, cmnd, fd_read);
+//		ft_putstr_fd("Swapping fd's status:", 2);
+		if (check == EXIT_FAILURE)
+			exit(EXIT_FAILURE);
+//		ft_putstr_fd("\t a success\n", 2);
 		bltin_index = check_if_builtin(var, cmnd);
 		wrap_sighandler(SIGINT, SIG_DFL);
 		if (bltin_index >= 0)
@@ -75,7 +106,7 @@ int	child_process(t_exec_var *var, t_command *cmnd)
 							and it sets STDIN to the known pipes read-end so the pipe
 							can be reused for the next childprocess
    */
-int	parent_process(t_exec_var *var, int j)
+/*int	parent_process(t_exec_var *var, int j)
 {
 	int	waitstatus;
 
@@ -92,6 +123,7 @@ int	parent_process(t_exec_var *var, int j)
 		ft_putstr_fd("Got to last parent\n", 2);
 		wrap_sighandler(SIGINT, SIG_IGN);
 		waitpid(var->process, &waitstatus, 0);
+		waitpid(0, NULL, 0);
 		wrap_sighandler(SIGINT, &catch_sigint_parent);
 		ft_putstr_fd("About to return status\n", 2);
 		if (WIFEXITED(waitstatus))
@@ -102,18 +134,51 @@ int	parent_process(t_exec_var *var, int j)
 			return (EXIT_SUCCESS);
 	}
 	return (EXIT_SUCCESS);
-}
+} */
 
+int	parent_process(t_exec_var *var, int j, int *fd_read)
+{
+	int	waitstatus;
+
+	if (j < var->last_cmnd - 1 && fd_read != NULL)
+	{
+		if (*fd_read >= 3)
+			close(*fd_read);
+		*fd_read = var->fd_pipe[0];
+		close(var->fd_pipe[1]);
+		return (EXIT_SUCCESS);
+	}
+	else if (j == var->last_cmnd - 1)
+	{
+//		ft_putstr_fd("Got to last parent\n", 2);
+		printf("fd_read: %i\n", *fd_read);
+		if (*fd_read >= 3)
+			close(*fd_read);
+		wrap_sighandler(SIGINT, SIG_IGN);
+		waitpid(var->process, &waitstatus, 0);
+		waitpid(-1, NULL, 0);
+		wrap_sighandler(SIGINT, &catch_sigint_parent);
+//		ft_putstr_fd("About to return status\n", 2);
+		if (WIFEXITED(waitstatus))
+			return (WEXITSTATUS(waitstatus));
+		else if (WIFSIGNALED(waitstatus))
+			return (128 + WTERMSIG(waitstatus));
+		else
+			return (EXIT_SUCCESS);
+	}
+	return (EXIT_SUCCESS);
+}
 
 int	parent_one_command(t_exec_var *var)
 {
 	int	waitstatus;
 
-	printf("In parent process\n");
+//	printf("In parent process\n");
 	wrap_sighandler(SIGINT, SIG_IGN);
 	waitpid(var->process, &waitstatus, 0);
+	waitpid(0, NULL, 0);
 	wrap_sighandler(SIGINT, &catch_sigint_parent);
-	printf("Going to return status\n");
+//	printf("Going to return status\n");
 	if (WIFEXITED(waitstatus))
 		return (WEXITSTATUS(waitstatus));
 	else if (WIFSIGNALED(waitstatus))

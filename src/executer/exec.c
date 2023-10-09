@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/09/15 10:41:54 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/06 16:19:26 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/09 15:50:46 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -15,7 +15,7 @@ static int	st_execute_one_cmnd(t_exec_var *var)
 {
 	int	bltin_index;
 
-	printf("Executing one command \n");
+//	printf("Executing one command \n");
 	if (var == NULL)
 		return (EXIT_FAILURE);
 	if (var->cmnd_list == NULL)
@@ -27,11 +27,11 @@ static int	st_execute_one_cmnd(t_exec_var *var)
 	{
 		var->process = fork();
 		if (var->process < 0)
-			return (exec_error_parent(var));
+			return (exec_error_parent(var, -1));
 		else 
 		{
 			if (var->process == 0)
-				return (child_process(var, var->cmnd_list));
+				return (child_process_onecmnd(var, var->cmnd_list));
 			else 
 				return (parent_one_command(var));
 		}
@@ -52,28 +52,30 @@ static int	st_execute_line(t_exec_var *var)
 	t_command	*tmp;
 	int			j;
 	int			status;
+	int			fd_read;
 
-	printf("Executing ... a lot\n");
-	printf("Amount of commands: %i \n", var->last_cmnd);
+//	printf("Executing ... a lot\n");
+//	printf("Amount of commands: %i \n", var->last_cmnd);
 	if (var != NULL)
 	{
 		j = 0;
 		tmp = var->cmnd_list;
+		fd_read = -1;
 		while (j < var->last_cmnd)
 		{
-			printf("j-th command: %i\n", j);
+//			printf("j-th command: %i\n", j);
 			if (j < var->last_cmnd - 1)
 			{
 				if (pipe(var->fd_pipe) < 0)
-					return (exec_error_parent_nopipe(var));
+					return (exec_error_parent_nopipe(var, fd_read));
 			}
 			var->process = fork();
 			if (var->process < 0)
-				return (exec_error_parent(var));
-			else if (var->process == 0)
-				child_process(var, tmp);
+				return (exec_error_parent(var, fd_read));
+			else if (var->process != 0)
+				status = parent_process(var, j, &fd_read);
 			else
-				status = parent_process(var, j);
+				child_process(var, tmp, fd_read);
 			j++;
 			tmp = tmp->next;
 		}
@@ -102,7 +104,7 @@ static int	st_execute_line(t_exec_var *var)
 						run to execute the input
    */
 
-int	execute(t_command *cmnd_list, t_htable *environ)
+int	execute(t_command *cmnd_list, t_htable *environ, int exit_status)
 {
 	t_exec_var	var;
 	int			fd[2];
@@ -118,10 +120,58 @@ int	execute(t_command *cmnd_list, t_htable *environ)
 	fd[1] = -1;
 	var.fd_pipe = fd;
 	var.process = 1;
+	var.exit_status = exit_status;
 	var.last_cmnd = size_cmndlist(cmnd_list);
 	create_all_outfiles(&var);
 	if (var.last_cmnd == 1)
 		return (st_execute_one_cmnd(&var));
 	else
 		return (st_execute_line(&var));
-}
+} /*
+int	execute(t_command *cmnd_list, t_htable *environ, int exit_status)
+{
+	t_exec_var	var;
+	int			fd[2];
+	int			waitstatus;
+	pid_t		process;
+
+	if (cmnd_list == NULL || environ == NULL)
+		return (EXIT_FAILURE);
+	var.cmnd_list = cmnd_list;
+	var.env = environ;
+	var.env_str = convert_htable_to_strarray(environ); 
+	if (var.env_str == NULL)
+		return (EXIT_FAILURE);
+	fd[0] = -1;
+	fd[1] = -1;
+	var.fd_pipe = fd;
+	var.process = 1;
+	var.exit_status = exit_status;
+	var.last_cmnd = size_cmndlist(cmnd_list);
+	create_all_outfiles(&var);
+	process = fork();
+	if (process < 0)
+		return (EXIT_FAILURE);
+	if (process == 0)
+	{
+		if (var.last_cmnd == 1)
+			exit(st_execute_one_cmnd(&var));
+		else
+			exit(st_execute_line(&var));
+	}
+	else
+	{
+		printf("In minishell parent\n");
+		wrap_sighandler(SIGINT, SIG_IGN);
+		waitpid(process, &waitstatus, 0);
+		waitpid(0, NULL, 0);
+		wrap_sighandler(SIGINT, &catch_sigint_parent);
+		printf("Going to return status\n");
+		if (WIFEXITED(waitstatus))
+			return (WEXITSTATUS(waitstatus));
+		else if (WIFSIGNALED(waitstatus))
+			return (128 + WTERMSIG(waitstatus));
+		else
+			return (EXIT_SUCCESS);
+	}
+} */

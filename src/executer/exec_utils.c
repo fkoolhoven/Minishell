@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/09/15 13:32:56 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/06 15:09:21 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/09 15:24:37 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -96,7 +96,7 @@ int	give_input_fd(t_redirect *in)
 	fd = -2;
 	while (tmp != NULL)
 	{
-		if (fd >= 0)
+		if (fd >= 3)
 			close(fd);
 		if (tmp->type == INFILE || tmp->type == HEREDOC_INFILE)
 		{
@@ -172,7 +172,7 @@ int	give_output_fd(t_redirect *out)
 	{
 		if (tmp->type == PIPE)
 			return (fd);
-		if (fd >= 0)
+		if (fd >= 3)
 			close(fd);
 		if (tmp->type == OUTFILE)
 		{
@@ -209,7 +209,7 @@ int	give_output_fd(t_redirect *out)
 						Now we have changed the stdout and stdin as necessary,
 							we can close the pipefd and move on
    */
-int	swap_filedescriptors(t_exec_var *var, t_command *cmnd)
+int	swap_filedescriptors(t_exec_var *var, t_command *cmnd, int fd_read)
 {
 	int	fd_in;
 	int	fd_out;
@@ -220,19 +220,28 @@ int	swap_filedescriptors(t_exec_var *var, t_command *cmnd)
 	{
 		if (dup2(fd_in, STDIN_FILENO) < 0)
 			return (exec_error_swap(fd_in, fd_out, var->fd_pipe));
-		close(fd_in);
+		if (fd_in >= 3)
+			close(fd_in);
+	}
+	else if (fd_read >= 0)
+	{
+		if (dup2(fd_read, STDIN_FILENO) < 0)
+			return (exec_error_swap(fd_read, fd_out, var->fd_pipe));
 	}
 	if (fd_out >= 0)
 	{
 		if (dup2(fd_out, STDOUT_FILENO) < 0)
 			return (exec_error_swap(-1, fd_out, var->fd_pipe));
-		close(fd_out);
+		if (fd_out >= 3)
+			close(fd_out);
 	}
 	if (fd_out == -2)
 	{
 		if (dup2(var->fd_pipe[1], STDOUT_FILENO) < 0)
 			return (exec_error_swap(-1, fd_out, var->fd_pipe));
 	}
+	if (fd_read >= 3)
+		close(fd_read);
 	close(var->fd_pipe[0]);
 	close(var->fd_pipe[1]);
 	return (EXIT_SUCCESS);
@@ -254,7 +263,7 @@ static void	st_create_outfile_cmnd(t_redirect *out)
 					fd = open(tmp->value, O_CREAT | O_EXCL, 0644);
 				else
 					fd = -1;
-				if (fd != -1)
+				if (fd != -1 && fd >= 3)
 					close(fd);
 			}
 			tmp = tmp->next;

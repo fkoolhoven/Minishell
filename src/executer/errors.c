@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/10/04 17:36:15 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/06 14:03:26 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/09 15:47:03 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -95,7 +95,7 @@ int	exec_error_child_notfound(t_exec_var *var, char *val_cmnd, t_command *cmnd)
 	return (127);
 }
 
-int	exec_error_parent(t_exec_var *var)
+int	exec_error_parent(t_exec_var *var, int fd_read)
 {
 	if (var != NULL)
 	{
@@ -109,15 +109,19 @@ int	exec_error_parent(t_exec_var *var)
 				close((var->fd_pipe)[1]);
 		}
 	}
+	if (fd_read >= 3)
+		close(fd_read);
 	return (EXIT_FAILURE);
 }
 
-int	exec_error_parent_nopipe(t_exec_var *var)
+int	exec_error_parent_nopipe(t_exec_var *var, int fd_read)
 {
 	if (var != NULL)
 	{
 		if (var->env_str != NULL)
 			ft_free_str_array(var->env_str);
 	}
+	if (fd_read >= 3)
+		close(fd_read);
 	return (EXIT_FAILURE);
 }
