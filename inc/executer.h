@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 10:59:43 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/10/09 17:20:42 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/09 17:34:07 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,14 @@ void	test_heredoc(t_command *cmnd_list, t_htable *env);
 
 // exec_utils.c ------------------------------------------
 int		size_cmndlist(t_command *cmnd_list);
+void	create_all_outfiles(t_exec_var *var);
+
+// swap_fds.c -----------------------------------------------
+int		swap_filedescriptors(t_exec_var *var, t_command *cmnd);
+
+// give_fds.c ------------------------------------------------
 int		give_input_fd(t_redirect *in);
 int		give_output_fd(t_redirect *out);
-int		swap_filedescriptors(t_exec_var *var, t_command *cmnd);
-void	create_all_outfiles(t_exec_var *var);
 
 // exec_builtins.c ---------------------------------------
 int	check_if_builtin(t_exec_var *var, t_command *command);
