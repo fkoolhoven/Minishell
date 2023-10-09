@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                            :+:    :+:             */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:08:39 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/04 12:56:46 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/09 11:41:00 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,15 @@ int	parse_and_exec(t_htable *env, char *user_input, int exit_code)
 	t_list		*tokens;
 	int			check;
 
-	exit_code = 1;
+	exit_code = EXIT_FAILURE;
 	tokens = NULL;
 	tokens = tokenize_input(user_input);
 	if (tokens == NULL)
 		return (EXIT_FAILURE);
 	print_tokens(tokens);
 	expand(&tokens, env);
+	if (remove_quotes(&tokens) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
 	command_list = parse_tokens(&tokens);
 	terminate_token_list(&tokens);
 	if (command_list == NULL)

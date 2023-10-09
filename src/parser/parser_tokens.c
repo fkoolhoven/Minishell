@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 18:03:26 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/25 17:40:38 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/06 17:01:57 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,18 +120,20 @@ int	parse_word(t_list **tokens, t_token **token, t_parser_var *var)
 
 // Parses redirections per command and
 // adds them to either list of in or out redirections list
-int	parse_redirect(t_list **tokens, t_token **token, t_parser_var *var)
+int	parse_redirect(t_list **tokens, t_token **current_token, t_parser_var *var)
 {
-	int	error;
+	t_token	*token;
+	int		error;
 
-	if (token_is_input_type(*token))
-		error = add_redirect_to_list(&var->in, (*token)->type, (*token)->value);
+	token = *current_token;
+	if (token_is_input_type(token))
+		error = add_redirect_to_list(&var->in, token->type, token->value);
 	else
-		error = add_redirect_to_list(&var->out, (*token)->type, (*token)->value);
+		error = add_redirect_to_list(&var->out, token->type, token->value);
 	if (error != EXIT_SUCCESS)
 		return (EXIT_FAILURE);
 	*tokens = (*tokens)->next;
 	if (*tokens)
-		*token = (t_token *)(*tokens)->content;
+		*current_token = (t_token *)(*tokens)->content;
 	return (EXIT_SUCCESS);
 }

@@ -3,5 +3,7 @@ To Felicia:
 - Fix norminette
 - Rewrite pointer stuff in parser to be more readable
 - Figure out error handling for token/expand/parse
-- Check for mem leaks is expand can't find var
+- Check for mem leaks if expand can't find var
 - Test thoroughly for mem leaks at errors
+- Merge master with expander branch
+- Check for syntax errors? Test with bash

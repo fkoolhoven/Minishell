@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    Makefile                                          :+:    :+:              #
+#    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/31 14:20:16 by jhendrik          #+#    #+#              #
-#    Updated: 2023/10/04 13:06:32 by jhendrik      ########   odam.nl          #
+#    Updated: 2023/10/09 11:36:20 by fkoolhov         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,14 +37,17 @@ SRC			:= main.c \
 			   token/token_test.c \
 			   token/token_utils.c \
 			   token/token_tokenize.c \
+			   token/token_quotes.c \
 			   token/token_terminate.c \
 			   parser/parser.c \
 			   parser/parser_test.c \
-			   parser/parser_lists.c \
+			   parser/parser_command_list.c \
+			   parser/parser_redirect_list.c \
 			   parser/parser_tokens.c \
 			   parser/parser_utils.c \
 			   parser/parser_terminate.c \
 			   expander/expand.c \
+			   expander/expand_variable.c \
 			   signals/signals.c \
 			   signals/sig_wrapper.c \
 			   executer/heredoc_handler.c \
