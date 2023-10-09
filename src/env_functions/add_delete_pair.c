@@ -1,14 +1,15 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                       ::::::::             */
-/*   add_delete_pair.c                                 :+:    :+:             */
-/*                                                    +:+                     */
-/*   By: jhendrik <marvin@42.fr>                     +#+                      */
-/*                                                  +#+                       */
-/*   Created: 2023/09/20 17:06:03 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/09/22 10:22:51 by jhendrik      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   add_delete_pair.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/09/20 17:06:03 by jhendrik          #+#    #+#             */
+/*   Updated: 2023/10/09 16:33:34 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "minishell.h"
 
 static t_hnode	*st_search_prevnode(t_hnode *list, char *key)
@@ -78,7 +79,7 @@ int	add_pair(t_htable *env, char *key, char *value)
 	t_hnode	*new;
 	int		index;
 
-	if (env == NULL || key == NULL || value == NULL)
+	if (env == NULL || key == NULL)
 		return (-1);
 	if (env->array == NULL)
 		return (-1);

@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:25:50 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/25 16:50:05 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/06 13:55:22 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ t_token	*initialize_token(void)
 	}
 	token->type = -1;
 	token->value = NULL;
-	token->expand = false;
 	return (token);
 }
 
@@ -77,11 +76,7 @@ t_list	*tokenize_input(char *input)
 			free(token);
 			return (terminate_token_list_error(&tokens));
 		}
-		if (char_is_single_quote(input[i]))
-			tokenize_single_quote(token, input, &i);
-		else if (char_is_double_quote(input[i]))
-			tokenize_double_quote(token, input, &i);
-		else if (char_is_operator(input[i]))
+		if (char_is_operator(input[i]))
 		{
 			if (tokenize_operator(token, input, &i) != EXIT_SUCCESS)
 				return (terminate_token_list_error(&tokens));

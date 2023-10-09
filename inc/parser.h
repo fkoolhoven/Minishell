@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:39:28 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/25 19:17:59 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/06 16:53:08 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,11 @@ void		print_redirections(t_redirect *lst);
 void		print_string_array(char **str_array);
 void		print_command_list(t_command *list);
 
-// parser_lists.c
-t_command	*lstlast_command(t_command *lst);
+// parser_command_list.c
 t_command	*lstnew_command(char **command, t_redirect *in, t_redirect *out);
 void		lstadd_back_command(t_command **lst, t_command *new);
+
+// parser_redirect_list.c
 t_redirect	*lstnew_redirect(int type, char *value);
 void		lstadd_back_redirect(t_redirect **lst, t_redirect *new);
 

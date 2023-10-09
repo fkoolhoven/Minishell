@@ -6,33 +6,17 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 16:35:30 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/22 17:52:41 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/06 16:48:31 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// too many functions in file
-
-bool	char_is_single_quote(char c)
-{
-	if (c == '\'')
-		return (true);
-	else
-		return (false);
-}
-
-bool	char_is_double_quote(char c)
-{
-	if (c == '\"')
-		return (true);
-	else
-		return (false);
-}
+// these functions are also used in expander, move to different file?
 
 bool	char_is_quote(char c)
 {
-	if (char_is_single_quote(c) || char_is_double_quote(c))
+	if (c == '\"' || c == '\'')
 		return (true);
 	else
 		return (false);
@@ -46,33 +30,35 @@ bool	char_is_operator(char c)
 		return (false);
 }
 
-bool	next_token(char *input, int i)
+bool	end_of_value(char c)
 {
-	if (char_is_operator(input[i]))
+	if (ft_isspace(c))
 		return (true);
-	else if (char_is_quote(input[i]))
+	else if (char_is_operator(c))
+		return (true);
+	else if (c == '\0')
 		return (true);
 	return (false);
 }
 
-bool	found_expandable(char *input, int i)
+int	calculate_strlen_for_token_value(char *input, int *i)
 {
-	if (input[i] == '$' && input[i + 1] != ' ' && input[i + 1])
-		return (true);
-	else
-		return (false);
-}
+	int		strlen;
+	int		end_quote;
 
-bool	token_contains_expandable(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
+	strlen = 0;
+	while (!end_of_value(input[*i]))
 	{
-		if (found_expandable(str, i))
-			return (true);
-		i++;
+		if (char_is_quote(input[*i]))
+		{
+			end_quote = find_next_quote(input, *i);
+			strlen += end_quote - *i;
+			*i = end_quote;
+			if (!input[*i])
+				break ;
+		}
+		(*i)++;
+		strlen++;
 	}
-	return (false);
+	return (strlen);
 }

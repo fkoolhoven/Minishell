@@ -1,22 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand.h                                           :+:      :+:    :+:   */
+/*   sig_wrapper.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/07 15:47:32 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/06 16:53:32 by fkoolhov         ###   ########.fr       */
+/*   Created: 2023/10/04 12:31:57 by jhendrik          #+#    #+#             */
+/*   Updated: 2023/10/09 12:05:08 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXPAND_H
-# define EXPAND_H
+#include "minishell.h"
 
-// expand.c
-int	expand(t_list **list_start, t_htable *env);
+void	wrap_sighandler(int signal, t_sighandle handler)
+{
+	struct sigaction const sigact = {.sa_handler = handler};
 
-// expand_variable.c
-int	expand_variable(t_token *token, t_htable *env, int *i);
-
-#endif
+	sigaction(signal, &sigact, NULL);
+}

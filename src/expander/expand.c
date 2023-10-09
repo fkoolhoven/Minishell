@@ -6,61 +6,60 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 15:47:26 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/25 15:50:41 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/06 16:54:07 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// Replaces the expandable (for example $var) with the associated value form
-// the env hashtable
-void	replace_var(t_token *token, char *value, int start, int rm_strlen)
+// Skips over everything in between single quotes, while still
+// respecting single quotes that are in between double quotes
+bool	prevent_expansion_in_single_quotes(t_token *token, int *i)
 {
-	char	*beginning;
-	char	*end;
-	char	*new_string;
-	int		end_strlen;
+	static bool	in_double_quotes;
 
-	beginning = ft_substr(token->value, 0, start);
-	end_strlen = ft_strlen(token->value) - start - rm_strlen;
-	end = ft_substr(token->value, start + rm_strlen, end_strlen);
-	new_string = ft_strjoin(beginning, value); // leak, free new_string after use
-	new_string = ft_strjoin(new_string, end);
-	free(beginning);
-	free(end);
-	free(token->value);
-	token->value = new_string;
+	if (token->value[*i] == '\"')
+	{
+		if (in_double_quotes == false)
+			in_double_quotes = true;
+		else
+			in_double_quotes = false;
+		return (true);
+	}
+	else if (!in_double_quotes && token->value[*i] == '\'')
+	{
+		*i = find_next_quote(token->value, *i);
+		return (true);
+	}
+	return (false);
 }
 
-// Goes through the value (char *) of the token and finds all the expandables
-void	expand_variable(t_token *token, t_htable *env)
+// Sends only expandables that are not in between single quotes
+// to the expand_variable function
+int	find_expandables(t_token *token, t_htable *env)
 {
+	bool	quote_check;
 	int		i;
-	int		start;
-	char	*key;
-	char	*value;
 
+	quote_check = false;
 	i = 0;
 	while (token->value[i])
 	{
-		if (token->value[i] == '$')
+		quote_check = prevent_expansion_in_single_quotes(token, &i);
+		if (!token->value[i])
+			return (EXIT_SUCCESS);
+		if (!quote_check && token->value[i] == '$')
 		{
-			start = i;
-			i++;
-			while (token->value[i] && !ft_isspace(token->value[i]) && token->value[i] != '$')
-				i++;
-			key = ft_substr(token->value, start, i - start);
-			value = find_env_value(env, key);
-			free(key);
-			replace_var(token, value, start, i - start);
-			i = start - 1;
+			if (expand_variable(token, env, &i) == EXIT_FAILURE)
+				return (EXIT_FAILURE);
 		}
 		i++;
 	}
+	return (EXIT_SUCCESS);
 }
 
-// Goes through the list of tokens and sees which tokens contain an expandable
-void	expand(t_list **list_start, t_htable *env)
+// Goes through the list of tokens
+int	expand(t_list **list_start, t_htable *env)
 {
 	t_token	*current_token;
 	t_list	*tokens;
@@ -69,8 +68,12 @@ void	expand(t_list **list_start, t_htable *env)
 	while (tokens)
 	{
 		current_token = (t_token *)tokens->content;
-		if (current_token->expand == true)
-			expand_variable(current_token, env);
+		if (find_expandables(current_token, env) == EXIT_FAILURE)
+		{
+			terminate_token_list_error(list_start);
+			return (EXIT_FAILURE);
+		}
 		tokens = tokens->next;
 	}
+	return (EXIT_SUCCESS);
 }

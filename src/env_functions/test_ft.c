@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 16:11:51 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/09/22 15:39:59 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/09 16:45:03 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ static void	st_print_hashnodes(t_hnode *head)
 		tmp = head;
 		while (tmp)
 		{
-			printf("Node own pointer: %p \n \t key: %s \n \t value: %s \n \t next: %p \n", tmp, tmp->key, tmp->value, tmp->next);
+			if (tmp->key[0] == 'X')
+				printf("Node own pointer: %p \n \t key: %s \n \t value: %s \n \t next: %p \n", tmp, tmp->key, tmp->value, tmp->next);
 			tmp = tmp->next;
 		}
 	}

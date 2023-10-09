@@ -1,22 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand.h                                           :+:      :+:    :+:   */
+/*   ft_putstr_array_fd.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/07 15:47:32 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/06 16:53:32 by fkoolhov         ###   ########.fr       */
+/*   Created: 2023/10/09 15:51:12 by fkoolhov          #+#    #+#             */
+/*   Updated: 2023/10/09 16:02:59 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXPAND_H
-# define EXPAND_H
+#include "libft.h"
 
-// expand.c
-int	expand(t_list **list_start, t_htable *env);
+void	ft_putstr_array_fd(char **str_array, int fd)
+{
+	int	i;
 
-// expand_variable.c
-int	expand_variable(t_token *token, t_htable *env, int *i);
-
-#endif
+	i = 0;
+	while (str_array[i])
+	{
+		ft_putendl_fd(str_array[i], fd);
+		i++;
+	}
+}

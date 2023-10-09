@@ -6,7 +6,7 @@
 #    By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/31 14:20:16 by jhendrik          #+#    #+#              #
-#    Updated: 2023/09/29 15:58:00 by fkoolhov         ###   ########.fr        #
+#    Updated: 2023/10/09 15:48:25 by fkoolhov         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,19 +33,30 @@ SUBDIR		:= . \
 SRC_SUBDIR	:= $(foreach dir, $(SUB_DIR),$(addprefix $(SRC_DIR)/,$(dir)))
 
 SRC			:= main.c \
+			   errors.c \
 			   token/token.c \
 			   token/token_test.c \
 			   token/token_utils.c \
 			   token/token_tokenize.c \
+			   token/token_quotes.c \
 			   token/token_terminate.c \
 			   parser/parser.c \
 			   parser/parser_test.c \
-			   parser/parser_lists.c \
+			   parser/parser_command_list.c \
+			   parser/parser_redirect_list.c \
 			   parser/parser_tokens.c \
 			   parser/parser_utils.c \
 			   parser/parser_terminate.c \
 			   expander/expand.c \
+			   expander/expand_variable.c \
 			   signals/signals.c \
+			   signals/sig_wrapper.c \
+			   executer/heredoc_handler.c \
+			   executer/heredoc_unlinker.c \
+			   executer/heredoc_utils.c \
+			   executer/input_heredoc.c \
+			   executer/manage_one_heredoc.c \
+			   executer/test_heredoc.c \
 			   utils/hashnode_functions.c \
 			   utils/hashnode_add_delete.c \
 			   env_functions/env_terminate.c \
@@ -58,7 +69,8 @@ SRC			:= main.c \
 			   env_functions/convert_to_strarray.c \
 			   env_functions/convert_utils.c \
 			   env_functions/test_ft.c \
-			   builtins/export.c
+			   builtins/export.c \
+			   builtins/env.c
 OBJ			:= $(addprefix $(OBJ_DIR)/,$(SRC:.c=.o))
 LIBS		:= $(LIB_DIR)/libft.a
 MINI_HEADER	:= ./inc/minishell.h

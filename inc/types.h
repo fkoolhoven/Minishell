@@ -5,10 +5,11 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/15 11:01:53 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/09/29 15:53:40 by fkoolhov         ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2023/10/09 12:26:03 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef TYPES_H
 # define TYPES_H
@@ -22,14 +23,13 @@ enum e_type
 	OUTFILE,
 	OUTFILE_APPEND,
 	HEREDOC_INFILE,
-	HEREDOC_FAIL
+	HEREDOC_UNLINKED
 };
 
 typedef struct s_token
 {
 	enum e_type	type;
 	char		*value;
-	bool		expand;
 }	t_token;
 
 typedef struct s_hash_node
@@ -60,6 +60,13 @@ typedef struct s_command
 	struct s_command	*next;
 }	t_command;
 
+typedef struct s_heredoc_var
+{
+	int			fd;
+	char		*input;
+	t_htable	*env;
+}	t_heredoc_var;
+
 typedef struct s_exec_var
 {
 	t_command	*cmnd_list;
@@ -80,6 +87,7 @@ typedef struct s_parser_var
 	t_command	*command_list;
 }	t_parser_var;
 
-typedef int	(*t_f_bltin)(t_exec_var *, t_command *);
+typedef int		(*t_f_bltin)(t_exec_var *, t_command *);
+typedef void	(*t_sighandle)(int);
 
 #endif

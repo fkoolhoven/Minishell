@@ -1,14 +1,15 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                       ::::::::             */
-/*   convert_utils.c                                   :+:    :+:             */
-/*                                                    +:+                     */
-/*   By: jhendrik <marvin@42.fr>                     +#+                      */
-/*                                                  +#+                       */
-/*   Created: 2023/09/22 13:02:07 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/09/22 13:03:53 by jhendrik      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   convert_utils.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/09/22 13:02:07 by jhendrik          #+#    #+#             */
+/*   Updated: 2023/10/09 17:00:27 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "minishell.h"
 
 static void	st_size_at_index(t_hnode *head, int *size)
@@ -61,7 +62,8 @@ char	*give_envstr(t_hnode *node)
 	if (tmp1 == NULL)
 		return (NULL);
 	tmp2 = ft_strjoin(tmp1, node->value);
-	free(tmp1);
+	if (tmp1 != tmp2)
+		free(tmp1);
 	if (tmp2 == NULL)
 		return (NULL);
 	return (tmp2);

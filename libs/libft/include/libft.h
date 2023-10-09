@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 13:26:40 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/09/22 14:14:22 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/09 15:56:32 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,9 @@ void	ft_putnbr_fd_base(int n, int base, char *sbase, int fd);
 void	ft_putlui_fd_base(long unsigned int n, int base, char *sb, int fd);
 /*Outputs the given number n in base base 
  * to the given file descriptor.*/
+void	ft_putstr_array_fd(char **str_array, int fd);
+/*Outputs the given array of strings to the given 
+ * file descriptor, adding a newline after each string.*/
 
 // FUNCTIONS FOR MEMORY ------------------------
 void	*ft_memset(void *b, int c, size_t len);

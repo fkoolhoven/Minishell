@@ -6,7 +6,7 @@
 #    By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/28 10:58:27 by jhendrik          #+#    #+#              #
-#    Updated: 2023/09/22 14:18:26 by fkoolhov         ###   ########.fr        #
+#    Updated: 2023/10/09 15:51:47 by fkoolhov         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -67,6 +67,7 @@ SRCFILES := functions_chars/ft_isalpha.c \
 			functions_outputfd/ft_putstr_fd.c \
 			functions_outputfd/ft_putendl_fd.c \
 			functions_outputfd/ft_putnbr_fd.c \
+			functions_outputfd/ft_putstr_array_fd.c \
 			printf/ft_jump.c \
 			printf/ft_printf.c \
 			printf/ft_printf_nums.c \

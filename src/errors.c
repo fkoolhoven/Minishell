@@ -1,22 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand.h                                           :+:      :+:    :+:   */
+/*   errors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/07 15:47:32 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/06 16:53:32 by fkoolhov         ###   ########.fr       */
+/*   Created: 2023/10/09 15:17:56 by fkoolhov          #+#    #+#             */
+/*   Updated: 2023/10/09 15:20:22 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXPAND_H
-# define EXPAND_H
+#include "minishell.h"
 
-// expand.c
-int	expand(t_list **list_start, t_htable *env);
-
-// expand_variable.c
-int	expand_variable(t_token *token, t_htable *env, int *i);
-
-#endif
+void	*malloc_error_return_null(char *message)
+{
+	ft_putstr_fd("malloc error: ", STDERR_FILENO);
+	ft_putendl_fd(message, STDERR_FILENO);
+	return (NULL);
+}

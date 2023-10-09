@@ -6,73 +6,32 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 16:36:40 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/25 16:44:27 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/06 16:48:12 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// last function is too long
-
-int	find_next_quote(char quote, char *input, int *i)
+int	tokenize_word(t_token *token, char *input, int *i)
 {
-	int	strlen;
+	int		strlen;
 
-	strlen = 0;
-	(*i)++;
-	while (input[*i] != quote)
-	{
-		(*i)++;
-		strlen++;
-	}
-	(*i)++;
-	return (strlen);
-}
-
-// Tokenizes everything between double quotes, also checking for $ as expandable
-void	tokenize_double_quote(t_token *token, char *input, int *i)
-{
-	int	strlen;
-
-	strlen = find_next_quote(input[*i], input, i);
 	token->type = WORD;
-	token->value = ft_substr(input, *i - strlen - 1, strlen);
-	if (token_contains_expandable(token->value))
-		token->expand = true;
-}
-
-// Tokenizes everything between double quotes, seeing $ as regular character
-void	tokenize_single_quote(t_token *token, char *input, int *i)
-{
-	int	strlen;
-
-	strlen = find_next_quote(input[*i], input, i);
-	token->type = WORD;
-	token->value = ft_substr(input, *i - strlen - 1, strlen);
-}
-
-void	tokenize_word(t_token *token, char *input, int *i)
-{
-	int	strlen;
-
-	strlen = 0;
-	while (!ft_isspace(input[*i]) && input[*i] && !next_token(input, *i))
-	{
-		strlen++;
-		(*i)++;
-	}
-	token->type = WORD;
+	strlen = calculate_strlen_for_token_value(input, i);
 	token->value = ft_substr(input, *i - strlen, strlen);
-	if (token_contains_expandable(token->value))
-		token->expand = true;
+	if (token->value == NULL)
+	{
+		ft_putendl_fd("alloc fail word", STDERR_FILENO);
+		return (EXIT_FAILURE);
+	}
+	return (EXIT_SUCCESS);
 }
 
 char	*get_filename_or_delimiter(char *input, int *i)
 {
 	char	*filename;
-	int		strlen;
+	int		filename_len;
 
-	strlen = 0;
 	while (ft_isspace(input[*i]) && input[*i])
 		(*i)++;
 	if (!input[*i] || char_is_operator(input[*i]))
@@ -80,16 +39,17 @@ char	*get_filename_or_delimiter(char *input, int *i)
 		ft_putendl_fd("missing filename for redirection", STDERR_FILENO);
 		return (NULL);
 	}
-	while (!ft_isspace(input[*i]) && input[*i] && !next_token(input, *i))
+	filename_len = calculate_strlen_for_token_value(input, i);
+	filename = ft_substr(input, *i - filename_len, filename_len);
+	if (filename == NULL)
 	{
-		(*i)++;
-		strlen++;
+		ft_putendl_fd("alloc fail filename", STDERR_FILENO);
+		return (NULL);
 	}
-	filename = ft_substr(input, *i - strlen, strlen);
 	return (filename);
 }
 
-int	tokenize_operator(t_token *token, char *input, int *i)
+int	tokenize_infiles_and_outfiles(t_token *token, char *input, int *i)
 {
 	if (input[*i] == '<')
 	{
@@ -111,20 +71,31 @@ int	tokenize_operator(t_token *token, char *input, int *i)
 		else
 			token->type = OUTFILE;
 	}
+	(*i)++;
+	token->value = get_filename_or_delimiter(input, i);
+	if (!token->value)
+		return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
+}
+
+int	tokenize_operator(t_token *token, char *input, int *i)
+{
+	if (input[*i] == '<' || input[*i] == '>')
+	{
+		if (tokenize_infiles_and_outfiles(token, input, i) == EXIT_FAILURE)
+			return (EXIT_FAILURE);
+	}
 	else if (input[*i] == '|')
 	{
 		token->type = PIPE;
 		token->value = ft_calloc(2, sizeof(char));
-		token->value[0] = '|';
-	}
-	(*i)++;
-	if (token->type != PIPE)
-	{
-		token->value = get_filename_or_delimiter(input, i);
-		if (!token->value)
+		if (token->value == NULL)
+		{
+			ft_putendl_fd("alloc fail pipe", STDERR_FILENO);
 			return (EXIT_FAILURE);
-		if (token->value[0] == '$')
-			token->expand = true;
+		}
+		token->value[0] = '|';
+		(*i)++;
 	}
 	return (EXIT_SUCCESS);
 }
