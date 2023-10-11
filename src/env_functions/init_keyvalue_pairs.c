@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 15:46:06 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/09/22 15:37:49 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/11 17:03:56 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ int	init_keyvalue(t_hnode ***head, t_htable *env_table, char **envp)
 	int			check;
 	char		*key;
 	char		*value;
+
 	if (head == NULL || env_table == NULL || envp == NULL)
 		return (-1);
 	if (*head == NULL)

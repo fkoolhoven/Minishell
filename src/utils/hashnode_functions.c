@@ -1,14 +1,15 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   hashnode_functions.c                              :+:    :+:             */
-/*                                                     +:+                    */
-/*   By: jhendrik <marvin@42.fr>                      +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2023/09/05 14:03:59 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/09/20 16:48:25 by jhendrik      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   hashnode_functions.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/09/05 14:03:59 by jhendrik          #+#    #+#             */
+/*   Updated: 2023/10/11 17:03:17 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "minishell.h"
 
 t_hnode	*new_hash_node(char *key, char *value)
@@ -39,7 +40,7 @@ t_hnode	*hasharray_last(t_hnode *array)
 int	hasharray_size(t_hnode *array)
 {
 	t_hnode	*tmp;
-	int			size;
+	int		size;
 
 	if (array == NULL)
 		return (0);
