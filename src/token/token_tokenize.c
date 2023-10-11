@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 16:36:40 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/11 14:44:02 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/11 17:56:46 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	tokenize_word(t_token *token, char *input, int *i)
 	return (EXIT_SUCCESS);
 }
 
-char	*get_filename_or_delimiter(char *input, int *i)
+static char	*get_filename_or_delimiter(char *input, int *i)
 {
 	char	*filename;
 	int		filename_len;
@@ -43,7 +43,7 @@ char	*get_filename_or_delimiter(char *input, int *i)
 	return (filename);
 }
 
-int	tokenize_infiles_and_outfiles(t_token *token, char *input, int *i)
+static int	tokenize_infiles_and_outfiles(t_token *token, char *input, int *i)
 {
 	if (input[*i] == '<')
 	{

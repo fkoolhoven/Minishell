@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                       ::::::::             */
-/*   test_heredoc.c                                    :+:    :+:             */
-/*                                                    +:+                     */
-/*   By: jhendrik <marvin@42.fr>                     +#+                      */
-/*                                                  +#+                       */
-/*   Created: 2023/10/04 12:28:20 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/04 12:28:24 by jhendrik      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   test_heredoc.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/04 12:28:20 by jhendrik          #+#    #+#             */
+/*   Updated: 2023/10/11 17:59:01 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	display_heredocs(t_command *cmnd_list)
 		tmp = cmnd_list;
 		while (tmp)
 		{
-			printf("Command: %s\n", (tmp->command)[0]);
+			// printf("Command: %s\n", (tmp->command)[0]);
 			st_display_heredocs_cmnd(tmp->in);
 			tmp = tmp->next;
 		}

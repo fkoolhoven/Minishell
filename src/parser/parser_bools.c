@@ -1,16 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser_utils.c                                     :+:      :+:    :+:   */
+/*   parser_type_bools.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 17:25:02 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/20 19:35:44 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/11 17:52:35 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+bool	char_is_quote(char c)
+{
+	if (c == '\"' || c == '\'')
+		return (true);
+	else
+		return (false);
+}
 
 bool	token_is_input_type(t_token *token)
 {

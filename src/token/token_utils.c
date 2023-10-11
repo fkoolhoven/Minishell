@@ -6,20 +6,21 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 16:35:30 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/06 16:48:31 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/11 18:03:15 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// these functions are also used in expander, move to different file?
-
-bool	char_is_quote(char c)
+int	find_next_quote(char *input, int i)
 {
-	if (c == '\"' || c == '\'')
-		return (true);
-	else
-		return (false);
+	char	quote;
+
+	quote = input[i];
+	i++;
+	while (input[i] != quote && input[i])
+		i++;
+	return (i);
 }
 
 bool	char_is_operator(char c)

@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:39:28 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/11 17:17:56 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/11 17:53:18 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ int			parse_word_token(t_list **toks, t_token **tok, t_parser_var *v);
 int			parse_redirect_token(t_list **toks, t_token **tok, t_parser_var *v);
 int			parse_pipe_token(t_list **toks, t_token **tok, t_parser_var *v);
 
-// parser_utils.c
+// parser_bools.c
+bool		char_is_quote(char c);
 bool		token_is_input_type(t_token *token);
 bool		token_is_output_type(t_token *token);
 

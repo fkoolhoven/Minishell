@@ -6,7 +6,7 @@
 #    By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/31 14:20:16 by jhendrik          #+#    #+#              #
-#    Updated: 2023/10/11 16:27:17 by fkoolhov         ###   ########.fr        #
+#    Updated: 2023/10/11 17:52:58 by fkoolhov         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,7 +45,7 @@ SRC			:= main.c \
 			   parser/parser_test.c \
 			   parser/parser_command_list.c \
 			   parser/parser_redirect_list.c \
-			   parser/parser_type_bools.c \
+			   parser/parser_bools.c \
 			   parser/parser_terminate.c \
 			   expander/expand.c \
 			   expander/expand_variable.c \

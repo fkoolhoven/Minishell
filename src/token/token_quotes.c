@@ -6,13 +6,13 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:47:37 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/11 15:27:29 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/11 18:04:15 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*remove_char_from_string(char *string, int index)
+static char	*remove_char_from_string(char *string, int index)
 {
 	char	*result;
 	int		strlen;
@@ -30,18 +30,7 @@ char	*remove_char_from_string(char *string, int index)
 	return (result);
 }
 
-int	find_next_quote(char *input, int i)
-{
-	char	quote;
-
-	quote = input[i];
-	i++;
-	while (input[i] != quote && input[i])
-		i++;
-	return (i);
-}
-
-char	*get_new_value_without_quotes(char *old_value, int *i)
+static char	*get_new_value_without_quotes(char *old_value, int *i)
 {
 	char	*temp;
 	char	*new_value;
@@ -66,7 +55,7 @@ char	*get_new_value_without_quotes(char *old_value, int *i)
 	return (new_value);
 }
 
-char	*remove_quotes_from_value(t_token *token)
+static char	*remove_quotes_from_value(t_token *token)
 {
 	char	*value;
 	int		i;
@@ -86,7 +75,7 @@ char	*remove_quotes_from_value(t_token *token)
 	return (value);
 }
 
-int	remove_quotes(t_list **list_start)
+int	remove_quotes_from_tokens(t_list **list_start)
 {
 	t_token	*current_token;
 	t_list	*tokens;
