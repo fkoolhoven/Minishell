@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:08:39 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/11 12:42:27 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/11 14:58:06 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,9 @@ int	parse_and_exec(t_htable *env, char *user_input, int exit_code)
 	if (tokens == NULL)
 		return (EXIT_FAILURE);
 	// print_tokens(tokens);
-	expand(&tokens, env);
+	if (expand(&tokens, env) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
+	print_tokens(tokens);
 	if (remove_quotes(&tokens) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	command_list = parse_tokens(&tokens);

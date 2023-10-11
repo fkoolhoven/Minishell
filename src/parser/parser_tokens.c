@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 18:03:26 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/06 17:01:57 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/11 14:47:42 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,19 +25,13 @@ int	add_redirect_to_list(t_redirect **redirect_list, int type, char *value)
 	{
 		*redirect_list = lstnew_redirect(type, value);
 		if (*redirect_list == NULL)
-		{
-			printf("Error allocating for redirect_list\n");
-			return (EXIT_FAILURE);
-		}
+			return (malloc_error_return_failure("parser"));
 	}
 	else
 	{
 		new_redirect = lstnew_redirect(type, value);
 		if (new_redirect == NULL)
-		{
-			printf("Error allocating for new_redirect\n");
-			return (EXIT_FAILURE);
-		}
+			return (malloc_error_return_failure("parser"));
 		lstadd_back_redirect(redirect_list, new_redirect);
 	}
 	return (EXIT_SUCCESS);
@@ -95,10 +89,7 @@ int	parse_word(t_list **tokens, t_token **token, t_parser_var *var)
 	var->amount_of_words += calculate_amount_of_words(*tokens, *token);
 	var->command = ft_calloc(var->amount_of_words + 1, sizeof(char *));
 	if (var->command == NULL)
-	{
-		ft_putendl_fd("error alloc command", STDERR_FILENO);
-		return (EXIT_FAILURE);
-	}
+		return (malloc_error_return_failure("parser"));
 	i = 0;
 	while (var->old_command && var->old_command[i])
 	{
@@ -131,7 +122,7 @@ int	parse_redirect(t_list **tokens, t_token **current_token, t_parser_var *var)
 	else
 		error = add_redirect_to_list(&var->out, token->type, token->value);
 	if (error != EXIT_SUCCESS)
-		return (EXIT_FAILURE);
+		return (error);
 	*tokens = (*tokens)->next;
 	if (*tokens)
 		*current_token = (t_token *)(*tokens)->content;

@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:47:37 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/06 15:49:47 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/11 15:27:29 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ char	*remove_char_from_string(char *string, int index)
 	result = ft_calloc(strlen, sizeof(char));
 	if (result == NULL)
 	{
-		ft_putendl_fd("malloc error quotes", STDERR_FILENO);
-		return (NULL);
+		free(string);
+		return (malloc_error_return_null("tokenizer"));
 	}
 	ft_strlcpy(result, string, index + 1);
 	ft_strlcpy(result + index, string + index + 1, strlen - index);

@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:25:50 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/06 13:55:22 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/11 14:42:22 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,7 @@ t_token	*initialize_token(void)
 
 	token = malloc(sizeof(t_token));
 	if (token == NULL)
-	{
-		ft_putendl_fd("malloc error token", STDERR_FILENO);
-		return (NULL);
-	}
+		return (malloc_error_return_null("tokenizer"));
 	token->type = -1;
 	token->value = NULL;
 	return (token);
@@ -35,20 +32,14 @@ int	add_token_to_list(t_list **tokens, t_token *token)
 	{
 		new_node = ft_lstnew(token);
 		if (*tokens == NULL)
-		{
-			ft_putendl_fd("malloc error new tokens list node", STDERR_FILENO);
-			return (EXIT_FAILURE);
-		}
+			return (malloc_error_return_failure("tokenizer"));
 		ft_lstadd_back(tokens, new_node);
 	}
 	else
 	{
 		*tokens = ft_lstnew(token);
 		if (*tokens == NULL)
-		{
-			ft_putendl_fd("malloc error new tokens list", STDERR_FILENO);
-			return (EXIT_FAILURE);
-		}
+			return (malloc_error_return_failure("tokenizer"));
 	}
 	return (EXIT_SUCCESS);
 }

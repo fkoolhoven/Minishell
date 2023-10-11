@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 16:43:49 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/06 16:54:02 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/11 14:53:06 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,7 @@ int	replace_var(t_token *token, char *new_value, int beginning_len, int rm_len)
 	new_str_len = beginning_len + ft_strlen(new_value) + end_len;
 	new_str = ft_calloc(new_str_len + 1, sizeof(char));
 	if (new_str == NULL)
-	{
-		ft_putendl_fd("minishell: malloc error expander", STDERR_FILENO);
-		return (EXIT_FAILURE);
-	}
+		return (malloc_error_return_failure("expander"));
 	ft_strlcpy(new_str, token->value, beginning_len + 1);
 	ft_strlcat(new_str, new_value, new_str_len + 1);
 	ft_strlcat(new_str, token->value + beginning_len + rm_len, new_str_len + 1);
@@ -63,10 +60,7 @@ int	expand_variable(t_token *token, t_htable *env, int *i)
 		(*i)++;
 	key = ft_substr(token->value, start, *i - start);
 	if (key == NULL)
-	{
-		ft_putendl_fd("minishell: malloc error expander key", STDERR_FILENO);
-		return (EXIT_FAILURE);
-	}
+		return (malloc_error_return_failure("expander"));
 	new_value = find_env_value(env, key);
 	free(key);
 	if (replace_var(token, new_value, start, *i - start) == EXIT_FAILURE)

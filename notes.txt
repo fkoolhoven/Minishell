@@ -8,3 +8,4 @@ To Felicia:
 - Check for syntax errors? Test with bash
 - Turn static functions into statics
 - replace substr for strlcpy?
+- parser error handling

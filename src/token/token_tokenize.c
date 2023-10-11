@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 16:36:40 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/06 16:48:12 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/11 14:44:02 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,7 @@ int	tokenize_word(t_token *token, char *input, int *i)
 	strlen = calculate_strlen_for_token_value(input, i);
 	token->value = ft_substr(input, *i - strlen, strlen);
 	if (token->value == NULL)
-	{
-		ft_putendl_fd("alloc fail word", STDERR_FILENO);
-		return (EXIT_FAILURE);
-	}
+		return (malloc_error_return_failure("tokenizer"));
 	return (EXIT_SUCCESS);
 }
 
@@ -42,10 +39,7 @@ char	*get_filename_or_delimiter(char *input, int *i)
 	filename_len = calculate_strlen_for_token_value(input, i);
 	filename = ft_substr(input, *i - filename_len, filename_len);
 	if (filename == NULL)
-	{
-		ft_putendl_fd("alloc fail filename", STDERR_FILENO);
-		return (NULL);
-	}
+		return (malloc_error_return_null("tokenizer"));
 	return (filename);
 }
 
@@ -90,10 +84,7 @@ int	tokenize_operator(t_token *token, char *input, int *i)
 		token->type = PIPE;
 		token->value = ft_calloc(2, sizeof(char));
 		if (token->value == NULL)
-		{
-			ft_putendl_fd("alloc fail pipe", STDERR_FILENO);
-			return (EXIT_FAILURE);
-		}
+			return (malloc_error_return_failure("tokenizer"));
 		token->value[0] = '|';
 		(*i)++;
 	}
