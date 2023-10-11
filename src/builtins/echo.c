@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 15:42:44 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/10/11 16:22:20 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/11 16:43:17 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ static int	st_echo(t_command *command)
 	check = printf("\n");
 	if (check < 0)
 		return (EXIT_FAILURE);
+	rl_on_new_line();
 	return (EXIT_SUCCESS);
 }
 
@@ -70,7 +71,7 @@ int	bltin_echo(t_exec_var *var, t_command *command)
 		return (EXIT_FAILURE);
 	if (command->command == NULL)
 		return (EXIT_FAILURE);
-	if (ft_strncmp((command->command)[1], "-n", 2) == 0)
+	if (ft_strncmp((command->command)[1], "-n", 3) == 0)
 		return (st_echo_n(command));
 	else
 		return (st_echo(command));
