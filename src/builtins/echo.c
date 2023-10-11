@@ -1,14 +1,15 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                       ::::::::             */
-/*   echo.c                                            :+:    :+:             */
-/*                                                    +:+                     */
-/*   By: jhendrik <marvin@42.fr>                     +#+                      */
-/*                                                  +#+                       */
-/*   Created: 2023/09/18 15:42:44 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/11 12:11:08 by jhendrik      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   echo.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/09/18 15:42:44 by jhendrik          #+#    #+#             */
+/*   Updated: 2023/10/11 12:48:22 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "minishell.h"
 
 static int	st_echo_n(t_command *command)
@@ -59,6 +60,6 @@ int	bltin_echo(t_exec_var *var, t_command *command)
 		return (EXIT_FAILURE);
 	if (ft_strncmp((command->command)[1], "-n", 2) == 0)
 		return (st_echo_n(command));
-	else 
+	else
 		return (st_echo(command));
 }
