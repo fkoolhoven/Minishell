@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:08:39 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/09 15:29:18 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/11 10:03:46 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ int	minishell(t_htable *env)
 	//	printf("Pointer user_input 1: %p\n", user_input);
 		if (!(user_input))
 		{
+			terminate_hashtable(env);
 			printf("Exiting shell...\n");
 			exit(exit_code);
 		}
