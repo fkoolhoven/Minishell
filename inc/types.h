@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   types.h                                            :+:      :+:    :+:   */
+/*   types.h                                           :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 11:01:53 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/10/06 13:52:38 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/11 12:09:30 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,10 @@ typedef struct s_exec_var
 	t_command	*cmnd_list;
 	t_htable	*env;
 	char		**env_str;
-	int			fd_pipe[2];
+	int			*fd_pipe;
 	int			last_cmnd;
+	int			exit_status;
+	int			fd_read;
 	pid_t		process;
 }	t_exec_var;
 

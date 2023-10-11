@@ -6,100 +6,89 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/09/18 12:02:47 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/09/18 14:22:33 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/11 12:18:38 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
 
-/* Childprocess: 
-   		To add: 	1.	distinction between builtins and other commands --> DONE
-					2.	get correct path for command ???
-					3.	Write execute_builtin()
-					4. 	Write exec_error_handler() or a special error_handler for this case 
-					5. 	...
-		Explanation:	The function first swaps the necessary filedescriptors by calling
-							the function swap_filedescriptors(), this function closes all the 
-							unnecessary filedescriptors 
-						Then the function checks whether the command is a builtin by calling
-							check_if_builtin() 
-						If it is a builtin, the function execute_builtin() is called
-						Otherwise, execve() is used
-							This function only returns to the programming of original process
-							if it cannot execute the command given
-							which is either if the file has the wrong permissions (exit value is 126)
-							or it doesn't exist (exit value is 127)
-
-   */
-void	child_process(t_exec_var *var, t_command *cmnd)
+int	child_process_onecmnd(t_exec_var *var, t_command *cmnd)
 {
-	int	bltin_index;
+	int		check;
+	char	*valid_cmnd;
 
 	if (var != NULL && cmnd != NULL)
 	{
-		swap_filedescriptors(var, cmnd);
+		check = swap_filedescriptors(var, cmnd);
+		if (check == EXIT_FAILURE)
+			exit(EXIT_FAILURE);
+		wrap_sighandler(SIGINT, SIG_DFL);
+		valid_cmnd = find_command_path(var, cmnd);
+		execve(valid_cmnd, cmnd->command, var->env_str);
+		if (valid_cmnd == NULL)
+			exit(exec_error_child_notfound(var, valid_cmnd, cmnd));
+		exit(exec_error_child_denied(var, valid_cmnd, cmnd));
+	}
+	terminate_execvar(var);
+	exit(EXIT_FAILURE);
+}
+
+int	child_process(t_exec_var *var, t_command *cmnd)
+{
+	int		bltin_index;
+	int		check;
+	char	*valid_cmnd;
+
+	if (var != NULL && cmnd != NULL)
+	{
+		wrap_sighandler(SIGINT, SIG_DFL);
+		check = swap_filedescriptors(var, cmnd);
+		if (check == EXIT_FAILURE)
+			exit(EXIT_FAILURE);
 		bltin_index = check_if_builtin(var, cmnd);
 		if (bltin_index >= 0)
 			exit(execute_builtin(var, cmnd, bltin_index));
 		else
 		{
-			execve((cmnd->command)[0], cmnd->command, var->env);
-			exec_error_handler(...);
+			valid_cmnd = find_command_path(var, cmnd);
+			execve(valid_cmnd, cmnd->command, var->env_str);
+			if (valid_cmnd == NULL)
+				exit(exec_error_child_notfound(var, valid_cmnd, cmnd));
+			exit(exec_error_child_denied(var, valid_cmnd, cmnd));
 		}
-		exit(EXIT_FAILURE);
 	}
+	terminate_execvar(var);
 	exit(EXIT_FAILURE);
 }
 
-/* Parentprocess
-   		To do:		1.	Write exec_error_handler function
-					2.	...
-		Explanation:	This function checks whether we are at the last parent process
-						or if we need to go on to produce more child processes
-						If it is the last parent process, then j == last_cmnd
-							and this process needs to wait for the last childprocess to 
-							end and return the proper exit status
-							... also, the heredocs are unlinked here, maybe it should be
-							done somewhere else, unless the executer also produces the
-							heredoc files.
-						If it is not the last parent process, then j != last_cmnd,
-							and it sets STDIN to the known pipes read-end so the pipe
-							can be reused for the next childprocess
-   */
-void	parent_process(t_exec_var *var, int j)
+int	parent_one_command(t_exec_var *var)
 {
 	int	waitstatus;
 
-	if (j != var->last_cmnd)
-	{
-		if (dup2(var->fd_pipe[0], STDIN_FILENO) < 0)
-			exec_error_handler(...);
-		close(var->fd_pipe[0]);
-		close(var->fd_pipe[1]);
-	}
-	else if (j == var->last_cmnd)
-	{
-		waitpid(var->process, &waitstatus, 0);
-		heredoc_unlinker(var->cmnd_list);
-		if (WIFEXITED(waitstatus))
-			exit(WEXITSTATUS(waitstatus));
-		else if (WIFSIGNALED(waitstatus))
-			exit(128 + WTERMSIG(waitstatus));
-		else
-			exit(EXIT_SUCCESS);
-	}
+	wrap_sighandler(SIGINT, SIG_IGN);
+	waitpid(var->process, &waitstatus, 0);
+	waitpid(0, NULL, 0);
+	wrap_sighandler(SIGINT, &catch_sigint_parent);
+	terminate_execvar(var);
+	if (WIFEXITED(waitstatus))
+		return (WEXITSTATUS(waitstatus));
+	else if (WIFSIGNALED(waitstatus))
+		return (128 + WTERMSIG(waitstatus));
+	else
+		return (EXIT_SUCCESS);
 }
 
-
-void	parent_one_command(t_exec_var *var)
+int	parent_process(t_exec_var *var, int j)
 {
-	int	waitstatus;
-
-	waitpid(var->process, &waitstatus, 0);
-	heredoc_unlinker(var->cmnd_list);
-	if (WIFEXITED(waitstatus))
-		exit(WEXITSTATUS(waitstatus));
-	else if (WIFSIGNALED(waitstatus))
-		exit(128 + WTERMSIG(waitstatus));
-	else
-		exit(EXIT_SUCCESS);
+	if (j < var->last_cmnd - 1)
+	{
+		if (var->fd_read >= 3)
+			close(var->fd_read);
+		var->fd_read = var->fd_pipe[0];
+		close(var->fd_pipe[1]);
+		return (EXIT_SUCCESS);
+	}
+	else if (j == var->last_cmnd - 1)
+		return (parent_one_command(var));
+	terminate_execvar(var);
+	return (EXIT_SUCCESS);
 }

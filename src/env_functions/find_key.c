@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   find_key.c                                         :+:      :+:    :+:   */
+/*   find_key.c                                        :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 16:53:05 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/09/22 15:37:57 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/11 12:14:20 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static char	*st_search_key(t_hnode *list, char *key)
 	tmp = list;
 	while (tmp)
 	{
-		if (ft_strncmp(key, tmp->key, ft_strlen(key)) == 0)
+		if (ft_strncmp(key, tmp->key, ft_strlen(key) + 1) == 0)
 			return (tmp->value);
 		tmp = tmp->next;
 	}
@@ -76,7 +76,7 @@ static t_hnode	*st_search_node(t_hnode *list, char *key)
 	tmp = list;
 	while (tmp)
 	{
-		if (ft_strncmp(key, tmp->key, ft_strlen(key)) == 0)
+		if (ft_strncmp(key, tmp->key, ft_strlen(key) + 1) == 0)
 			return (tmp);
 		tmp = tmp->next;
 	}

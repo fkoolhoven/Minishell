@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/09/18 15:42:44 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/09/20 09:41:16 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/11 12:11:08 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -21,12 +21,12 @@ static int	st_echo_n(t_command *command)
 	cmnd = command->command;
 	while (cmnd[i])
 	{
-		check = printf(cmnd[i]);
+		check = printf("%s", cmnd[i]);
 		if (check < 0)
 			return (EXIT_FAILURE);
 		i++;
 	}
-	return (EXIT_SUCCES);
+	return (EXIT_SUCCESS);
 }
 
 static int	st_echo(t_command *command)
@@ -39,7 +39,7 @@ static int	st_echo(t_command *command)
 	cmnd = command->command;
 	while (cmnd[i])
 	{
-		check = printf(cmnd[i]);
+		check = printf("%s", cmnd[i]);
 		if (check < 0)
 			return (EXIT_FAILURE);
 		i++;
@@ -47,10 +47,10 @@ static int	st_echo(t_command *command)
 	check = printf("\n");
 	if (check < 0)
 		return (EXIT_FAILURE);
-	return (EXIT_SUCCES);
+	return (EXIT_SUCCESS);
 }
 
-int	bltint_echo(t_exec_var *var, t_command *command)
+int	bltin_echo(t_exec_var *var, t_command *command)
 {
 	rl_on_new_line();
 	if (var == NULL || command == NULL)
