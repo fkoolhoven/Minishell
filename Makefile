@@ -6,7 +6,7 @@
 #    By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/31 14:20:16 by jhendrik          #+#    #+#              #
-#    Updated: 2023/10/09 15:48:25 by fkoolhov         ###   ########.fr        #
+#    Updated: 2023/10/11 12:19:48 by fkoolhov         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,7 +70,8 @@ SRC			:= main.c \
 			   env_functions/convert_utils.c \
 			   env_functions/test_ft.c \
 			   builtins/export.c \
-			   builtins/env.c
+			   builtins/env.c \
+			   builtins/unset.c
 OBJ			:= $(addprefix $(OBJ_DIR)/,$(SRC:.c=.o))
 LIBS		:= $(LIB_DIR)/libft.a
 MINI_HEADER	:= ./inc/minishell.h

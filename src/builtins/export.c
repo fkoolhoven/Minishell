@@ -6,15 +6,15 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 15:20:23 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/09 16:41:17 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/11 12:33:38 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// to do: export without any arguments should display all exported variables
+// check which chars are valid for export
 
-char	*get_key(char *command)
+static char	*get_key(char *command)
 {
 	char	*key;
 	int		i;
@@ -30,7 +30,7 @@ char	*get_key(char *command)
 	return (key);
 }
 
-int	calculate_value_strlen(char *value, int key_end)
+static int	calculate_value_strlen(char *value, int key_end)
 {
 	int	strlen;
 	int	i;
@@ -45,7 +45,7 @@ int	calculate_value_strlen(char *value, int key_end)
 	return (strlen);
 }
 
-char	*get_value(char *command, int key_end)
+static char	*get_value(char *command, int key_end)
 {
 	char	*untrimmed_value;
 	char	*value;
@@ -65,7 +65,7 @@ char	*get_value(char *command, int key_end)
 	return (value);
 }
 
-int	print_env_list(char **env)
+static void	print_env_list(char **env)
 {
 	int	i;
 
@@ -75,7 +75,6 @@ int	print_env_list(char **env)
 		printf("declare -x %s\n", env[i]);
 		i++;
 	}
-	return (EXIT_SUCCESS);
 }
 
 int	export(t_exec_var *var, t_command *command_struct)
@@ -87,12 +86,13 @@ int	export(t_exec_var *var, t_command *command_struct)
 	int		i;
 
 	command = command_struct->command;
-	if (!command[1])
+	i = 1;
+	if (!command[i])
 	{
 		print_hashtable(var->env);
-		return (print_env_list(var->env_str));
+		print_env_list(var->env_str);
+		return (EXIT_FAILURE);
 	}
-	i = 1;
 	while (command[i])
 	{
 		key = get_key(command[i]);
@@ -111,6 +111,5 @@ int	export(t_exec_var *var, t_command *command_struct)
 		}
 		i++;
 	}
-	print_hashtable(var->env);
 	return (EXIT_SUCCESS);
 }

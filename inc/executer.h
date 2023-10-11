@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 10:59:43 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/10/09 16:06:22 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/11 12:19:29 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ void	parent_process(t_exec_var *var, int j);
 // builtins
 int		export(t_exec_var *var, t_command *s_command);
 int		env(t_exec_var *var, t_command *command_struct);
+int		unset(t_exec_var *var, t_command *command_struct);
 void	parent_one_command(t_exec_var *var);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:08:39 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/09 16:20:27 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/11 12:20:22 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	execute_builtin(t_exec_var *var, t_command *cmnd, int bltin)
 	jmptbl[2] = NULL;
 	jmptbl[3] = &env;
 	jmptbl[4] = &export;
-	jmptbl[5] = NULL;
+	jmptbl[5] = &unset;
 	jmptbl[6] = NULL;
 
 	if (bltin >= 0 && bltin <= 6)
@@ -61,7 +61,7 @@ int	execute(t_command *cmnd_list, t_htable *environ)
 		var.fd_pipe = fd;
 		var.process = 1;
 		var.last_cmnd = size_cmndlist(cmnd_list);
-		execute_builtin(&var, cmnd_list, 4);
+		execute_builtin(&var, cmnd_list, 5);
 	}
 	return (EXIT_FAILURE);
 }
