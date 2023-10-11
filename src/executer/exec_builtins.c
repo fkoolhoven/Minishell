@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/09/18 09:57:46 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/11 16:14:13 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/11 16:28:33 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -65,6 +65,7 @@ int	check_if_builtin(t_exec_var *var, t_command *command)
 
 int	execute_builtin(t_exec_var *var, t_command *cmnd, int bltin)
 {
+	int			status;
 	t_f_bltin	jmptbl[7];
 
 	jmptbl[0] = &bltin_cd;
@@ -75,7 +76,9 @@ int	execute_builtin(t_exec_var *var, t_command *cmnd, int bltin)
 	jmptbl[5] = &bltin_pwd;
 	jmptbl[6] = &bltin_unset;
 	if (bltin >= 0 && bltin <= 6)
-		return (jmptbl[bltin](var, cmnd));
+		status = jmptbl[bltin](var, cmnd);
 	else
-		return (jmptbl[(bltin % 7)](var, cmnd));
+		status = jmptbl[(bltin % 7)](var, cmnd);
+	terminate_execvar(var);
+	return (status);
 }
