@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 11:01:53 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/10/11 12:38:50 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/11 16:42:56 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ typedef struct s_parser_var
 {
 	t_redirect	*in;
 	t_redirect	*out;
-	size_t		amount_of_words;
+	int			amount_of_words;
 	char		**old_command;
 	char		**command;
 	t_command	*command_list;

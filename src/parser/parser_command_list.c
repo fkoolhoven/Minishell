@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 16:51:01 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/06 16:52:58 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/11 16:36:41 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,24 @@ void	lstadd_back_command(t_command **lst, t_command *new)
 		last = lstlast_command(*lst);
 		last->next = new;
 	}
+}
+
+int	add_command_to_list(t_parser_var *var)
+{
+	t_command	*new_command;
+
+	if (!var->command_list)
+	{
+		var->command_list = lstnew_command(var->command, var->in, var->out);
+		if (var->command_list == NULL)
+			return (malloc_error_return_failure("parser"));
+	}
+	else
+	{
+		new_command = lstnew_command(var->command, var->in, var->out);
+		if (new_command == NULL)
+			return (malloc_error_return_failure("parser"));
+		lstadd_back_command(&var->command_list, new_command);
+	}
+	return (EXIT_SUCCESS);
 }

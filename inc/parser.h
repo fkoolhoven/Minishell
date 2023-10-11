@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:39:28 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/06 16:53:08 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/11 16:23:36 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define PARSER_H
 
 // parser.c
-t_command	*parse_tokens(t_list **tokens);
+t_command	*parse(t_list **tokens);
 
 // parser_test.c TEST FUNCTIONS!
 void		print_redirections(t_redirect *lst);
@@ -22,17 +22,19 @@ void		print_string_array(char **str_array);
 void		print_command_list(t_command *list);
 
 // parser_command_list.c
+int			add_command_to_list(t_parser_var *var);
 t_command	*lstnew_command(char **command, t_redirect *in, t_redirect *out);
 void		lstadd_back_command(t_command **lst, t_command *new);
 
 // parser_redirect_list.c
+int			add_redirect_to_list(t_redirect **redir_lst, int type, char *value);
 t_redirect	*lstnew_redirect(int type, char *value);
 void		lstadd_back_redirect(t_redirect **lst, t_redirect *new);
 
-// parser_parse.c
-int			parse_word(t_list **tokens, t_token **token, t_parser_var *var);
-int			parse_redirect(t_list **tokens, t_token **token, t_parser_var *var);
-int			parse_pipe(t_list **tokens, t_token **token, t_parser_var *var);
+// parser_parse_token.c
+int			parse_word_token(t_list **toks, t_token **tok, t_parser_var *v);
+int			parse_redirect_token(t_list **toks, t_token **tok, t_parser_var *v);
+int			parse_pipe_token(t_list **toks, t_token **tok, t_parser_var *v);
 
 // parser_utils.c
 bool		token_is_input_type(t_token *token);
