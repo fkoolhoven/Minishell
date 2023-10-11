@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 16:53:05 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/10/09 16:48:41 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/11 12:40:22 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static char	*st_search_key(t_hnode *list, char *key)
 	tmp = list;
 	while (tmp)
 	{
-		if (ft_strncmp(key, tmp->key, ft_strlen(key)) == 0)
+		if (ft_strncmp(key, tmp->key, ft_strlen(key) + 1) == 0)
 			return (tmp->value);
 		tmp = tmp->next;
 	}

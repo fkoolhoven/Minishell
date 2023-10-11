@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/10/09 12:26:03 by fkoolhov         ###   ########.fr       */
+/*   Created: 2023/09/15 11:01:53 by jhendrik          #+#    #+#             */
+/*   Updated: 2023/10/11 12:38:50 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ typedef struct s_exec_var
 	char		**env_str;
 	int			*fd_pipe;
 	int			last_cmnd;
+	int			exit_status;
+	int			fd_read;
 	pid_t		process;
 }	t_exec_var;
 

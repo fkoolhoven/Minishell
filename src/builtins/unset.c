@@ -6,13 +6,13 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 15:20:00 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/11 12:33:36 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/11 12:44:29 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	unset(t_exec_var *var, t_command *command_struct)
+int	bltin_unset(t_exec_var *var, t_command *command_struct)
 {
 	char	**command;
 	int		i;

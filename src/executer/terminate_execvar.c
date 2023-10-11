@@ -1,28 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                       ::::::::             */
-/*   cd.c                                              :+:    :+:             */
+/*   terminate_execvar.c                               :+:    :+:             */
 /*                                                    +:+                     */
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
-/*   Created: 2023/10/11 10:37:19 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/11 12:10:12 by jhendrik      ########   odam.nl         */
+/*   Created: 2023/10/11 10:25:59 by jhendrik      #+#    #+#                 */
+/*   Updated: 2023/10/11 12:21:58 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "minishell.h"
 
-int	bltin_cd(t_exec_var *var, t_command *cmnd)
+void	terminate_execvar(t_exec_var *var)
 {
-	if (var == NULL || cmnd == NULL)
-		return (EXIT_FAILURE);
-	else
+	if (var != NULL)
 	{
-		printf("Command: ");
-		if ((cmnd->command)[0] != NULL)
-			printf("%s \n", (cmnd->command)[0]);
-		else
-			printf("(NULL) ???\n");
-		return (EXIT_SUCCESS);
+		if (var->env_str != NULL)
+			ft_free_str_array(var->env_str);
+		if (var->fd_pipe != NULL)
+		{
+			if ((var->fd_pipe)[0] >= 3)
+				close((var->fd_pipe)[0]);
+			if ((var->fd_pipe)[1] >= 3)
+				close((var->fd_pipe)[1]);
+		}
+		if (var->fd_read >= 3)
+			close(var->fd_read);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 15:20:23 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/11 12:33:38 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/11 12:44:18 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ static void	print_env_list(char **env)
 	}
 }
 
-int	export(t_exec_var *var, t_command *command_struct)
+int	bltin_export(t_exec_var *var, t_command *command_struct)
 {
 	char	**command;
 	char	*key;
