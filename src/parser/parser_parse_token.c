@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 18:03:26 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/11 16:49:23 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/11 17:13:56 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	parse_redirect_token(t_list **tokens, t_token **current, t_parser_var *var)
 	return (EXIT_SUCCESS);
 }
 
-int	calculate_amount_of_words(t_list *tokens, t_token *token)
+static int	calculate_amount_of_words(t_list *tokens, t_token *token)
 {
 	int	amount_of_words;
 

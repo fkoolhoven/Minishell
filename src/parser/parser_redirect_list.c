@@ -6,13 +6,13 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 16:50:44 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/11 16:19:50 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/11 17:12:35 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_redirect	*lstlast_redirect(t_redirect *lst)
+static t_redirect	*lstlast_redirect(t_redirect *lst)
 {
 	t_redirect	*ptr_cur;
 	t_redirect	*ptr_prv;
@@ -29,7 +29,7 @@ t_redirect	*lstlast_redirect(t_redirect *lst)
 	return (ptr_prv);
 }
 
-t_redirect	*lstnew_redirect(int type, char *value)
+static t_redirect	*lstnew_redirect(int type, char *value)
 {
 	t_redirect	*node;
 
@@ -42,7 +42,7 @@ t_redirect	*lstnew_redirect(int type, char *value)
 	return (node);
 }
 
-void	lstadd_back_redirect(t_redirect **lst, t_redirect *new)
+static void	lstadd_back_redirect(t_redirect **lst, t_redirect *new)
 {
 	t_redirect	*last;
 

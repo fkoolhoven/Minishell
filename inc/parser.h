@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:39:28 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/11 16:23:36 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/11 17:17:56 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,9 @@ void		print_command_list(t_command *list);
 
 // parser_command_list.c
 int			add_command_to_list(t_parser_var *var);
-t_command	*lstnew_command(char **command, t_redirect *in, t_redirect *out);
-void		lstadd_back_command(t_command **lst, t_command *new);
 
 // parser_redirect_list.c
 int			add_redirect_to_list(t_redirect **redir_lst, int type, char *value);
-t_redirect	*lstnew_redirect(int type, char *value);
-void		lstadd_back_redirect(t_redirect **lst, t_redirect *new);
 
 // parser_parse_token.c
 int			parse_word_token(t_list **toks, t_token **tok, t_parser_var *v);
@@ -42,9 +38,6 @@ bool		token_is_output_type(t_token *token);
 
 // parser_terminate.c
 void		terminate_command_list(t_command **list_start);
-void		terminate_command_list_error(t_command **list_start);
-void		terminate_redirect_list(t_redirect *redirect);
-void		terminate_redirect_list_error(t_redirect *redirect);
 void		*parser_terminate_error(t_list **list_start, t_parser_var *var);
 
 #endif

@@ -6,13 +6,13 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 16:51:01 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/11 16:36:41 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/11 17:18:30 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_command	*lstlast_command(t_command *lst)
+static t_command	*lstlast_command(t_command *lst)
 {
 	t_command	*ptr_cur;
 	t_command	*ptr_prv;
@@ -29,7 +29,8 @@ t_command	*lstlast_command(t_command *lst)
 	return (ptr_prv);
 }
 
-t_command	*lstnew_command(char **command, t_redirect *in, t_redirect *out)
+static t_command	*lstnew_command(char **command,
+	t_redirect *in, t_redirect *out)
 {
 	t_command	*node;
 
@@ -43,7 +44,7 @@ t_command	*lstnew_command(char **command, t_redirect *in, t_redirect *out)
 	return (node);
 }
 
-void	lstadd_back_command(t_command **lst, t_command *new)
+static void	lstadd_back_command(t_command **lst, t_command *new)
 {
 	t_command	*last;
 

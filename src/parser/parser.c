@@ -6,44 +6,44 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:59:40 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/11 16:44:25 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/11 17:19:34 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	parse_until_pipe(t_list **tokens, t_token **token, t_parser_var *var)
+static int	parse_until_pipe(t_list **tokens, t_token **token, t_parser_var *v)
 {
 	*token = (t_token *)(*tokens)->content;
 	while (*tokens && (*token)->type != WORD && (*token)->type != PIPE)
 	{
-		if (parse_redirect_token(tokens, token, var))
+		if (parse_redirect_token(tokens, token, v))
 			return (EXIT_FAILURE);
 	}
 	while (*tokens && (*token)->type == WORD)
 	{
-		if (parse_word_token(tokens, token, var))
+		if (parse_word_token(tokens, token, v))
 			return (EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);
 }
 
-int	parse_one_command(t_list **tokens, t_token **token, t_parser_var *var)
+static int	parse_one_command(t_list **tokens, t_token **token, t_parser_var *v)
 {
 	while (*tokens && (*token)->type != PIPE)
 	{
-		if (parse_until_pipe(tokens, token, var))
+		if (parse_until_pipe(tokens, token, v))
 			return (EXIT_FAILURE);
 	}
 	if (*tokens && (*token)->type == PIPE)
 	{
-		if (parse_pipe_token(tokens, token, var))
+		if (parse_pipe_token(tokens, token, v))
 			return (EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);
 }
 
-t_parser_var	*init_parser_vars(void)
+static t_parser_var	*init_parser_vars(void)
 {
 	t_parser_var	*var;
 

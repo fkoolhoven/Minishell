@@ -6,13 +6,13 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 13:41:43 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/29 11:51:25 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/11 17:15:32 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	terminate_redirect_list_error(t_redirect *redirect)
+static void	terminate_redirect_list_error(t_redirect *redirect)
 {
 	t_redirect	*temp;
 
@@ -24,7 +24,7 @@ void	terminate_redirect_list_error(t_redirect *redirect)
 	}
 }
 
-void	terminate_redirect_list(t_redirect *redirect)
+static void	terminate_redirect_list(t_redirect *redirect)
 {
 	t_redirect	*temp;
 
@@ -37,7 +37,7 @@ void	terminate_redirect_list(t_redirect *redirect)
 	}
 }
 
-void	terminate_command_list_error(t_command **list_start)
+static void	terminate_command_list_error(t_command **list_start)
 {
 	t_command	*command;
 	t_command	*temp;
