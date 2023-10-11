@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/09/15 10:41:54 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/11 12:15:57 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/11 16:15:40 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -14,6 +14,7 @@
 static int	st_execute_one_cmnd(t_exec_var *var)
 {
 	int	bltin_index;
+	int	status;
 
 	if (var == NULL)
 		return (EXIT_FAILURE);
@@ -21,7 +22,11 @@ static int	st_execute_one_cmnd(t_exec_var *var)
 		return (EXIT_FAILURE);
 	bltin_index = check_if_builtin(var, var->cmnd_list);
 	if (bltin_index >= 0)
-		return (execute_builtin(var, var->cmnd_list, bltin_index));
+	{
+		status = execute_builtin(var, var->cmnd_list, bltin_index);
+		terminate_execvar(var);
+		return (status);
+	}
 	else
 	{
 		var->process = fork();
