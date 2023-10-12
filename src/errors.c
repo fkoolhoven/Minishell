@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 15:17:56 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/11 16:10:40 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/12 16:13:03 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,16 @@ int	malloc_error_return_failure(char *message)
 	return (EXIT_FAILURE);
 }
 
-int	error_return_failure(char *message)
+void	*syntax_error_return_null(char *message)
 {
-	ft_putstr_fd("minishell: error: ", STDERR_FILENO);
+	ft_putstr_fd("minishell: syntax error: ", STDERR_FILENO);
+	ft_putendl_fd(message, STDERR_FILENO);
+	return (NULL);
+}
+
+int	syntax_error_return_failure(char *message)
+{
+	ft_putstr_fd("minishell: syntax error: ", STDERR_FILENO);
 	ft_putendl_fd(message, STDERR_FILENO);
 	return (EXIT_FAILURE);
 }

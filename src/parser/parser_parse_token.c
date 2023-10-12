@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 18:03:26 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/11 17:13:56 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/12 16:08:49 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@ int	parse_pipe_token(t_list **tokens, t_token **token, t_parser_var *var)
 	{
 		*token = (t_token *)(*tokens)->content;
 		if ((*token)->type == PIPE)
-			return (error_return_failure("subsequent pipes"));
+			return (syntax_error_return_failure("subsequent pipes"));
 	}
 	else
-		return (error_return_failure("missing command"));
+		return (syntax_error_return_failure("missing command"));
 	return (EXIT_SUCCESS);
 }
 

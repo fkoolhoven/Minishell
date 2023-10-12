@@ -1,18 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand_variable.c                                  :+:      :+:    :+:   */
+/*   token_expand_variable.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 16:43:49 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/12 15:54:19 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/12 17:19:06 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	replace_var(t_token *token, char *new_value, int beginning_len, int rm_len)
+static int	replace_var(t_token *token, char *new_value,
+	int beginning_len, int rm_len)
 {
 	char	*new_str;
 	int		end_len;
@@ -59,6 +60,8 @@ int	expand_variable(t_token *token, t_htable *env, int *i)
 		return (malloc_error_return_failure("expander"));
 	new_value = find_env_value(env, key);
 	free(key);
+	if (!new_value)
+		return (VALUE_NOT_FOUND);
 	if (replace_var(token, new_value, start, *i - start) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	*i = start - 1;

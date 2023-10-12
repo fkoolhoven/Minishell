@@ -1,6 +1,4 @@
 To Felicia:
-- Figure out signals
-- Fix norminette
 - Rewrite pointer stuff in parser to be more readable
 - Figure out error handling for token/expand/parse
 - Check for mem leaks if expand can't find var

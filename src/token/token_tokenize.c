@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 16:36:40 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/11 17:56:46 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/12 17:25:20 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,7 @@ static char	*get_filename_or_delimiter(char *input, int *i)
 	while (ft_isspace(input[*i]) && input[*i])
 		(*i)++;
 	if (!input[*i] || char_is_operator(input[*i]))
-	{
-		ft_putendl_fd("missing filename for redirection", STDERR_FILENO);
-		return (NULL);
-	}
+		return (syntax_error_return_null("missing filename"));
 	filename_len = calculate_strlen_for_token_value(input, i);
 	filename = ft_substr(input, *i - filename_len, filename_len);
 	if (filename == NULL)
@@ -66,6 +63,8 @@ static int	tokenize_infiles_and_outfiles(t_token *token, char *input, int *i)
 			token->type = OUTFILE;
 	}
 	(*i)++;
+	if (char_is_operator(input[*i]))
+		return (syntax_error_return_failure("subsequent operators"));
 	token->value = get_filename_or_delimiter(input, i);
 	if (!token->value)
 		return (EXIT_FAILURE);

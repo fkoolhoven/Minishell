@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:47:37 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/11 18:04:15 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/12 16:37:47 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,11 @@ static char	*get_new_value_without_quotes(char *old_value, int *i)
 
 	first_quote = *i;
 	*i = find_next_quote(old_value, *i);
+	if (!old_value[*i])
+	{
+		free(old_value);
+		return (syntax_error_return_null("unclosed quote"));
+	}
 	new_value = remove_char_from_string(old_value, first_quote);
 	if (new_value == NULL)
 		return (NULL);
