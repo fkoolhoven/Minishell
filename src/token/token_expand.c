@@ -1,20 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand.c                                           :+:      :+:    :+:   */
+/*   token_expand.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 15:47:26 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/06 16:54:07 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/12 16:00:10 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// Skips over everything in between single quotes, while still
-// respecting single quotes that are in between double quotes
-bool	prevent_expansion_in_single_quotes(t_token *token, int *i)
+static bool	prevent_expansion_in_single_quotes(t_token *token, int *i)
 {
 	static bool	in_double_quotes;
 
@@ -34,9 +32,7 @@ bool	prevent_expansion_in_single_quotes(t_token *token, int *i)
 	return (false);
 }
 
-// Sends only expandables that are not in between single quotes
-// to the expand_variable function
-int	find_expandables(t_token *token, t_htable *env)
+static int	find_expandables(t_token *token, t_htable *env)
 {
 	bool	quote_check;
 	int		i;
@@ -58,8 +54,7 @@ int	find_expandables(t_token *token, t_htable *env)
 	return (EXIT_SUCCESS);
 }
 
-// Goes through the list of tokens
-int	expand(t_list **list_start, t_htable *env)
+int	expand_tokens(t_list **list_start, t_htable *env)
 {
 	t_token	*current_token;
 	t_list	*tokens;

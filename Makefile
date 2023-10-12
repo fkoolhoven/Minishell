@@ -6,7 +6,7 @@
 #    By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/31 14:20:16 by jhendrik          #+#    #+#              #
-#    Updated: 2023/10/11 17:52:58 by fkoolhov         ###   ########.fr        #
+#    Updated: 2023/10/12 15:57:24 by fkoolhov         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,6 @@ SUBDIR		:= . \
 			   builtins \
 			   utils \
 			   executer \
-			   expander \
 			   parser \
 			   signals \
 			   token \
@@ -38,6 +37,8 @@ SRC			:= main.c \
 			   token/token_test.c \
 			   token/token_utils.c \
 			   token/token_tokenize.c \
+			   token/token_expand.c \
+			   token/token_expand_variable.c \
 			   token/token_quotes.c \
 			   token/token_terminate.c \
 			   parser/parser.c \
@@ -47,8 +48,6 @@ SRC			:= main.c \
 			   parser/parser_redirect_list.c \
 			   parser/parser_bools.c \
 			   parser/parser_terminate.c \
-			   expander/expand.c \
-			   expander/expand_variable.c \
 			   signals/signals.c \
 			   signals/sig_wrapper.c \
 			   executer/heredoc_handler.c \

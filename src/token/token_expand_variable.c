@@ -6,15 +6,13 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 16:43:49 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/11 14:53:06 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/12 15:54:19 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// Replaces the old variable (for example $USER) with new_value (for example
-// fkoolhov) from the env
-int	replace_var(t_token *token, char *new_value, int beginning_len, int rm_len)
+static int	replace_var(t_token *token, char *new_value, int beginning_len, int rm_len)
 {
 	char	*new_str;
 	int		end_len;
@@ -33,7 +31,7 @@ int	replace_var(t_token *token, char *new_value, int beginning_len, int rm_len)
 	return (EXIT_SUCCESS);
 }
 
-bool	end_of_expandable_is_found(char c)
+static bool	end_of_expandable_is_found(char c)
 {
 	if (c == '\0')
 		return (true);
@@ -46,8 +44,6 @@ bool	end_of_expandable_is_found(char c)
 	return (false);
 }
 
-// Gets the new value from the env list and hands it to replace_var
-// that will replace old with new value;
 int	expand_variable(t_token *token, t_htable *env, int *i)
 {
 	char	*key;

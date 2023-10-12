@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 16:35:30 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/11 18:03:15 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/12 15:58:11 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ bool	char_is_operator(char c)
 		return (false);
 }
 
-bool	end_of_value(char c)
+static bool	end_of_value(char c)
 {
 	if (ft_isspace(c))
 		return (true);

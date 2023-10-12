@@ -6,10 +6,9 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 11:01:53 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/10/11 16:42:56 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/12 16:00:39 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef TYPES_H
 # define TYPES_H
