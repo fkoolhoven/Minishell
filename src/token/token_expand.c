@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 15:47:26 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/12 17:21:58 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/13 14:40:34 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,23 +56,16 @@ static int	find_expandables(t_token *token, t_htable *env)
 	return (EXIT_SUCCESS);
 }
 
-void	remove_token_from_list(t_list **list_start, int index_to_remove)
+static void	remove_token_from_list(t_list **list_start, int index_to_remove)
 {
 	int		i;
-	t_list	*new_previous;
-	t_list	*new_next;
 	t_list	*to_delete;
 	t_list	*token;
 
 	token = *list_start;
 	i = 0;
 	if (index_to_remove == 0)
-	{
 		*list_start = (*list_start)->next;
-		terminate_token(token);
-	}
-	else if (index_to_remove == ft_lstsize(*list_start))
-		terminate_token(token);
 	else
 	{
 		while (i != index_to_remove - 1)
@@ -80,24 +73,22 @@ void	remove_token_from_list(t_list **list_start, int index_to_remove)
 			token = token->next;
 			i++;
 		}
-		new_previous = token;
 		to_delete = token->next;
-		new_next = to_delete->next;
-		new_previous->next = new_next;
-		terminate_token(to_delete);
+		token->next = to_delete->next;
+		token = to_delete;
 	}
+	terminate_token(token);
 }
 
 int	expand_tokens(t_list **list_start, t_htable *env)
 {
 	t_token	*current_token;
-	t_list	*next_token;
 	t_list	*tokens;
 	int		exit_code;
-	int		index;
+	int		token_index;
 
 	tokens = *list_start;
-	index = 0;
+	token_index = 0;
 	while (tokens)
 	{
 		current_token = (t_token *)tokens->content;
@@ -107,17 +98,11 @@ int	expand_tokens(t_list **list_start, t_htable *env)
 			terminate_token_list_error(list_start);
 			return (EXIT_FAILURE);
 		}
-		else if (exit_code == VALUE_NOT_FOUND)
-		{
-			next_token = tokens->next;
-			remove_token_from_list(list_start, index);
-			tokens = next_token;
-		}
+		tokens = tokens->next;
+		if (exit_code == VALUE_NOT_FOUND)
+			remove_token_from_list(list_start, token_index);
 		else
-		{
-			tokens = tokens->next;
-			index++;
-		}
+			token_index++;
 	}
 	return (EXIT_SUCCESS);
 }
