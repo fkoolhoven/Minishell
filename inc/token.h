@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:39:28 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/12 17:21:26 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/13 16:02:04 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,5 @@ int		find_next_quote(char *input, int i);
 void	terminate_token(t_list *token);
 void	terminate_token_list(t_list **list_start);
 void	*terminate_token_list_error(t_list **list_start);
-
 
 #endif
