@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 15:47:26 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/13 14:40:34 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/13 15:27:24 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ static int	find_expandables(t_token *token, t_htable *env)
 			if (exit_code != EXIT_SUCCESS)
 				return (exit_code);
 		}
-		i++;
+		if (token->value[i])
+			i++;
 	}
 	return (EXIT_SUCCESS);
 }
@@ -99,7 +100,7 @@ int	expand_tokens(t_list **list_start, t_htable *env)
 			return (EXIT_FAILURE);
 		}
 		tokens = tokens->next;
-		if (exit_code == VALUE_NOT_FOUND)
+		if (exit_code == VALUE_NOT_FOUND && current_token->value == NULL)
 			remove_token_from_list(list_start, token_index);
 		else
 			token_index++;

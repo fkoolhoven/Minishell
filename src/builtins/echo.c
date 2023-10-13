@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 15:42:44 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/10/11 17:00:41 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/13 15:16:46 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,11 @@ int	bltin_echo(t_exec_var *var, t_command *command)
 		return (EXIT_FAILURE);
 	if (command->command == NULL)
 		return (EXIT_FAILURE);
+	if (command->command[1] == NULL)
+	{
+		printf("\n");
+		return (EXIT_SUCCESS);
+	}
 	if (ft_strncmp((command->command)[1], "-n", 3) == 0)
 		return (st_echo_n(command));
 	else
