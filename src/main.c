@@ -6,13 +6,13 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:08:39 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/13 10:49:15 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/13 14:24:41 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	parse_and_exec(t_htable *env, char *user_input, int exit_code)
+int	parse_and_exec(t_htable *env, char *user_input, int exit_code, char *cur_path)
 {
 	t_command	*command_list;
 	t_list		*tokens;
@@ -36,13 +36,13 @@ int	parse_and_exec(t_htable *env, char *user_input, int exit_code)
 	if (check != EXIT_SUCCESS)
 		return (terminate_command_list(&command_list), check);
 	display_heredocs(command_list);
-	exit_code = execute(command_list, env, exit_code);
+	exit_code = execute(command_list, env, exit_code, cur_path);
 	heredoc_unlinker(command_list);
 	terminate_command_list(&command_list);
 	return (exit_code);
 }
 
-int	minishell(t_htable *env)
+int	minishell(t_htable *env, char *cur_path)
 {
 	char	*user_input;
 	int		exit_code;
@@ -59,7 +59,7 @@ int	minishell(t_htable *env)
 		}
 		else
 		{
-			exit_code = parse_and_exec(env, user_input, exit_code);
+			exit_code = parse_and_exec(env, user_input, exit_code, cur_path);
 			printf("Exit code = %i\n", exit_code);
 			add_history(user_input);
 		}
@@ -72,12 +72,14 @@ int	minishell(t_htable *env)
 int	main(int argc, char **argv, char **envp)
 {
 	t_htable	*env;
+	char		cur_path[PATH_MAX];
 
 	env = init_env(envp);
+	getcwd(cur_path, PATH_MAX);
 	// print_hashtable(env);
 	argc = 0;
 	argv = NULL;
 	wrap_sighandler(SIGINT, &catch_sigint_parent);
 	wrap_sighandler(SIGQUIT, SIG_IGN);
-	return (minishell(env));
+	return (minishell(env, cur_path));
 }

@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/10/11 10:25:16 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/11 12:21:05 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/13 15:42:58 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -66,7 +66,7 @@ static void	st_change_fd(t_redirect *tmp, int *fd)
 		}
 		else if (tmp->type == OUTFILE_APPEND)
 		{
-			(*fd) = open(tmp->value, O_WRONLY);
+			(*fd) = open(tmp->value, O_WRONLY | O_APPEND);
 			if (*fd < 0)
 				st_open_file_failed(tmp);
 		}
