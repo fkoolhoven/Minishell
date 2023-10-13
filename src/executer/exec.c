@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/09/15 10:41:54 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/11 16:30:23 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/13 14:26:52 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -66,7 +66,7 @@ static int	st_execute_line(t_exec_var *var)
 	return (EXIT_FAILURE);
 }
 
-int	execute(t_command *cmnd_list, t_htable *environ, int exit_status)
+int	execute(t_command *cmnd_list, t_htable *environ, int exit_status, char *cur_path)
 {
 	t_exec_var	var;
 	int			fd[2];
@@ -75,6 +75,7 @@ int	execute(t_command *cmnd_list, t_htable *environ, int exit_status)
 		return (EXIT_FAILURE);
 	var.cmnd_list = cmnd_list;
 	var.env = environ;
+	var.cur_path = cur_path;
 	var.env_str = convert_htable_to_strarray(environ);
 	if (var.env_str == NULL)
 		return (EXIT_FAILURE);
