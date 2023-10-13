@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo.c                                             :+:      :+:    :+:   */
+/*   echo.c                                            :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 15:42:44 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/10/11 17:00:41 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/13 10:46:45 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	st_echo_n(t_command *command)
+static int	st_echo_n(t_exec_var *var, t_command *command)
 {
 	int		i;
 	int		check;
@@ -22,7 +22,10 @@ static int	st_echo_n(t_command *command)
 	cmnd = command->command;
 	while (cmnd[i])
 	{
-		check = printf("%s", cmnd[i]);
+		if (ft_strncmp(cmnd[i], "$?", 3) == 0)
+			check = printf("%i", var->exit_status);
+		else
+			check = printf("%s", cmnd[i]);
 		if (check < 0)
 			return (EXIT_FAILURE);
 		if (cmnd[i + 1] != NULL)
@@ -36,7 +39,7 @@ static int	st_echo_n(t_command *command)
 	return (EXIT_SUCCESS);
 }
 
-static int	st_echo(t_command *command)
+static int	st_echo(t_exec_var *var, t_command *command)
 {
 	int		i;
 	int		check;
@@ -46,7 +49,10 @@ static int	st_echo(t_command *command)
 	cmnd = command->command;
 	while (cmnd[i])
 	{
-		check = printf("%s", cmnd[i]);
+		if (ft_strncmp(cmnd[i], "$?", 3) == 0)
+			check = printf("%i", var->exit_status);
+		else
+			check = printf("%s", cmnd[i]);
 		if (check < 0)
 			return (EXIT_FAILURE);
 		if (cmnd[i + 1] != NULL)
