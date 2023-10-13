@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:47:37 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/12 16:37:47 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/13 15:58:05 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,30 @@ static char	*remove_char_from_string(char *string, int index)
 	return (result);
 }
 
+static char	*remove_quotes(char *old_value, int first_quote, int *i)
+{
+	int		second_quote;
+	char	*temp;
+	char	*new_value;
+
+	new_value = remove_char_from_string(old_value, first_quote);
+	if (new_value == NULL)
+		return (NULL);
+	(*i)--;
+	second_quote = *i;
+	temp = remove_char_from_string(new_value, second_quote);
+	if (temp == NULL)
+	{
+		free(new_value);
+		return (NULL);
+	}
+	new_value = temp;
+	(*i)--;
+	return (new_value);
+}
+
 static char	*get_new_value_without_quotes(char *old_value, int *i)
 {
-	char	*temp;
 	char	*new_value;
 	int		first_quote;
 
@@ -43,20 +64,7 @@ static char	*get_new_value_without_quotes(char *old_value, int *i)
 		free(old_value);
 		return (syntax_error_return_null("unclosed quote"));
 	}
-	new_value = remove_char_from_string(old_value, first_quote);
-	if (new_value == NULL)
-		return (NULL);
-	(*i)--;
-	if (new_value[*i] == '\0')
-		return (new_value);
-	temp = remove_char_from_string(new_value, *i);
-	if (temp == NULL)
-	{
-		free(new_value);
-		return (NULL);
-	}
-	new_value = temp;
-	(*i)--;
+	new_value = remove_quotes(old_value, first_quote, i);
 	return (new_value);
 }
 

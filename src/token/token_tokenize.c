@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 16:36:40 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/12 17:25:20 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/13 15:36:50 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,23 +45,19 @@ static int	tokenize_infiles_and_outfiles(t_token *token, char *input, int *i)
 	if (input[*i] == '<')
 	{
 		if (input[*i + 1] == '<')
-		{
 			token->type = HEREDOC;
-			(*i)++;
-		}
 		else
 			token->type = INFILE;
 	}
 	else if (input[*i] == '>')
 	{
 		if (input[*i + 1] == '>')
-		{
 			token->type = OUTFILE_APPEND;
-			(*i)++;
-		}
 		else
 			token->type = OUTFILE;
 	}
+	if (token->type == HEREDOC || token->type == OUTFILE_APPEND)
+		(*i)++;
 	(*i)++;
 	if (char_is_operator(input[*i]))
 		return (syntax_error_return_failure("subsequent operators"));
