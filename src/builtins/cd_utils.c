@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/10/16 11:22:33 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/16 13:04:52 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/16 16:57:04 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -44,8 +44,11 @@ int	cd_change_env(t_exec_var *var, char *new_path)
 			free(pwd->value);
 		(pwd->value) = ft_strdup(new_path);
 	}
-	ft_bzero(var->cur_path, PATH_MAX);
-	ft_strlcpy(var->cur_path, (pwd->value), PATH_MAX);
+	if (ft_strncmp(var->cur_path, new_path, ft_strlen(new_path) + 1) != 0)
+	{
+		ft_bzero(var->cur_path, PATH_MAX);
+		ft_strlcpy(var->cur_path, new_path, PATH_MAX);
+	}
 	return (EXIT_SUCCESS);
 }
 
@@ -91,7 +94,7 @@ int	cd_find_prevdir(char *new_path, int end)
 	int	i;
 
 	if (new_path == NULL || end < 0)
-		return (-1);
+		return (0);
 	i = end;
 	while (new_path[i] != '/' && i >= 0)
 		i--;

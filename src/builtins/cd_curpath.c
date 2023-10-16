@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/10/16 11:35:52 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/16 13:21:01 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/16 16:59:50 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,13 +86,8 @@ static char	*st_give_changing_path(t_exec_var *var, char *path)
 	if (new_path == NULL)
 		return (NULL);
 	st_edit_newpath(new_path, ft_strlen(new_path));
-	tmp_path = ft_strtrim(new_path, "/");
+	tmp_path = cd_strtrim(new_path, "/");
 	free(new_path);
-	if (tmp_path == NULL)
-	{
-		cd_put_error("No path left\n", NULL, path);
-		return (NULL);
-	}
 	return (tmp_path);
 }
 
@@ -108,7 +103,7 @@ int	cd_change_with_path(t_exec_var *var, char *path)
 	if (new_path == NULL)
 		return (EXIT_FAILURE);
 	check = chdir(new_path);
-	if (check < 0)
+	if (check < 0 && new_path != NULL && *new_path != '\0')
 	{
 		len = ft_strlen(var->cur_path);
 		if (len + 3 < PATH_MAX)
@@ -120,6 +115,8 @@ int	cd_change_with_path(t_exec_var *var, char *path)
 		cd_put_error(NULL, NULL, new_path);
 		return (free(new_path), cd_change_env(var, (var->cur_path)));
 	}
+	if (check < 0)
+		return (free(new_path), EXIT_SUCCESS);
 	check = cd_change_env(var, new_path);
 	return (free(new_path), check);
 }

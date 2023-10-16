@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/10/11 10:39:26 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/16 13:18:39 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/16 16:47:11 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,9 @@ int	cd_find_prevdir(char *new_path, int end);
 
 // cd_curpath.c ---------------------------------
 int	cd_change_with_path(t_exec_var *var, char *path);
+
+// cd_strtrim.c ---------------------------------
+char	*cd_strtrim(char const *s1, char const *set);
 
 // echo.c ---------------------------------------
 int	bltin_echo(t_exec_var *var, t_command *command);
