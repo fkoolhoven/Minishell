@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   executer.h                                         :+:      :+:    :+:   */
+/*   executer.h                                        :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 10:59:43 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/10/11 12:45:46 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/16 13:15:57 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int		check_if_builtin(t_exec_var *var, t_command *command);
 int		execute_builtin(t_exec_var *var, t_command *cmnd, int bltin);
 
 // exec.c -------------------------------------------------
-int		execute(t_command *cmnd_list, t_htable *environ, int exit_status);
+int		execute(t_command *cmnd_list, t_htable *env, int estatus, char *cur_path);
 
 // processes.c --------------------------------------------
 int		child_process(t_exec_var *var, t_command *cmnd);

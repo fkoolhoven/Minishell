@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 15:42:44 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/10/13 16:09:21 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/16 13:24:22 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static int	st_display_special_arg(t_exec_var *var, char *arg)
 		if (arg[i] == '\0')
 		{
 			if (st_put_partial_str(arg, start, i, ft_strlen(arg)) < 0)
-				return (check);
+				return (-1);
 		}
 	}
 	return (0);
@@ -103,7 +103,13 @@ int	bltin_echo(t_exec_var *var, t_command *command)
 	if (command->command == NULL)
 		return (EXIT_FAILURE);
 	if ((command->command)[1] == NULL)
-		return (...);
+	{
+		check = printf("\n");
+		if (check < 0)
+			return (EXIT_FAILURE);
+		rl_on_new_line();
+		return (EXIT_SUCCESS);
+	}
 	if (ft_strncmp((command->command)[1], "-n", 3) == 0)
 		return (st_display_args(var, command, 2));
 	check = st_display_args(var, command, 1);

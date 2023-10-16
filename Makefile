@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
+#    Makefile                                          :+:    :+:              #
 #                                                     +:+ +:+         +:+      #
 #    By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/31 14:20:16 by jhendrik          #+#    #+#              #
-#    Updated: 2023/10/12 15:57:24 by fkoolhov         ###   ########.fr        #
+#    Updated: 2023/10/16 13:13:30 by jhendrik      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -78,6 +78,8 @@ SRC			:= main.c \
 			   env_functions/convert_utils.c \
 			   env_functions/test_ft.c \
 			   builtins/cd.c \
+			   builtins/cd_utils.c \
+			   builtins/cd_curpath.c \
 			   builtins/echo.c \
 			   builtins/env.c \
 			   builtins/exit.c \
