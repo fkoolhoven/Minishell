@@ -6,12 +6,15 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:09:26 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/12 15:56:56 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/16 13:01:02 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+
+# define BOLDGREEN 	"\e[1;32m"
+# define OFF		"\033[0m"
 
 # include <stdio.h>
 # include <stdlib.h>

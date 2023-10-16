@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                       ::::::::             */
-/*   cd.c                                              :+:    :+:             */
-/*                                                    +:+                     */
-/*   By: jhendrik <marvin@42.fr>                     +#+                      */
-/*                                                  +#+                       */
-/*   Created: 2023/10/11 10:37:19 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/13 14:07:19 by jhendrik      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   cd.c                                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/11 10:37:19 by jhendrik          #+#    #+#             */
+/*   Updated: 2023/10/16 12:21:36 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@ static int	st_give_args_count(char **command)
 	return (argc);
 }
 
-static int	st_go_home()
-{
+// static int	st_go_home()
+// {
 
-}
+// }
 
 int	bltin_cd(t_exec_var *var, t_command *cmnd)
 {
@@ -42,5 +42,5 @@ int	bltin_cd(t_exec_var *var, t_command *cmnd)
 		ft_putstr_fd(": too many arguments\n", 2);
 		return (EXIT_FAILURE);
 	}
-	
+	return (EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 11:22:13 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/09/21 16:57:44 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/16 12:35:47 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,15 +38,6 @@
 		then the function rec_atoi() is called.
 		This function returns an int.
  */
-
-int	ft_isspace(int c)
-{
-	if (c == '\t' || c == '\n' || c == '\v')
-		return (1);
-	if (c == '\f' || c == '\r' || c == ' ')
-		return (1);
-	return (0);
-}
 
 static int	rec_atoi(const char *str, int nb, int sgn)
 {

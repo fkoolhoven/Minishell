@@ -1,8 +1,0 @@
-To Felicia:
-- Rewrite pointer stuff in parser to be more readable
-- Figure out error handling for token/expand/parse
-- Check for mem leaks if expand can't find var
-- Test thoroughly for mem leaks at errors
-- Check for syntax errors? Test with bash
-- Turn static functions into statics
-- replace substr for strlcpy?
