@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:09:26 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/16 13:01:02 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/16 16:17:08 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define MINISHELL_H
 
 # define BOLDGREEN 	"\e[1;32m"
+# define BOLDBLUE 	"\e[1;34m"
+# define BOLDPURPLE "\e[1;35m"
 # define OFF		"\033[0m"
 
 # include <stdio.h>

@@ -6,7 +6,7 @@
 #    By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/31 14:20:16 by jhendrik          #+#    #+#              #
-#    Updated: 2023/10/12 15:57:24 by fkoolhov         ###   ########.fr        #
+#    Updated: 2023/10/16 16:45:48 by fkoolhov         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -82,6 +82,7 @@ SRC			:= main.c \
 			   builtins/env.c \
 			   builtins/exit.c \
 			   builtins/export.c \
+			   builtins/export_value.c \
 			   builtins/pwd.c \
 			   builtins/unset.c
 OBJ			:= $(addprefix $(OBJ_DIR)/,$(SRC:.c=.o))
