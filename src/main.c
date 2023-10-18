@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:08:39 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/13 14:24:41 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/18 14:05:02 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,12 @@ int	minishell(t_htable *env, char *cur_path)
 int	main(int argc, char **argv, char **envp)
 {
 	t_htable	*env;
+	char		tmp[PATH_MAX];
 	char		cur_path[PATH_MAX];
 
 	env = init_env(envp);
-	getcwd(cur_path, PATH_MAX);
+	getcwd(tmp, PATH_MAX);
+	ft_strlcpy(cur_path, tmp, PATH_MAX);
 	// print_hashtable(env);
 	argc = 0;
 	argv = NULL;
