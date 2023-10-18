@@ -6,13 +6,13 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 18:03:26 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/12 16:08:49 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/18 14:01:30 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	parse_pipe_token(t_list **tokens, t_token **token, t_parser_var *var)
+int	parse_pipe_token(t_list **tokens, t_token **token, t_parser_var *var, int *exit_code)
 {
 	if (add_redirect_to_list(&var->out, (*token)->type, (*token)->value))
 		return (EXIT_FAILURE);
@@ -21,10 +21,10 @@ int	parse_pipe_token(t_list **tokens, t_token **token, t_parser_var *var)
 	{
 		*token = (t_token *)(*tokens)->content;
 		if ((*token)->type == PIPE)
-			return (syntax_error_return_failure("subsequent pipes"));
+			return (syntax_error_return_failure("subsequent pipes", exit_code));
 	}
 	else
-		return (syntax_error_return_failure("missing command"));
+		return (syntax_error_return_failure("missing command", exit_code));
 	return (EXIT_SUCCESS);
 }
 

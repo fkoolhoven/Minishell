@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:39:28 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/18 12:38:32 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/18 13:53:18 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@
 # define VALUE_NOT_FOUND -1
 
 // token.c
-t_list	*tokenizer(char *input);
+t_list	*tokenizer(char *input, int *exit_code);
 
 // token_tokenize.c
 int		tokenize_word(t_token *token, char *input, int *i);
-int		tokenize_operator(t_token *token, char *input, int *i);
+int		tokenize_operator(t_token *token, char *input, int *i, int *exit_code);
 
 // expand.c
 int		expand_tokens(t_list **list_start, t_htable *env);
@@ -29,7 +29,7 @@ int		expand_tokens(t_list **list_start, t_htable *env);
 int		expand_variable(t_token *token, t_htable *env, int *i);
 
 // token_quotes.c
-int		remove_quotes_from_tokens(t_list **list_start);
+int		remove_quotes_from_tokens(t_list **list_start, int *exit_code);
 
 // token_utils.c
 bool	char_is_operator(char c);

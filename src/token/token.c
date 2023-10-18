@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:25:50 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/11 18:00:34 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/18 13:57:56 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,11 @@ static int	add_token_to_list(t_list **tokens, t_token *token)
 	return (EXIT_SUCCESS);
 }
 
-static int	tokenize_input(t_token *token, char *input, int *i)
+static int	tokenize_input(t_token *token, char *input, int *i, int *exit_code)
 {
 	if (char_is_operator(input[*i]))
 	{
-		if (tokenize_operator(token, input, i) != EXIT_SUCCESS)
+		if (tokenize_operator(token, input, i, exit_code) != EXIT_SUCCESS)
 			return (EXIT_FAILURE);
 	}
 	else
@@ -59,22 +59,38 @@ static int	tokenize_input(t_token *token, char *input, int *i)
 	return (EXIT_SUCCESS);
 }
 
+int	find_beginning_of_command(char *input, int *i, int *exit_code)
+{
+	bool	perform_syntax_check;
+
+	if (*i == 0)
+		perform_syntax_check = true;
+	while (ft_isspace(input[*i]) && input[*i])
+		(*i)++;
+	if (perform_syntax_check && input[*i] == '|')
+		return (syntax_error_return_failure("starting with pipe", exit_code));
+	if (!input[*i])
+		return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
+}
+
 // Goes through the use input string and splits it up into tokens
 // that have type word or a redirection type. Creates a linked list
 // (tokens), node's value pointing to a token of type t_token.
-t_list	*tokenizer(char *input)
+t_list	*tokenizer(char *input, int *exit_code)
 {
 	t_list	*tokens;
 	t_token	*token;
+	int		check;
 	int		i;
 
+	*exit_code = EXIT_FAILURE;
 	tokens = NULL;
 	i = 0;
 	while (input[i])
 	{
-		while (ft_isspace(input[i]) && input[i])
-			i++;
-		if (!input[i])
+		check = find_beginning_of_command(input, &i, exit_code);
+		if (check != EXIT_SUCCESS)
 			break ;
 		token = initialize_token();
 		if (!token)
@@ -84,7 +100,7 @@ t_list	*tokenizer(char *input)
 			free(token);
 			return (terminate_token_list_error(&tokens));
 		}
-		if (tokenize_input(token, input, &i) == EXIT_FAILURE)
+		if (tokenize_input(token, input, &i, exit_code) == EXIT_FAILURE)
 			return (terminate_token_list_error(&tokens));
 	}
 	return (tokens);

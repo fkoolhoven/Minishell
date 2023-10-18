@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:08:39 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/16 16:26:02 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/18 14:08:58 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,16 @@ static int	parse_and_exec(t_htable *env, char *user_input, int exit_code)
 
 	if (user_input_is_empty(user_input))
 		return (EXIT_SUCCESS);
-	tokens = tokenizer(user_input);
+	tokens = tokenizer(user_input, &exit_code);
 	if (tokens == NULL)
-		return (EXIT_FAILURE);
+		return (exit_code);
 	if (expand_tokens(&tokens, env) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
-	if (remove_quotes_from_tokens(&tokens) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
-	command_list = parse(&tokens);
+		return (exit_code);
+	if (remove_quotes_from_tokens(&tokens, &exit_code) == EXIT_FAILURE)
+		return (exit_code);
+	command_list = parse(&tokens, &exit_code);
 	if (command_list == NULL)
-		return (EXIT_FAILURE);
+		return (exit_code);
 	terminate_token_list(&tokens);
 	check = manage_heredocs(command_list, env);
 	if (check != EXIT_SUCCESS)

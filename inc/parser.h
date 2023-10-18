@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:39:28 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/18 12:39:11 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/18 14:03:43 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define PARSER_H
 
 // parser.c
-t_command	*parse(t_list **tokens);
+t_command	*parse(t_list **tokens, int *exit_code);
 
 // parser_command_list.c
 int			add_command_to_list(t_parser_var *var);
@@ -25,7 +25,8 @@ int			add_redirect_to_list(t_redirect **redir_lst, int type, char *value);
 // parser_parse_token.c
 int			parse_word_token(t_list **toks, t_token **tok, t_parser_var *v);
 int			parse_redirect_token(t_list **toks, t_token **tok, t_parser_var *v);
-int			parse_pipe_token(t_list **toks, t_token **tok, t_parser_var *v);
+int			parse_pipe_token(t_list **toks, t_token **tok, t_parser_var *v,
+				int *exit_code);
 
 // parser_bools.c
 bool		char_is_quote(char c);

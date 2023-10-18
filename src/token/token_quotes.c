@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:47:37 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/13 15:58:05 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/18 13:52:20 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static char	*remove_quotes(char *old_value, int first_quote, int *i)
 	return (new_value);
 }
 
-static char	*get_new_value_without_quotes(char *old_value, int *i)
+static char	*get_new_value_without_quotes(char *old_value, int *i, int *exit_code)
 {
 	char	*new_value;
 	int		first_quote;
@@ -62,13 +62,13 @@ static char	*get_new_value_without_quotes(char *old_value, int *i)
 	if (!old_value[*i])
 	{
 		free(old_value);
-		return (syntax_error_return_null("unclosed quote"));
+		return (syntax_error_return_null("unclosed quote", exit_code));
 	}
 	new_value = remove_quotes(old_value, first_quote, i);
 	return (new_value);
 }
 
-static char	*remove_quotes_from_value(t_token *token)
+static char	*remove_quotes_from_value(t_token *token, int *exit_code)
 {
 	char	*value;
 	int		i;
@@ -79,7 +79,7 @@ static char	*remove_quotes_from_value(t_token *token)
 	{
 		if (char_is_quote(value[i]))
 		{
-			value = get_new_value_without_quotes(value, &i);
+			value = get_new_value_without_quotes(value, &i, exit_code);
 			if (value == NULL)
 				return (NULL);
 		}
@@ -88,7 +88,7 @@ static char	*remove_quotes_from_value(t_token *token)
 	return (value);
 }
 
-int	remove_quotes_from_tokens(t_list **list_start)
+int	remove_quotes_from_tokens(t_list **list_start, int *exit_code)
 {
 	t_token	*current_token;
 	t_list	*tokens;
@@ -97,7 +97,7 @@ int	remove_quotes_from_tokens(t_list **list_start)
 	while (tokens)
 	{
 		current_token = (t_token *)tokens->content;
-		current_token->value = remove_quotes_from_value(current_token);
+		current_token->value = remove_quotes_from_value(current_token, exit_code);
 		if (current_token->value == NULL)
 		{
 			terminate_token_list_error(list_start);
