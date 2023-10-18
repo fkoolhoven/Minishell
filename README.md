@@ -16,7 +16,7 @@ Start by cloning the repository:
 ```c
 git clone https://github.com/fkoolhoven/Minishell
 ```
-Go into the philo directory and compile by using make:
+Go into the minishell directory and compile by using make:
 ```c
 make
 ```
@@ -47,9 +47,9 @@ echo "$USER" '$USER'
 will output: [yourusername] '$USER'
 
 Available signals:
-ctrl-C displays a new prompt on a new line
-ctrl-D exits the shell
-ctrl-\ does nothing
+- ctrl-C displays a new prompt on a new line
+- ctrl-D exits the shell
+- ctrl-\ does nothing
 
 Minishell also has a working history (use the arrow keys).
 
