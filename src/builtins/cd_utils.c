@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/10/16 11:22:33 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/18 14:44:52 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/18 15:18:49 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -37,27 +37,27 @@ int	cd_put_error(char *message, char *key, char *path)
 	return (EXIT_FAILURE);
 }
 
-void	cd_change_curpath(t_exec_var *var, char *new_path, char *err_path, int status)
+void	cd_change_curpath(t_exec_var *var, char *npath, char *epath, int status)
 {
 	char	check_str[PATH_MAX];
 
-	if (new_path != NULL && var != NULL)
+	if (npath != NULL && var != NULL)
 	{
-		if (status != EXIT_SUCCESS && err_path != NULL)
+		if (status != EXIT_SUCCESS && epath != NULL)
 		{
 			if (getcwd(check_str, PATH_MAX) == NULL)
 			{
-				perror(new_path);
+				perror(npath);
 				ft_bzero(var->cur_path, PATH_MAX);
-				ft_strlcpy(var->cur_path, err_path, PATH_MAX);
+				ft_strlcpy(var->cur_path, epath, PATH_MAX);
 			}
 			else
-				cd_put_error(NULL, NULL, new_path);
+				cd_put_error(NULL, NULL, npath);
 		}
 		else
 		{
 			ft_bzero(var->cur_path, PATH_MAX);
-			ft_strlcpy(var->cur_path, new_path, PATH_MAX);
+			ft_strlcpy(var->cur_path, npath, PATH_MAX);
 		}
 	}
 }

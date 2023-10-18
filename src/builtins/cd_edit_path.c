@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/10/18 12:25:43 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/18 14:09:06 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/18 15:28:13 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,23 +34,27 @@ static int	st_rm_last(char *new_path, int i, int len)
 	return (ft_strlen(new_path));
 }
 
+static int	st_check_move_end(char *npath, int i, int len)
+{
+	int	prev_dir;
+
+	if (i + 1 < len && i + 2 == len)
+	{
+		if (i < 2)
+			return (st_rm_last(npath, i, len));
+		prev_dir = st_find_prevdir(npath, i - 2);
+		cd_move(npath, prev_dir, i + 2, len + 1);
+		return (prev_dir);
+	}
+	return (st_rm_last(npath, i, len));
+}
+
 static int	st_check_to_move(char *npath, int i, int len)
 {
 	int	prev_dir;
 
-	printf("In check to move\n");
 	if (i + 2 >= len)
-	{
-		if (i + 1 < len && i + 2 == len)
-		{
-			if (i < 2)
-				return (st_rm_last(npath, i, len));
-			prev_dir = st_find_prevdir(npath, i - 2);
-			cd_move(npath, prev_dir, i + 2, len + 1);
-			return (prev_dir);
-		}
-		return (st_rm_last(npath, i, len));
-	}
+		return (st_check_move_end(npath, i, len));
 	if (npath[i + 1] == '/' || npath[i + 1] == '\0')
 	{
 		cd_move(npath, i, i + 2, len);

@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/10/11 10:39:26 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/18 14:33:19 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/18 15:26:02 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,11 @@
 int	bltin_cd(t_exec_var *var, t_command *cmnd);
 
 // cd_utils.c -----------------------------------
-int	cd_give_args_count(char **command);
-int	cd_change_env(t_exec_var *var, char *new_path, int status);
-int	cd_put_error(char *message, char *key, char *path);
+int		cd_give_args_count(char **command);
+int		cd_change_env(t_exec_var *var, char *new_path, int status);
+int		cd_put_error(char *message, char *key, char *path);
 void	cd_move(char *new_path, int start, int end, int size);
-
-// int	cd_find_prevdir(char *new_path, int end);
-void	cd_change_curpath(t_exec_var *var, char *new_path, char *err_path, int status);
+void	cd_change_curpath(t_exec_var *var, char *npath, char *epath, int status);
 
 // cd_curpath.c ---------------------------------
 int		cd_change_with_path(t_exec_var *var, char *path);
@@ -39,10 +37,13 @@ char	*cd_strtrim(char const *s1, char const *set);
 int	cd_absolute_path(t_exec_var *var, char *path);
 
 // cd_strtrim_utils.c ----------------------------
-int	cd_rl_c_inset(char const *s1, char const *set);
+int		cd_rl_c_inset(char const *s1, char const *set);
 size_t	cd_len_trim_between(char *s1, char const *set);
 char	*cd_nothing_left(void);
-int	cd_lr_c_inset(char const *s1, char const *set);
+int		cd_lr_c_inset(char const *s1, char const *set);
+
+// cd_prev.c -------------------------------------
+int	cd_prev_dir(t_exec_var *var);
 
 // echo.c ---------------------------------------
 int	bltin_echo(t_exec_var *var, t_command *command);
