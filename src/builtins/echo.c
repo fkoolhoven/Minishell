@@ -6,18 +6,21 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 15:42:44 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/10/18 15:39:08 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/18 16:46:38 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
 static int	st_put_partial_str(char *str, int start, int end, int size)
 {
 	int	check;
 
+	if (start == 0 && end < 0)
+		return (0);
 	if (size < 0 || start < 0 || end < start)
 		return (-1);
-	if (start + end > size || str == NULL)
+	if (end > size || str == NULL)
 		return (-1);
 	check = write(STDIN_FILENO, str + start, end - start);
 	if (check < 0)
@@ -27,15 +30,22 @@ static int	st_put_partial_str(char *str, int start, int end, int size)
 
 static int	st_with_status(t_exec_var *var, char *arg, int start, int end)
 {
-	int	check;
+	int		check;
+	char	*nb;
 
-	check = st_put_partial_str(arg, start, end, ft_strlen(arg));
+	check = st_put_partial_str(arg, start, end + 1, ft_strlen(arg));
 	if (check < 0)
 		return (check);
-	check = printf("%i", var->exit_status);
+	nb = ft_itoa(var->exit_status);
+	if (nb == NULL)
+	{
+		write(STDERR_FILENO, "ft_itoa failed\n", 15);
+		return (-1);
+	}
+	check = write(STDIN_FILENO, nb, ft_strlen(nb));
 	if (check < 0)
-		return (check);
-	return (0);
+		return (free(nb), check);
+	return (free(nb), 0);
 }
 
 static int	st_display_special_arg(t_exec_var *var, char *arg)
@@ -53,7 +63,7 @@ static int	st_display_special_arg(t_exec_var *var, char *arg)
 		{
 			if (st_with_status(var, arg, start, i - 1) < 0)
 				return (-1);
-			start = i + 1;
+			start = i + 2;
 		}
 		i++;
 		if (arg[i] == '\0')

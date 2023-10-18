@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:08:39 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/18 15:55:34 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/18 16:45:44 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,9 @@ static int	parse_and_exec(t_htable *env, char *user_input, int exit_code, char *
 	t_command	*command_list;
 	t_list		*tokens;
 	int			check;
+	int			exit_status;
 
+	exit_status = exit_code;
 	if (user_input_is_empty(user_input))
 		return (EXIT_SUCCESS);
 	tokens = tokenizer(user_input, &exit_code);
@@ -47,7 +49,7 @@ static int	parse_and_exec(t_htable *env, char *user_input, int exit_code, char *
 	check = manage_heredocs(command_list, env);
 	if (check != EXIT_SUCCESS)
 		return (terminate_command_list(&command_list), check);
-	exit_code = execute(command_list, env, exit_code, cur_path);
+	exit_code = execute(command_list, env, exit_status, cur_path);
 	heredoc_unlinker(command_list);
 	terminate_command_list(&command_list);
 	return (exit_code);
@@ -68,7 +70,7 @@ static int	minishell(t_htable *env, char *cur_path)
 	int		exit_code;
 
 	display_banner();
-	exit_code = EXIT_SUCCESS;
+	exit_code = 0;
 	while (1)
 	{
 		user_input = readline(BOLDBLUE"minishell » "OFF);

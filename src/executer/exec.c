@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/09/15 10:41:54 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/18 16:00:17 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/18 16:39:24 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -84,6 +84,8 @@ int	execute(t_command *cmnd_list, t_htable *env, int estatus, char *cpath)
 	var.fd_pipe = fd;
 	var.process = 1;
 	var.exit_status = estatus;
+	printf("var.exit_status: %i\n", var.exit_status);
+	printf("exit_status: %i\n", estatus);
 	var.fd_read = -1;
 	var.last_cmnd = size_cmndlist(cmnd_list);
 	create_all_outfiles(&var);
