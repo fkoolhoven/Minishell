@@ -6,6 +6,8 @@
 # About the project
 
 A project made in accordance with the Minishell project which is part of the Codam Core Curriculum. This project was a collaboration between [FeliciaCodes](https://github.com/fkoolhoven) and [Jagna Hendriks](https://github.com/jshendriks).
+We created our own simple version of bash, Jagna writing the executer and Felicia writing the tokenizer/parser. Our Minishell contains several builtins, handles redirections (including heredocs), pipes, several signals. It expands environment variables (or attempts to)
+when it finds a $ but distinguishes between single (') and double (") quotes, not interpreting $ when it is between double quotes. This was the biggest collaborative project we had both worked on until that point. 
 
 
 # Getting started
@@ -28,7 +30,7 @@ For example:
 ```c
 << EOF grep "Hello world!" | wc > outfile 
 ```
-will work the same as in Bash. Minishell handles <<, <, >> as redirections and | as pipe.
+will work the same as in Bash. Minishell handles <<, <, >, >> as redirections and | as pipe.
 
 Minishell also has several builtins (see src/builtins) so
 ```c
@@ -46,6 +48,8 @@ Available signals:
 ctrl-C displays a new prompt on a new line
 ctrl-D exits the shell
 ctrl-\ does nothing
+
+Minishell also has a working history (use the arrow keys).
 
 # Important learnings
 
