@@ -6,13 +6,14 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 18:03:26 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/18 14:01:30 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/18 15:05:55 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	parse_pipe_token(t_list **tokens, t_token **token, t_parser_var *var, int *exit_code)
+int	parse_pipe_token(t_list **tokens, t_token **token,
+	t_parser_var *var, int *exit_code)
 {
 	if (add_redirect_to_list(&var->out, (*token)->type, (*token)->value))
 		return (EXIT_FAILURE);

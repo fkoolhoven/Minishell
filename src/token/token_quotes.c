@@ -6,13 +6,13 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:47:37 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/18 13:52:20 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/18 15:04:03 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*remove_char_from_string(char *string, int index)
+static char	*delete_char_from_string(char *string, int index)
 {
 	char	*result;
 	int		strlen;
@@ -30,18 +30,18 @@ static char	*remove_char_from_string(char *string, int index)
 	return (result);
 }
 
-static char	*remove_quotes(char *old_value, int first_quote, int *i)
+static char	*delete_quotes(char *old_value, int first_quote, int *i)
 {
 	int		second_quote;
 	char	*temp;
 	char	*new_value;
 
-	new_value = remove_char_from_string(old_value, first_quote);
+	new_value = delete_char_from_string(old_value, first_quote);
 	if (new_value == NULL)
 		return (NULL);
 	(*i)--;
 	second_quote = *i;
-	temp = remove_char_from_string(new_value, second_quote);
+	temp = delete_char_from_string(new_value, second_quote);
 	if (temp == NULL)
 	{
 		free(new_value);
@@ -52,7 +52,7 @@ static char	*remove_quotes(char *old_value, int first_quote, int *i)
 	return (new_value);
 }
 
-static char	*get_new_value_without_quotes(char *old_value, int *i, int *exit_code)
+static char	*find_and_delete_quotes(char *old_value, int *i, int *exit_code)
 {
 	char	*new_value;
 	int		first_quote;
@@ -64,11 +64,11 @@ static char	*get_new_value_without_quotes(char *old_value, int *i, int *exit_cod
 		free(old_value);
 		return (syntax_error_return_null("unclosed quote", exit_code));
 	}
-	new_value = remove_quotes(old_value, first_quote, i);
+	new_value = delete_quotes(old_value, first_quote, i);
 	return (new_value);
 }
 
-static char	*remove_quotes_from_value(t_token *token, int *exit_code)
+static char	*get_new_value(t_token *token, int *exit_code)
 {
 	char	*value;
 	int		i;
@@ -79,7 +79,7 @@ static char	*remove_quotes_from_value(t_token *token, int *exit_code)
 	{
 		if (char_is_quote(value[i]))
 		{
-			value = get_new_value_without_quotes(value, &i, exit_code);
+			value = find_and_delete_quotes(value, &i, exit_code);
 			if (value == NULL)
 				return (NULL);
 		}
@@ -97,7 +97,7 @@ int	remove_quotes_from_tokens(t_list **list_start, int *exit_code)
 	while (tokens)
 	{
 		current_token = (t_token *)tokens->content;
-		current_token->value = remove_quotes_from_value(current_token, exit_code);
+		current_token->value = get_new_value(current_token, exit_code);
 		if (current_token->value == NULL)
 		{
 			terminate_token_list_error(list_start);

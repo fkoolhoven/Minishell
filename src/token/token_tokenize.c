@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 16:36:40 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/18 13:46:14 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/18 15:01:25 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ static char	*get_filename_or_delimiter(char *input, int *i, int *exit_code)
 	return (filename);
 }
 
-static int	tokenize_infiles_and_outfiles(t_token *token, char *input, int *i, int *exit_code)
+static int	tokenize_file_redirects(t_token *token, char *input,
+	int *i, int *exit_code)
 {
 	if (input[*i] == '<')
 	{
@@ -71,7 +72,7 @@ int	tokenize_operator(t_token *token, char *input, int *i, int *exit_code)
 {
 	if (input[*i] == '<' || input[*i] == '>')
 	{
-		if (tokenize_infiles_and_outfiles(token, input, i, exit_code) == EXIT_FAILURE)
+		if (tokenize_file_redirects(token, input, i, exit_code) == EXIT_FAILURE)
 			return (EXIT_FAILURE);
 	}
 	else if (input[*i] == '|')
