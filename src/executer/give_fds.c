@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 10:25:16 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/10/13 15:43:42 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/18 13:05:43 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@ static void	st_open_file_failed(t_redirect *node)
 {
 	if (node != NULL)
 	{
-		if (node->value != NULL)
+		if (node->value != NULL && node->next != NULL)
 		{
 			ft_putstr_fd("\t Warning: Opening of file ", 2);
 			ft_putstr_fd(node->value, 2);
 			ft_putstr_fd(" failed \n", 2);
 		}
-		else
+		else if (node->next != NULL)
 			ft_putstr_fd("\t Warning: Filename is (NULL)\n", 2);
 	}
 	else
@@ -80,7 +80,7 @@ int	give_output_fd(t_redirect *out)
 	t_redirect	*tmp;
 
 	if (out == NULL)
-		return (-1);
+		return (-3);
 	tmp = out;
 	fd = -2;
 	while (tmp != NULL)
