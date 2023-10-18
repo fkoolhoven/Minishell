@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   types.h                                            :+:      :+:    :+:   */
+/*   types.h                                           :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 11:01:53 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/10/18 12:29:46 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/18 15:47:06 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,15 @@ typedef struct s_parser_var
 	char		**command;
 	t_command	*command_list;
 }	t_parser_var;
+
+typedef struct s_trim_var
+{
+	char	*inset1;
+	char	*inset2;
+	char	*str;
+	char	*trimmed;
+	size_t	j;
+}	t_trim_var;
 
 typedef int		(*t_f_bltin)(t_exec_var *, t_command *);
 typedef void	(*t_sighandle)(int);
