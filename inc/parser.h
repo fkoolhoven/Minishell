@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:39:28 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/11 17:53:18 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/18 12:39:11 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,6 @@
 
 // parser.c
 t_command	*parse(t_list **tokens);
-
-// parser_test.c TEST FUNCTIONS!
-void		print_redirections(t_redirect *lst);
-void		print_string_array(char **str_array);
-void		print_command_list(t_command *list);
 
 // parser_command_list.c
 int			add_command_to_list(t_parser_var *var);

@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 14:29:02 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/09 14:25:04 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/18 12:40:18 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,5 @@ char		**convert_htable_to_strarray(t_htable *env);
 // env_functions/convert_utils.c 
 int			size_table(t_htable *env);
 char		*give_envstr(t_hnode *node);
-
-// env_functions/test_ft.c 
-void		print_hasharray(t_htable *env_table, t_hnode **head);
-void		print_strarray(char **envp);
-void		print_hashtable(t_htable *env_table);
-void		print_hashnode(t_hnode *node, t_htable *env);
-int			comparing_envs(char **env, char **new_env);
 
 #endif

@@ -6,7 +6,7 @@
 #    By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/31 14:20:16 by jhendrik          #+#    #+#              #
-#    Updated: 2023/10/16 16:45:48 by fkoolhov         ###   ########.fr        #
+#    Updated: 2023/10/18 12:40:49 by fkoolhov         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,13 +28,15 @@ SUBDIR		:= . \
 			   parser \
 			   signals \
 			   token \
-			   env_functions
+			   env_functions \
+			   errors \
+			   test
 SRC_SUBDIR	:= $(foreach dir, $(SUB_DIR),$(addprefix $(SRC_DIR)/,$(dir)))
 
 SRC			:= main.c \
-			   errors.c \
+			   errors/errors_parser.c \
+			   errors/errors_exec.c \
 			   token/token.c \
-			   token/token_test.c \
 			   token/token_utils.c \
 			   token/token_tokenize.c \
 			   token/token_expand.c \
@@ -43,7 +45,6 @@ SRC			:= main.c \
 			   token/token_terminate.c \
 			   parser/parser.c \
 			   parser/parser_parse_token.c \
-			   parser/parser_test.c \
 			   parser/parser_command_list.c \
 			   parser/parser_redirect_list.c \
 			   parser/parser_bools.c \
@@ -55,9 +56,7 @@ SRC			:= main.c \
 			   executer/heredoc_utils.c \
 			   executer/input_heredoc.c \
 			   executer/manage_one_heredoc.c \
-			   executer/test_heredoc.c \
 			   executer/exec.c \
-			   executer/errors.c \
 			   executer/exec_builtins.c \
 			   executer/exec_utils.c \
 			   executer/swap_fds.c \
@@ -76,7 +75,6 @@ SRC			:= main.c \
 			   env_functions/split_first_occurance.c \
 			   env_functions/convert_to_strarray.c \
 			   env_functions/convert_utils.c \
-			   env_functions/test_ft.c \
 			   builtins/cd.c \
 			   builtins/echo.c \
 			   builtins/env.c \
@@ -84,7 +82,11 @@ SRC			:= main.c \
 			   builtins/export.c \
 			   builtins/export_value.c \
 			   builtins/pwd.c \
-			   builtins/unset.c
+			   builtins/unset.c \
+			   test/test_heredoc.c \
+			   test/token_test.c \
+			   test/parser_test.c \
+			   test/test_ft.c
 OBJ			:= $(addprefix $(OBJ_DIR)/,$(SRC:.c=.o))
 LIBS		:= $(LIB_DIR)/libft.a
 MINI_HEADER	:= ./inc/minishell.h

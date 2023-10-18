@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:09:26 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/16 16:17:08 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/18 12:39:38 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@
 # include "./types.h"
 # include "./builtins.h"
 # include "./executer.h"
-# include <ctype.h> // we should add our own isspace() to libft!
 # include "./../libs/libft/include/libft.h"
 # include "token.h"
 # include "parser.h"
@@ -34,5 +33,6 @@
 # include "executer.h"
 # include "errors.h"
 # include "env.h"
+# include "test.h"
 
 #endif
