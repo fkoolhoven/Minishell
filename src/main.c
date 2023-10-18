@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                            :+:    :+:             */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:08:39 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/18 15:55:34 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/18 16:12:29 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ static int	minishell(t_htable *env, char *cur_path)
 		else
 		{
 			exit_code = parse_and_exec(env, user_input, exit_code, cur_path);
-			printf("Exit code = %i\n", exit_code);
+			// printf("Exit code = %i\n", exit_code);
 			add_history(user_input);
 		}
 		free(user_input);

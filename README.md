@@ -24,6 +24,8 @@ If you are not on Linux you might need to make some changes to the Makefile, in 
 
 # Usage
 
+<img src="img/MINISHELL.png" alt="logo" width="1000" height="auto"/>
+
 You can use Minishell like you would use Bash.
 
 For example:
