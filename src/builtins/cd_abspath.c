@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/10/18 10:14:09 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/18 11:30:32 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/18 14:29:37 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,10 @@ static char	*st_give_changing_path(char *path)
 {
 	char	*tmp_path;
 
-	cd_edit_newpath(path, ft_strlen(path));
 	tmp_path = cd_strtrim(path, "/");
+	if (tmp_path == NULL)
+		return (NULL);
+	cd_edit_newpath(tmp_path, ft_strlen(tmp_path));
 	return (tmp_path);
 }
 
@@ -39,7 +41,7 @@ int	cd_absolute_path(t_exec_var *var, char *path)
 		return (free(tmp_path), check);
 	}
 //	printf("In abspath before change curpath\n");
-	cd_change_curpath(var, tmp_path, EXIT_SUCCESS);
+	cd_change_curpath(var, tmp_path, NULL, EXIT_SUCCESS);
 //	printf("In abspath Before change env\n");
 	check = cd_change_env(var, tmp_path, EXIT_SUCCESS);
 //	printf("In abspath After change env\n");

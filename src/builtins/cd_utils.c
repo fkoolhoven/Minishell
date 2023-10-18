@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/10/16 11:22:33 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/18 11:38:50 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/18 14:44:52 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -23,21 +23,36 @@ int	cd_give_args_count(char **command)
 	return (argc);
 }
 
-void	cd_change_curpath(t_exec_var *var, char *new_path, int status)
+int	cd_put_error(char *message, char *key, char *path)
 {
-	char	*tmp;
+	if (message != NULL)
+		ft_putstr_fd(message, 2);
+	else if (key != NULL)
+	{
+		ft_putstr_fd(key, 2);
+		ft_putstr_fd("not set\n", 2);
+	}
+	else
+		perror(path);
+	return (EXIT_FAILURE);
+}
+
+void	cd_change_curpath(t_exec_var *var, char *new_path, char *err_path, int status)
+{
+	char	check_str[PATH_MAX];
 
 	if (new_path != NULL && var != NULL)
 	{
-		if (status != EXIT_SUCCESS)
+		if (status != EXIT_SUCCESS && err_path != NULL)
 		{
-			tmp = ft_strjoin(var->cur_path, "/..");
-			if (tmp != NULL)
+			if (getcwd(check_str, PATH_MAX) == NULL)
 			{
+				perror(new_path);
 				ft_bzero(var->cur_path, PATH_MAX);
-				ft_strlcpy(var->cur_path, tmp, PATH_MAX);
-				free(tmp);
+				ft_strlcpy(var->cur_path, err_path, PATH_MAX);
 			}
+			else
+				cd_put_error(NULL, NULL, new_path);
 		}
 		else
 		{
@@ -58,14 +73,12 @@ int	cd_change_env(t_exec_var *var, char *new_path, int status)
 	oldpwd = find_env_valuenode(var->env, "OLDPWD");
 	if (oldpwd != NULL && pwd != NULL)
 	{
-//		printf("Going to change OLDPWD\n");
 		if (oldpwd->value != NULL)
 			free(oldpwd->value);
 		(oldpwd->value) = (pwd->value);
 	}
 	if (pwd != NULL)
 	{
-//		printf("Going to change PWD\n");
 		if (pwd->value != NULL && oldpwd == NULL)
 			free(pwd->value);
 		if (status == EXIT_SUCCESS)
@@ -76,25 +89,11 @@ int	cd_change_env(t_exec_var *var, char *new_path, int status)
 	return (EXIT_SUCCESS);
 }
 
-int	cd_put_error(char *message, char *key, char *path)
-{
-	if (message != NULL)
-		ft_putstr_fd(message, 2);
-	else if (key != NULL)
-	{
-		ft_putstr_fd(key, 2);
-		ft_putstr_fd("not set\n", 2);
-	}
-	else
-		perror(path);
-	return (EXIT_FAILURE);
-}
-
 void	cd_move(char *new_path, int start, int end, int size)
 {
 	int	i;
 
-	if (new_path != NULL && start <= end && end < size)
+	if (new_path != NULL && start <= end && end <= size)
 	{
 		if (start >= 0 && end >= 0)
 		{
@@ -111,16 +110,4 @@ void	cd_move(char *new_path, int start, int end, int size)
 			}
 		}
 	}
-}
-
-int	cd_find_prevdir(char *new_path, int end)
-{
-	int	i;
-
-	if (new_path == NULL || end < 0)
-		return (0);
-	i = end;
-	while (new_path[i] != '/' && i >= 0)
-		i--;
-	return (i);
 }

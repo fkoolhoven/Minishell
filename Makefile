@@ -6,7 +6,7 @@
 #    By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/31 14:20:16 by jhendrik          #+#    #+#              #
-#    Updated: 2023/10/18 10:28:59 by jhendrik      ########   odam.nl          #
+#    Updated: 2023/10/18 13:29:19 by jhendrik      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -82,6 +82,8 @@ SRC			:= main.c \
 			   builtins/cd_curpath.c \
 			   builtins/cd_strtrim.c \
 			   builtins/cd_abspath.c \
+			   builtins/cd_edit_path.c \
+			   builtins/cd_strtrim_utils.c \
 			   builtins/echo.c \
 			   builtins/env.c \
 			   builtins/exit.c \
