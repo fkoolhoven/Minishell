@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/10/11 10:24:45 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/11 12:20:06 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/18 12:59:38 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -18,6 +18,7 @@ int	exec_error_swap(int fd_in, int fd_out, t_exec_var *var)
 	if (fd_out >= 3)
 		close(fd_out);
 	terminate_execvar(var);
+	perror(NULL);
 	return (EXIT_FAILURE);
 }
 
