@@ -57,15 +57,16 @@ Minishell also has a working history (use the arrow keys).
 
 We worked together for several weeks on this project and got a lot of practice in with things we were already familiar with + we were introduced to some new topics.
 
-1. Implementing signals
-2. We made our own hashtable to store the environment variables
-2. Parent and child processes
-3. File descriptors
-4. Linked lists
-5. Exit codes and handling errors
-6. Working together on a bigger project
-7. Using GitHub in a collaborative way
-8. Writing an elaborate tokenizer / parser
+1. Working together on a complex project, deciding on a stategy together and communicating about challenges
+2. Using Git and GitHub in a collaborative way
+3. Implementing our own hash table to store the environment variables
+4. Writing an elaborate tokenizer / parser that interprets user input in a way that can be used by an executer 
+5. Preventing memory leaks in a large project
+6. Implementing signals
+7. Parent and child processes
+8. Linked lists
+9. File descriptors
+10. Exit codes and handling errors
 
 # Contact
 
