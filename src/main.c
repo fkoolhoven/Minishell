@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   main.c                                            :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:08:39 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/18 14:08:58 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/18 15:55:34 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static bool	user_input_is_empty(char *user_input)
 		return (false);
 }
 
-static int	parse_and_exec(t_htable *env, char *user_input, int exit_code)
+static int	parse_and_exec(t_htable *env, char *user_input, int exit_code, char *cur_path)
 {
 	t_command	*command_list;
 	t_list		*tokens;
@@ -47,7 +47,7 @@ static int	parse_and_exec(t_htable *env, char *user_input, int exit_code)
 	check = manage_heredocs(command_list, env);
 	if (check != EXIT_SUCCESS)
 		return (terminate_command_list(&command_list), check);
-	exit_code = execute(command_list, env, exit_code);
+	exit_code = execute(command_list, env, exit_code, cur_path);
 	heredoc_unlinker(command_list);
 	terminate_command_list(&command_list);
 	return (exit_code);
@@ -62,7 +62,7 @@ static void	display_banner(void)
 		" ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛\n\n"OFF);
 }
 
-static int	minishell(t_htable *env)
+static int	minishell(t_htable *env, char *cur_path)
 {
 	char	*user_input;
 	int		exit_code;
@@ -80,7 +80,7 @@ static int	minishell(t_htable *env)
 		}
 		else
 		{
-			exit_code = parse_and_exec(env, user_input, exit_code);
+			exit_code = parse_and_exec(env, user_input, exit_code, cur_path);
 			printf("Exit code = %i\n", exit_code);
 			add_history(user_input);
 		}
@@ -92,12 +92,16 @@ static int	minishell(t_htable *env)
 
 int	main(int argc, char **argv, char **envp)
 {
+	char		tmp[PATH_MAX];
+	char		cur_path[PATH_MAX];
 	t_htable	*env;
 
 	env = init_env(envp);
+	getcwd(tmp, PATH_MAX);
+	ft_strlcpy(cur_path, tmp, PATH_MAX);
 	argc = 0;
 	argv = NULL;
 	wrap_sighandler(SIGINT, &catch_sigint_parent);
 	wrap_sighandler(SIGQUIT, SIG_IGN);
-	return (minishell(env));
+	return (minishell(env, cur_path));
 }

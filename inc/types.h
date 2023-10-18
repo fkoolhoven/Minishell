@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 11:01:53 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/10/18 15:47:06 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/18 15:52:57 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ typedef struct s_exec_var
 	t_command	*cmnd_list;
 	t_htable	*env;
 	char		**env_str;
+	char		*cur_path;
 	int			*fd_pipe;
 	int			last_cmnd;
 	int			exit_status;

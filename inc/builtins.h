@@ -6,13 +6,14 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 10:39:26 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/10/18 15:46:21 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/18 15:59:47 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BUILTINS_H
 # define BUILTINS_H
 
+# include <linux/limits.h>
 # include "./types.h"
 
 // cd.c

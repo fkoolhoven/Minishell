@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
+#    Makefile                                          :+:    :+:              #
 #                                                     +:+ +:+         +:+      #
 #    By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/31 14:20:16 by jhendrik          #+#    #+#              #
-#    Updated: 2023/10/18 12:40:49 by fkoolhov         ###   ########.fr        #
+#    Updated: 2023/10/18 15:51:21 by jhendrik      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -76,6 +76,13 @@ SRC			:= main.c \
 			   env_functions/convert_to_strarray.c \
 			   env_functions/convert_utils.c \
 			   builtins/cd.c \
+			   builtins/cd_abspath.c \
+			   builtins/cd_curpath.c \
+			   builtins/cd_edit_path.c \
+			   builtins/cd_prev.c \
+			   builtins/cd_strtrim.c \
+			   builtins/cd_strtrim_utils.c \
+			   builtins/cd_utils.c \
 			   builtins/echo.c \
 			   builtins/env.c \
 			   builtins/exit.c \
