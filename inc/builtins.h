@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/10/11 10:39:26 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/16 16:47:11 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/18 11:03:17 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,21 @@ int	bltin_cd(t_exec_var *var, t_command *cmnd);
 
 // cd_utils.c -----------------------------------
 int	cd_give_args_count(char **command);
-int	cd_change_env(t_exec_var *var, char *new_path);
+int	cd_change_env(t_exec_var *var, char *new_path, int status);
 int	cd_put_error(char *message, char *key, char *path);
 void	cd_move(char *new_path, int start, int end, int size);
 int	cd_find_prevdir(char *new_path, int end);
+void	cd_change_curpath(t_exec_var *var, char *new_path, int status);
 
 // cd_curpath.c ---------------------------------
-int	cd_change_with_path(t_exec_var *var, char *path);
+int		cd_change_with_path(t_exec_var *var, char *path);
+void	cd_edit_newpath(char *new_path, int len);
 
 // cd_strtrim.c ---------------------------------
 char	*cd_strtrim(char const *s1, char const *set);
+
+// cd_abspath.c ----------------------------------
+int	cd_absolute_path(t_exec_var *var, char *path);
 
 // echo.c ---------------------------------------
 int	bltin_echo(t_exec_var *var, t_command *command);

@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/10/16 11:35:52 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/16 16:59:50 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/18 11:31:19 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static int	st_check_to_move(char *npath, int i, int len)
 		return (i + 1);
 }
 
-static void	st_edit_newpath(char *new_path, int len)
+void	cd_edit_newpath(char *new_path, int len)
 {
 	int	i;
 
@@ -85,7 +85,7 @@ static char	*st_give_changing_path(t_exec_var *var, char *path)
 		free(tmp_path);
 	if (new_path == NULL)
 		return (NULL);
-	st_edit_newpath(new_path, ft_strlen(new_path));
+	cd_edit_newpath(new_path, ft_strlen(new_path));
 	tmp_path = cd_strtrim(new_path, "/");
 	free(new_path);
 	return (tmp_path);
@@ -94,7 +94,7 @@ static char	*st_give_changing_path(t_exec_var *var, char *path)
 int	cd_change_with_path(t_exec_var *var, char *path)
 {
 	int		check;
-	int		len;
+//	int		len;
 	char	*new_path;
 
 	if (var == NULL || path == NULL)
@@ -105,18 +105,23 @@ int	cd_change_with_path(t_exec_var *var, char *path)
 	check = chdir(new_path);
 	if (check < 0 && new_path != NULL && *new_path != '\0')
 	{
-		len = ft_strlen(var->cur_path);
+//		printf("In if statement\n");
+	/*	len = ft_strlen(var->cur_path);
 		if (len + 3 < PATH_MAX)
 		{
+			printf("Changing cur_path\n");
 			(var->cur_path)[len + 1] = '/';
 			(var->cur_path)[len + 2] = '.';
 			(var->cur_path)[len + 3] = '.';
-		}
+		} */
 		cd_put_error(NULL, NULL, new_path);
-		return (free(new_path), cd_change_env(var, (var->cur_path)));
+		cd_change_curpath(var, new_path, EXIT_FAILURE);
+		check = cd_change_env(var, new_path, EXIT_FAILURE);
+		return (free(new_path), check);
 	}
 	if (check < 0)
 		return (free(new_path), EXIT_SUCCESS);
-	check = cd_change_env(var, new_path);
+	cd_change_curpath(var, new_path, EXIT_SUCCESS);
+	check = cd_change_env(var, new_path, EXIT_SUCCESS);
 	return (free(new_path), check);
 }

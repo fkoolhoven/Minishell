@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/10/16 11:22:33 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/16 16:57:04 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/18 11:38:50 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -23,7 +23,31 @@ int	cd_give_args_count(char **command)
 	return (argc);
 }
 
-int	cd_change_env(t_exec_var *var, char *new_path)
+void	cd_change_curpath(t_exec_var *var, char *new_path, int status)
+{
+	char	*tmp;
+
+	if (new_path != NULL && var != NULL)
+	{
+		if (status != EXIT_SUCCESS)
+		{
+			tmp = ft_strjoin(var->cur_path, "/..");
+			if (tmp != NULL)
+			{
+				ft_bzero(var->cur_path, PATH_MAX);
+				ft_strlcpy(var->cur_path, tmp, PATH_MAX);
+				free(tmp);
+			}
+		}
+		else
+		{
+			ft_bzero(var->cur_path, PATH_MAX);
+			ft_strlcpy(var->cur_path, new_path, PATH_MAX);
+		}
+	}
+}
+
+int	cd_change_env(t_exec_var *var, char *new_path, int status)
 {
 	t_hnode	*pwd;
 	t_hnode	*oldpwd;
@@ -34,20 +58,20 @@ int	cd_change_env(t_exec_var *var, char *new_path)
 	oldpwd = find_env_valuenode(var->env, "OLDPWD");
 	if (oldpwd != NULL && pwd != NULL)
 	{
+//		printf("Going to change OLDPWD\n");
 		if (oldpwd->value != NULL)
 			free(oldpwd->value);
 		(oldpwd->value) = (pwd->value);
 	}
 	if (pwd != NULL)
 	{
+//		printf("Going to change PWD\n");
 		if (pwd->value != NULL && oldpwd == NULL)
 			free(pwd->value);
-		(pwd->value) = ft_strdup(new_path);
-	}
-	if (ft_strncmp(var->cur_path, new_path, ft_strlen(new_path) + 1) != 0)
-	{
-		ft_bzero(var->cur_path, PATH_MAX);
-		ft_strlcpy(var->cur_path, new_path, PATH_MAX);
+		if (status == EXIT_SUCCESS)
+			(pwd->value) = ft_strdup(new_path);
+		else
+			(pwd->value) = ft_strdup(var->cur_path);
 	}
 	return (EXIT_SUCCESS);
 }
