@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 15:47:26 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/18 13:52:05 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/20 17:52:31 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,22 +85,24 @@ int	expand_tokens(t_list **list_start, t_htable *env)
 {
 	t_token	*current_token;
 	t_list	*tokens;
-	int		exit_code;
+	int		error_check;
 	int		token_index;
 
 	tokens = *list_start;
 	token_index = 0;
 	while (tokens)
 	{
+		error_check = EXIT_SUCCESS;
 		current_token = (t_token *)tokens->content;
-		exit_code = find_expandables(current_token, env);
-		if (exit_code == EXIT_FAILURE)
+		if (current_token->type != HEREDOC)
+			error_check = find_expandables(current_token, env);
+		if (error_check == EXIT_FAILURE)
 		{
 			terminate_token_list_error(list_start);
 			return (EXIT_FAILURE);
 		}
 		tokens = tokens->next;
-		if (exit_code == VALUE_NOT_FOUND && current_token->value == NULL)
+		if (error_check == VALUE_NOT_FOUND && current_token->value == NULL)
 			remove_token_from_list(list_start, token_index);
 		else
 			token_index++;
