@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/09/18 12:02:47 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/20 12:20:08 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/20 12:33:02 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -32,6 +32,15 @@ int	child_process_onecmnd(t_exec_var *var, t_command *cmnd)
 	exit(EXIT_FAILURE);
 }
 
+static int	st_child_bltin(t_exec_var *var, t_command *cmnd, int bltin_index)
+{
+	int	check;
+
+	check = execute_builtin(var, cmnd, bltin_index);
+	terminate_execvar(var);
+	exit(check);
+}
+
 int	child_process(t_exec_var *var, t_command *cmnd)
 {
 	int		bltin_index;
@@ -46,11 +55,7 @@ int	child_process(t_exec_var *var, t_command *cmnd)
 			exit(EXIT_FAILURE);
 		bltin_index = check_if_builtin(var, cmnd);
 		if (bltin_index >= 0)
-		{
-			check = execute_builtin(var, cmnd, bltin_index);
-			terminate_execvar(var);
-			exit(check);
-		}
+			return (st_child_bltin(var, cmnd, bltin_index));
 		else
 		{
 			valid_cmnd = find_command_path(var, cmnd);
