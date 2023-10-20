@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/10/20 10:11:34 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/20 11:24:53 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/20 12:21:27 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,5 +73,7 @@ int	swap_back_in_minishell(t_exec_var *var, int fd_stdin, int fd_stdout)
 		return (exec_error_swap(fd_stdin, fd_stdout, var));
 	if (dup2(fd_stdout, STDOUT_FILENO) < 0)
 		return (exec_error_swap(fd_stdin, fd_stdout, var));
+	close(fd_stdout);
+	close(fd_stdin);
 	return (EXIT_SUCCESS);
 }
