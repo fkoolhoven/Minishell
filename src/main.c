@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:08:39 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/18 17:00:36 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/20 16:55:04 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ static int	minishell(t_htable *env, char *cur_path)
 			printf(BOLDGREEN"Bye bye! See you next time.\n"OFF);
 			exit(exit_code);
 		}
-		else
+		else if (!(user_input_is_empty(user_input)))
 		{
 			exit_code = parse_and_exec(env, user_input, exit_code, cur_path);
 			// printf("Exit code = %i\n", exit_code);
