@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   errors_exec.c                                      :+:      :+:    :+:   */
+/*   errors_exec.c                                     :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 10:24:45 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/10/18 13:03:17 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/20 12:39:55 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	exec_error_child_denied(t_exec_var *var, char *val_cmnd, t_command *cmnd)
 	{
 		terminate_command_list(&(var->cmnd_list));
 		terminate_hashtable(var->env);
-		ft_free_str_array(var->env_str);
+		terminate_execvar(var);
 	}
 	if (val_cmnd != NULL)
 		free(val_cmnd);
@@ -60,7 +60,7 @@ int	exec_error_child_notfound(t_exec_var *var, char *val_cmnd, t_command *cmnd)
 	{
 		terminate_command_list(&(var->cmnd_list));
 		terminate_hashtable(var->env);
-		ft_free_str_array(var->env_str);
+		terminate_execvar(var);
 	}
 	if (val_cmnd != NULL)
 		free(val_cmnd);

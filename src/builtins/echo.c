@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 15:42:44 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/10/18 17:01:59 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/20 16:50:18 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ static int	st_display_special_arg(t_exec_var *var, char *arg)
 			if (st_with_status(var, arg, start, i - 1) < 0)
 				return (-1);
 			start = i + 2;
+			i++;
 		}
 		i++;
 		if (arg[i] == '\0')
@@ -88,12 +89,12 @@ static int	st_display_args(t_exec_var *var, t_command *command, int start)
 		if (ft_strnstr(cmnd[i], "$?", ft_strlen(cmnd[i])) != NULL)
 			check = st_display_special_arg(var, cmnd[i]);
 		else
-			check = printf("%s", cmnd[i]);
+			check = write(STDIN_FILENO, cmnd[i], ft_strlen(cmnd[i]));
 		if (check < 0)
 			return (EXIT_FAILURE);
 		if (cmnd[i + 1] != NULL)
 		{
-			check = printf(" ");
+			check = write(STDIN_FILENO, " ", 1);
 			if (check < 0)
 				return (EXIT_FAILURE);
 		}
@@ -113,7 +114,7 @@ int	bltin_echo(t_exec_var *var, t_command *command)
 		return (EXIT_FAILURE);
 	if ((command->command)[1] == NULL)
 	{
-		check = printf("\n");
+		check = write(STDIN_FILENO, "\n", 1);
 		if (check < 0)
 			return (EXIT_FAILURE);
 		rl_on_new_line();
@@ -124,7 +125,7 @@ int	bltin_echo(t_exec_var *var, t_command *command)
 	check = st_display_args(var, command, 1);
 	if (check != EXIT_SUCCESS)
 		return (check);
-	check = printf("\n");
+	check = write(STDIN_FILENO, "\n", 1);
 	if (check < 0)
 		return (EXIT_FAILURE);
 	rl_on_new_line();
