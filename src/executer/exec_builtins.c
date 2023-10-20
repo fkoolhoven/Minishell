@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/09/18 09:57:46 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/11 16:28:33 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/20 11:23:51 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -79,6 +79,5 @@ int	execute_builtin(t_exec_var *var, t_command *cmnd, int bltin)
 		status = jmptbl[bltin](var, cmnd);
 	else
 		status = jmptbl[(bltin % 7)](var, cmnd);
-	terminate_execvar(var);
 	return (status);
 }

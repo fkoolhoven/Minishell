@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 10:59:43 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/10/18 15:57:51 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/20 11:24:30 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,10 @@ void	create_all_outfiles(t_exec_var *var);
 // swap_fds.c
 int		swap_filedescriptors(t_exec_var *var, t_command *cmnd);
 
+// swap_fd_mini.c 
+int		swap_back_in_minishell(t_exec_var *var, int fd_stdin, int fd_stdout);
+int		swap_mini(t_exec_var *var, t_command *cmnd, int *fd_in, int *fd_out);
+
 // give_fds.c
 int		give_input_fd(t_redirect *in);
 int		give_output_fd(t_redirect *out);
@@ -56,13 +60,6 @@ int		child_process(t_exec_var *var, t_command *cmnd);
 int		child_process_onecmnd(t_exec_var *var, t_command *cmnd);
 int		parent_process(t_exec_var *var, int j);
 int		parent_one_command(t_exec_var *var);
-
-// errors.c
-int		exec_error_swap(int fd_in, int fd_out, t_exec_var *var);
-int		exec_error_child_denied(t_exec_var *var, char *val_cmnd, t_command *cmnd);
-int		exec_error_child_notfound(t_exec_var *var, char *val_cmnd, t_command *cmnd);
-int		exec_error_parent(t_exec_var *var);
-int		exec_error_parent_nopipe(t_exec_var *var);
 
 // valid_path.c
 char	*find_command_path(t_exec_var *var, t_command *cmnd);

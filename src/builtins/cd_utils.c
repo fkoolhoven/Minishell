@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/10/18 15:38:23 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/18 15:39:08 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/20 11:17:26 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	cd_put_error(char *message, char *key, char *path)
 	return (EXIT_FAILURE);
 }
 
-void	cd_change_curpath(t_exec_var *var, char *npath, char *epath, int status)
+void	cd_ch_curpath(t_exec_var *var, char *npath, char *epath, int status)
 {
 	char	check_str[PATH_MAX];
 

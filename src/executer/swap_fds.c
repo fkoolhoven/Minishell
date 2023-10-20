@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   swap_fds.c                                         :+:      :+:    :+:   */
+/*   swap_fds.c                                        :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 10:25:40 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/10/18 13:04:35 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/20 10:58:17 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 static int	st_swap_stdin(t_exec_var *var, int fd_in, int fd_out)
 {
+	if (fd_in == -1)
+		return (exec_error_swap(fd_in, fd_out, var));
 	if (fd_in >= 0)
 	{
 		if (dup2(fd_in, STDIN_FILENO) < 0)

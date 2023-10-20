@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/10/18 15:37:15 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/18 15:38:19 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/20 11:19:06 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,14 +47,14 @@ int	cd_prev_dir(t_exec_var *var)
 	if (check < 0 && new_path[0] != '\0')
 	{
 		err_path = st_give_error_path(var);
-		cd_change_curpath(var, new_path, err_path, EXIT_FAILURE);
+		cd_ch_curpath(var, new_path, err_path, EXIT_FAILURE);
 		free(err_path);
 		check = cd_change_env(var, new_path, EXIT_FAILURE);
 		return (free(new_path), check);
 	}
 	if (check < 0)
 		return (EXIT_SUCCESS);
-	cd_change_curpath(var, new_path, NULL, EXIT_SUCCESS);
+	cd_ch_curpath(var, new_path, NULL, EXIT_SUCCESS);
 	check = cd_change_env(var, new_path, EXIT_SUCCESS);
 	return (free(new_path), check);
 }

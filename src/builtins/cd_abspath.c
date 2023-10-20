@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/10/18 15:36:19 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/18 15:38:19 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/20 11:18:38 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	cd_absolute_path(t_exec_var *var, char *path)
 		check = cd_put_error(NULL, NULL, tmp_path);
 		return (free(tmp_path), check);
 	}
-	cd_change_curpath(var, tmp_path, NULL, EXIT_SUCCESS);
+	cd_ch_curpath(var, tmp_path, NULL, EXIT_SUCCESS);
 	check = cd_change_env(var, tmp_path, EXIT_SUCCESS);
 	return (free(tmp_path), check);
 }

@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 10:37:19 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/10/18 15:35:07 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/20 11:18:14 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -24,7 +24,7 @@ static int	st_go_key(t_exec_var *var, char *key)
 	check = chdir(path);
 	if (check < 0)
 		return (cd_put_error(NULL, NULL, path));
-	cd_change_curpath(var, path, NULL, EXIT_SUCCESS);
+	cd_ch_curpath(var, path, NULL, EXIT_SUCCESS);
 	return (cd_change_env(var, path, EXIT_SUCCESS));
 }
 

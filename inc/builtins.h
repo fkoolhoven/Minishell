@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 10:39:26 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/10/18 15:59:47 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/20 11:17:33 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,19 @@
 # include "./types.h"
 
 // cd.c
-int	bltin_cd(t_exec_var *var, t_command *cmnd);
+int		bltin_cd(t_exec_var *var, t_command *cmnd);
 
 // cd_abspath.c 
-int	cd_absolute_path(t_exec_var *var, char *path);
+int		cd_absolute_path(t_exec_var *var, char *path);
 
 // cd_curpath.c 
-int	cd_change_with_path(t_exec_var *var, char *path);
+int		cd_change_with_path(t_exec_var *var, char *path);
 
 // cd_edit_path.c 
 void	cd_edit_newpath(char *new_path, int len);
 
 // cd_prev.c 
-int	cd_prev_dir(t_exec_var *var);
+int		cd_prev_dir(t_exec_var *var);
 
 // cd_strtrim.c 
 char	*cd_strtrim(char const *s1, char const *set);
@@ -43,7 +43,7 @@ size_t	cd_len_trim_between(char *s1, char const *set);
 // cd_utils.c 
 int		cd_give_args_count(char **command);
 int		cd_put_error(char *message, char *key, char *path);
-void	cd_change_curpath(t_exec_var *var, char *npath, char *epath, int status);
+void	cd_ch_curpath(t_exec_var *var, char *npath, char *epath, int status);
 int		cd_change_env(t_exec_var *var, char *new_path, int status);
 void	cd_move(char *new_path, int start, int end, int size);
 
