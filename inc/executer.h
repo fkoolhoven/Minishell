@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 10:59:43 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/10/20 11:24:30 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/23 12:33:54 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	heredoc_unlinker(t_command *command_list);
 // exec_utils.c
 int		size_cmndlist(t_command *cmnd_list);
 void	create_all_outfiles(t_exec_var *var);
+bool	heredoc_infile_found(t_redirect *in);
 
 // swap_fds.c
 int		swap_filedescriptors(t_exec_var *var, t_command *cmnd);
@@ -55,6 +56,9 @@ int		execute_builtin(t_exec_var *var, t_command *cmnd, int bltin);
 // exec.c
 int		execute(t_command *cmnd_list, t_htable *env, int estatus, char *cpath);
 
+// exec_one_cmnd.c 
+int		execute_one_cmnd(t_exec_var *var);
+
 // processes.c
 int		child_process(t_exec_var *var, t_command *cmnd);
 int		child_process_onecmnd(t_exec_var *var, t_command *cmnd);
@@ -65,6 +69,8 @@ int		parent_one_command(t_exec_var *var);
 char	*find_command_path(t_exec_var *var, t_command *cmnd);
 
 // terminate_execvar.c
-void	terminate_execvar(t_exec_var *var);
+void	terminate_execvar_child(t_exec_var **var);
+void	terminate_execvar_parent(t_exec_var **var);
+void	terminate_execvar_exit(t_exec_var **var);
 
 #endif

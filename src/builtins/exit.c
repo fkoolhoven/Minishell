@@ -1,22 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
+/*   exit.c                                            :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 10:38:10 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/10/16 14:32:30 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/23 12:26:30 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	free_all_allocated_memory(t_exec_var *var, t_command *command)
+static void	free_all_allocated_memory(t_exec_var *var)
 {
-	terminate_hashtable(var->env);
-	terminate_execvar(var);
-	terminate_command_list(&command);
+	terminate_execvar_exit(&var);
 }
 
 static bool	arg_is_numeric(char *str)
@@ -88,7 +86,7 @@ int	bltin_exit(t_exec_var *var, t_command *command)
 	}
 	else
 		exit_code = get_exit_code(full_command, argc);
-	free_all_allocated_memory(var, command);
+	free_all_allocated_memory(var);
 	printf(BOLDGREEN"Bye bye! See you next time.\n"OFF);
 	exit(exit_code);
 }

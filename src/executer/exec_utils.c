@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/09/15 13:32:56 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/11 12:17:47 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/23 11:03:02 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -66,4 +66,20 @@ void	create_all_outfiles(t_exec_var *var)
 			}
 		}
 	}
+}
+
+bool	heredoc_infile_found(t_redirect *in)
+{
+	t_redirect	*tmp;
+
+	if (in == NULL)
+		return (false);
+	tmp = in;
+	while (tmp != NULL)
+	{
+		if (tmp->type == HEREDOC_INFILE)
+			return (true);
+		tmp = tmp->next;
+	}
+	return (false);
 }

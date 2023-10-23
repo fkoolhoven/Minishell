@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:08:39 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/20 16:55:04 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/23 12:00:46 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,34 +25,32 @@ static bool	user_input_is_empty(char *user_input)
 		return (false);
 }
 
-static int	parse_and_exec(t_htable *env, char *user_input, int exit_code, char *cur_path)
+static int	parse_and_exec(t_htable *env, char *input, int ecode, char *cpath)
 {
 	t_command	*command_list;
 	t_list		*tokens;
 	int			check;
 	int			exit_status;
 
-	exit_status = exit_code;
-	if (user_input_is_empty(user_input))
+	exit_status = ecode;
+	if (user_input_is_empty(input))
 		return (EXIT_SUCCESS);
-	tokens = tokenizer(user_input, &exit_code);
+	tokens = tokenizer(input, &ecode);
 	if (tokens == NULL)
-		return (exit_code);
+		return (ecode);
 	if (expand_tokens(&tokens, env) == EXIT_FAILURE)
-		return (exit_code);
-	if (remove_quotes_from_tokens(&tokens, &exit_code) == EXIT_FAILURE)
-		return (exit_code);
-	command_list = parse(&tokens, &exit_code);
+		return (ecode);
+	if (remove_quotes_from_tokens(&tokens, &ecode) == EXIT_FAILURE)
+		return (ecode);
+	command_list = parse(&tokens, &ecode);
 	if (command_list == NULL)
-		return (exit_code);
+		return (ecode);
 	terminate_token_list(&tokens);
 	check = manage_heredocs(command_list, env);
 	if (check != EXIT_SUCCESS)
 		return (terminate_command_list(&command_list), check);
-	exit_code = execute(command_list, env, exit_status, cur_path);
-	heredoc_unlinker(command_list);
-	terminate_command_list(&command_list);
-	return (exit_code);
+	ecode = execute(command_list, env, exit_status, cpath);
+	return (ecode);
 }
 
 static void	display_banner(void)
@@ -83,7 +81,6 @@ static int	minishell(t_htable *env, char *cur_path)
 		else if (!(user_input_is_empty(user_input)))
 		{
 			exit_code = parse_and_exec(env, user_input, exit_code, cur_path);
-			// printf("Exit code = %i\n", exit_code);
 			add_history(user_input);
 		}
 		free(user_input);

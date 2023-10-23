@@ -1,27 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   errors_exec.c                                     :+:    :+:             */
+/*   errors_exec_process.c                             :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 10:24:45 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/10/20 12:39:55 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/23 12:38:26 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	exec_error_swap(int fd_in, int fd_out, t_exec_var *var)
-{
-	if (fd_in >= 3)
-		close(fd_in);
-	if (fd_out >= 3)
-		close(fd_out);
-	terminate_execvar(var);
-	perror(NULL);
-	return (EXIT_FAILURE);
-}
 
 int	exec_error_child_denied(t_exec_var *var, char *val_cmnd, t_command *cmnd)
 {
@@ -35,11 +24,7 @@ int	exec_error_child_denied(t_exec_var *var, char *val_cmnd, t_command *cmnd)
 		}
 	}
 	if (var != NULL)
-	{
-		terminate_command_list(&(var->cmnd_list));
-		terminate_hashtable(var->env);
-		terminate_execvar(var);
-	}
+		terminate_execvar_child(&var);
 	if (val_cmnd != NULL)
 		free(val_cmnd);
 	return (126);
@@ -57,11 +42,7 @@ int	exec_error_child_notfound(t_exec_var *var, char *val_cmnd, t_command *cmnd)
 		}
 	}
 	if (var != NULL)
-	{
-		terminate_command_list(&(var->cmnd_list));
-		terminate_hashtable(var->env);
-		terminate_execvar(var);
-	}
+		terminate_execvar_child(&var);
 	if (val_cmnd != NULL)
 		free(val_cmnd);
 	return (127);
@@ -69,7 +50,7 @@ int	exec_error_child_notfound(t_exec_var *var, char *val_cmnd, t_command *cmnd)
 
 int	exec_error_parent(t_exec_var *var)
 {
-	terminate_execvar(var);
+	terminate_execvar_parent(&var);
 	return (EXIT_FAILURE);
 }
 
@@ -81,6 +62,11 @@ int	exec_error_parent_nopipe(t_exec_var *var)
 			ft_free_str_array(var->env_str);
 		if (var->fd_read >= 3)
 			close(var->fd_read);
+		if (var->cmnd_list != NULL)
+		{
+			heredoc_unlinker(var->cmnd_list);
+			terminate_command_list(&(var->cmnd_list));
+		}
 	}
 	return (EXIT_FAILURE);
 }

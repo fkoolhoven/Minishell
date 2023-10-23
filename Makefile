@@ -6,7 +6,7 @@
 #    By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/31 14:20:16 by jhendrik          #+#    #+#              #
-#    Updated: 2023/10/20 10:53:42 by jhendrik      ########   odam.nl          #
+#    Updated: 2023/10/23 12:39:27 by jhendrik      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,8 @@ SRC_SUBDIR	:= $(foreach dir, $(SUB_DIR),$(addprefix $(SRC_DIR)/,$(dir)))
 
 SRC			:= main.c \
 			   errors/errors_parser.c \
-			   errors/errors_exec.c \
+			   errors/errors_exec_swap.c \
+			   errors/errors_exec_process.c \
 			   token/token.c \
 			   token/token_utils.c \
 			   token/token_tokenize.c \
@@ -58,6 +59,7 @@ SRC			:= main.c \
 			   executer/manage_one_heredoc.c \
 			   executer/exec.c \
 			   executer/exec_builtins.c \
+			   executer/exec_one_cmnd.c \
 			   executer/exec_utils.c \
 			   executer/swap_fds.c \
 			   executer/give_fds.c \
