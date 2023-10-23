@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 10:24:45 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/10/23 12:38:26 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/23 16:58:38 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ int	exec_error_child_denied(t_exec_var *var, char *val_cmnd, t_command *cmnd)
 		terminate_execvar_child(&var);
 	if (val_cmnd != NULL)
 		free(val_cmnd);
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
 	return (126);
 }
 
@@ -45,6 +47,8 @@ int	exec_error_child_notfound(t_exec_var *var, char *val_cmnd, t_command *cmnd)
 		terminate_execvar_child(&var);
 	if (val_cmnd != NULL)
 		free(val_cmnd);
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
 	return (127);
 }
 

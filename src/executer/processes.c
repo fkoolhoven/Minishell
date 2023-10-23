@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/09/18 12:02:47 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/23 12:17:43 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/23 17:04:21 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -84,7 +84,8 @@ int	parent_one_command(t_exec_var *var)
 
 	wrap_sighandler(SIGINT, SIG_IGN);
 	waitpid(var->process, &waitstatus, 0);
-	waitpid(0, NULL, 0);
+	// this line fixes sleep 4 | ls, but breaks cat | cat | cat | ls (if it would work in the first place)
+//	waitpid(-1, NULL, 0);
 	wrap_sighandler(SIGINT, &catch_sigint_parent);
 	if (WIFEXITED(waitstatus))
 		return (WEXITSTATUS(waitstatus));
@@ -94,7 +95,43 @@ int	parent_one_command(t_exec_var *var)
 		return (EXIT_SUCCESS);
 }
 
-int	parent_process(t_exec_var *var, int j)
+int	parent_of_grandchild(t_exec_var *var, t_command *cmnd)
+{
+	pid_t	process;
+	int		waitstatus;
+
+	if (var == NULL)
+		exit(EXIT_FAILURE);
+	if (cmnd == NULL)
+	{
+		terminate_execvar_child(&var);
+		exit(EXIT_FAILURE);
+	}
+	process = fork();
+	if (process < 0)
+	{
+		terminate_execvar_child(&var);
+		exit(EXIT_FAILURE);
+	}
+	if (process == 0)
+		waitstatus = child_process(var, cmnd);
+	else 
+	{
+		wrap_sighandler(SIGINT, SIG_IGN);
+		waitpid(process, &waitstatus, 0);
+		wrap_sighandler(SIGINT, &catch_sigint_parent);
+		terminate_execvar_child(&var);
+		if (WIFEXITED(waitstatus))
+			exit(WEXITSTATUS(waitstatus));
+		else if (WIFSIGNALED(waitstatus))
+			exit(128 + WTERMSIG(waitstatus));
+		else
+			exit(EXIT_SUCCESS);
+	}
+	exit(waitstatus);
+}
+
+int	grandparent_process(t_exec_var *var, int j)
 {
 	if (j < var->last_cmnd - 1)
 	{
@@ -104,8 +141,7 @@ int	parent_process(t_exec_var *var, int j)
 		close(var->fd_pipe[1]);
 		return (EXIT_SUCCESS);
 	}
-	else if (j == var->last_cmnd - 1)
+	if (j == var->last_cmnd - 1)
 		return (parent_one_command(var));
-	terminate_execvar_parent(&var);
 	return (EXIT_SUCCESS);
 }

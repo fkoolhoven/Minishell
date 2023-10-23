@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/09/15 10:41:54 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/23 12:35:58 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/23 16:29:39 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -29,9 +29,9 @@ static int	st_execute_line(t_exec_var *var)
 			if (var->process < 0)
 				return (exec_error_parent(var));
 			else if (var->process != 0)
-				status = parent_process(var, j);
+				status = grandparent_process(var, j);
 			else
-				child_process(var, tmp);
+				parent_of_grandchild(var, tmp);
 			j++;
 			tmp = tmp->next;
 		}
@@ -60,6 +60,7 @@ int	execute(t_command *cmnd_list, t_htable *env, int estatus, char *cpath)
 	var.exit_status = estatus;
 	var.fd_read = -1;
 	var.last_cmnd = size_cmndlist(cmnd_list);
+	printf("%i\n", var.last_cmnd);
 	create_all_outfiles(&var);
 	if (var.last_cmnd == 1)
 		return (execute_one_cmnd(&var));
