@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   hashnode_functions.c                               :+:      :+:    :+:   */
+/*   hashnode_functions.c                              :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:03:59 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/10/11 17:03:17 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/23 14:29:13 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ t_hnode	*new_hash_node(char *key, char *value)
 {
 	t_hnode	*node;
 
+	if (key == NULL)
+		return (NULL);
 	node = malloc(sizeof(t_hnode));
 	if (node == NULL)
 		return (NULL);

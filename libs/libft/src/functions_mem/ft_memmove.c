@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ft_memmove.c                                       :+:    :+:            */
+/*   ft_memmove.c                                      :+:    :+:             */
 /*                                                     +:+                    */
 /*   By: jhendrik <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/12 10:21:48 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/07/03 17:06:57 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/23 13:38:40 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft.h"
@@ -49,7 +49,7 @@
 		this function has undefined behavior.
  */
 
-static void	*ft_dst_s_src(void *dst, const void *src, size_t n)
+static void	*st_dst_s_src(void *dst, const void *src, size_t n)
 {
 	char		*ptr_dst;
 	const char	*ptr_src;
@@ -66,7 +66,7 @@ static void	*ft_dst_s_src(void *dst, const void *src, size_t n)
 	return (dst);
 }
 
-static void	*ft_dst_b_src(void *dst, const void *src, size_t n)
+static void	*st_dst_b_src(void *dst, const void *src, size_t n)
 {
 	char		*ptr_dst;
 	const char	*ptr_src;
@@ -88,6 +88,6 @@ void	*ft_memmove(void *dst, const void *src, size_t n)
 	if (dst == NULL || src == NULL)
 		return (NULL);
 	if (dst <= src)
-		return (ft_dst_s_src(dst, src, n));
-	return (ft_dst_b_src(dst, src, n));
+		return (st_dst_s_src(dst, src, n));
+	return (st_dst_b_src(dst, src, n));
 }

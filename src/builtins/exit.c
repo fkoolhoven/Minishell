@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 10:38:10 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/10/23 12:26:30 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/23 14:24:13 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,10 @@
 
 static void	free_all_allocated_memory(t_exec_var *var)
 {
-	terminate_execvar_exit(&var);
+	if (var->process != 0)
+		terminate_execvar_exit(&var);
+	else
+		terminate_execvar_child(&var);
 }
 
 static bool	arg_is_numeric(char *str)

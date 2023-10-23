@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_keyvalue_pairs.c                              :+:      :+:    :+:   */
+/*   init_keyvalue_pairs.c                             :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 15:46:06 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/10/11 17:03:56 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/23 14:29:13 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int	st_add_hnode(char *key, char *value, t_htable *env, t_hnode ***head)
 	int		index;
 	t_hnode	*new;
 
-	if (key == NULL || value == NULL || env == NULL || head == NULL)
+	if (key == NULL || env == NULL || head == NULL)
 		return (EXIT_FAILURE);
 	if (*head == NULL)
 		return (EXIT_FAILURE);
@@ -46,7 +46,7 @@ static int	st_add_pair(char *key, char *value, t_htable *env, t_hnode ***head)
 {
 	int	check;
 
-	if (key == NULL || value == NULL || env == NULL || head == NULL)
+	if (key == NULL || env == NULL || head == NULL)
 		return (EXIT_FAILURE);
 	if (*head == NULL)
 		return (EXIT_FAILURE);
@@ -72,7 +72,7 @@ int	init_keyvalue(t_hnode ***head, t_htable *env_table, char **envp)
 	{
 		key = give_key(envp[i]);
 		value = give_value(envp[i]);
-		if (key == NULL || value == NULL)
+		if (key == NULL)
 			return (st_error(key, value, head, env_table), -2);
 		else
 		{

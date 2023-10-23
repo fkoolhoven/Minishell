@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ft_bzero.c                                         :+:    :+:            */
+/*   ft_bzero.c                                        :+:    :+:             */
 /*                                                     +:+                    */
 /*   By: jhendrik <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/11 15:25:18 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/01/11 09:18:49 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/23 13:39:32 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include <stddef.h>
@@ -31,7 +31,7 @@ void	ft_bzero(void *str, size_t n)
 		temp = (unsigned char *) str;
 		while (i < n)
 		{
-			*(temp + i) = 0;
+			*(temp + i) = (unsigned char)0;
 			i++;
 		}
 	}

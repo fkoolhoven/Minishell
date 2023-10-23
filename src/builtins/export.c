@@ -71,7 +71,6 @@ int	bltin_export(t_exec_var *var, t_command *command_struct)
 	i = 1;
 	if (!command[i])
 	{
-		print_hashtable(var->env);
 		print_env_list(var->env_str);
 		return (EXIT_FAILURE);
 	}

@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/25 09:50:04 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/18 16:35:59 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/23 13:44:28 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft.h"
@@ -40,7 +40,7 @@
 		Otherwise, the function returns a pointer to the string.
  */
 
-static int	ft_while_nblen(unsigned int n)
+static int	st_give_nblen(unsigned int n)
 {
 	unsigned int	i;
 	int				cnt;
@@ -55,21 +55,21 @@ static int	ft_while_nblen(unsigned int n)
 	return (cnt);
 }
 
-static int	ft_nblen(int n)
+static int	st_nblen(int n)
 {
 	int	abs_n;
 
 	if (n > 0)
-		return (ft_while_nblen(n));
+		return (st_give_nblen(n));
 	if (n == 0)
 		return (1);
 	if (n == -2147483648)
 		return (11);
 	abs_n = (-1) * n;
-	return (ft_while_nblen(abs_n) + 1);
+	return (st_give_nblen(abs_n) + 1);
 }
 
-static void	fill_str_negwhile(int n, int n_len, char *ptr_n)
+static void	st_fillstr_negval(int n, int n_len, char *ptr_n)
 {
 	int	cnt;
 	int	abs_n;
@@ -92,7 +92,7 @@ static void	fill_str_negwhile(int n, int n_len, char *ptr_n)
 	}
 }
 
-static void	fill_str(int n, int n_len, char *ptr_n)
+static void	st_fill_str(int n, int n_len, char *ptr_n)
 {
 	int	cnt;
 	int	abs_n;
@@ -100,7 +100,7 @@ static void	fill_str(int n, int n_len, char *ptr_n)
 	cnt = n_len - 1;
 	ptr_n[n_len] = '\0';
 	if (n < 0)
-		fill_str_negwhile(n, n_len, ptr_n);
+		st_fillstr_negval(n, n_len, ptr_n);
 	else
 	{
 		abs_n = n;
@@ -123,10 +123,10 @@ char	*ft_itoa(int n)
 	int		n_len;
 	char	*ptr_n;
 
-	n_len = ft_nblen(n);
+	n_len = st_nblen(n);
 	ptr_n = (char *)malloc(n_len + 1);
 	if (ptr_n == NULL)
 		return (NULL);
-	fill_str(n, n_len, ptr_n);
+	st_fill_str(n, n_len, ptr_n);
 	return (ptr_n);
 }

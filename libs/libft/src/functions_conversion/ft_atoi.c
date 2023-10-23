@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   ft_atoi.c                                         :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 11:22:13 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/10/16 12:35:47 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/23 13:41:30 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@
 		This function returns an int.
  */
 
-static int	rec_atoi(const char *str, int nb, int sgn)
+static int	st_rec_atoi(const char *str, int nb, int sgn)
 {
 	if (*str == '\0')
 		return (nb);
@@ -47,22 +47,22 @@ static int	rec_atoi(const char *str, int nb, int sgn)
 	{
 		if (sgn != 0 || nb != 0)
 			return (nb);
-		return (rec_atoi(str + 1, nb, sgn));
+		return (st_rec_atoi(str + 1, nb, sgn));
 	}
 	else if (*str == '-' || *str == '+')
 	{
 		if (*str == '-' && sgn == 0)
-			return (rec_atoi(str + 1, nb, -1));
+			return (st_rec_atoi(str + 1, nb, -1));
 		else if (*str == '+' && sgn == 0)
-			return (rec_atoi(str + 1, nb, 1));
+			return (st_rec_atoi(str + 1, nb, 1));
 		else
 			return (nb);
 	}
 	else if (*str >= '0' && *str <= '9')
 	{
 		if (sgn == 1 || sgn == 0)
-			return (rec_atoi(str + 1, nb * 10 + (*str - '0'), 1));
-		return (rec_atoi(str + 1, nb * 10 - (*str - '0'), sgn));
+			return (st_rec_atoi(str + 1, nb * 10 + (*str - '0'), 1));
+		return (st_rec_atoi(str + 1, nb * 10 - (*str - '0'), sgn));
 	}
 	else
 		return (nb);
@@ -74,6 +74,6 @@ int	ft_atoi(const char *str)
 
 	if (str == NULL)
 		return (0);
-	nb = rec_atoi(str, 0, 0);
+	nb = st_rec_atoi(str, 0, 0);
 	return (nb);
 }
