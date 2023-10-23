@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 16:45:09 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/16 16:45:53 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/23 16:02:56 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,19 +29,16 @@ static int	calculate_value_strlen(char *value, int key_end)
 
 char	*get_value(char *command, int key_end)
 {
-	char	*untrimmed_value;
 	char	*value;
 	int		value_strlen;
 
 	if (command[key_end] == '\0')
 		return (NULL);
 	value_strlen = calculate_value_strlen(command, key_end);
-	untrimmed_value = ft_calloc(value_strlen + 1, sizeof(char));
-	if (untrimmed_value == NULL)
+	value = ft_calloc(value_strlen + 1, sizeof(char));
+	if (value == NULL)
 		return (malloc_error_return_null("export builtin"));
-	ft_strlcpy(untrimmed_value, command + key_end, value_strlen + 1);
-	value = ft_strtrim(untrimmed_value, " \f\t\n\r\v");
-	free(untrimmed_value);
+	ft_strlcpy(value, command + key_end, value_strlen + 1);
 	if (value == NULL)
 		return (malloc_error_return_null("export builtin"));
 	return (value);
