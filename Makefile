@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    Makefile                                          :+:    :+:              #
+#    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/31 14:20:16 by jhendrik          #+#    #+#              #
-#    Updated: 2023/10/23 12:39:27 by jhendrik      ########   odam.nl          #
+#    Updated: 2023/10/23 16:07:22 by fkoolhov         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,6 +42,7 @@ SRC			:= main.c \
 			   token/token_tokenize.c \
 			   token/token_expand.c \
 			   token/token_expand_variable.c \
+			   token/token_split.c \
 			   token/token_quotes.c \
 			   token/token_terminate.c \
 			   parser/parser.c \

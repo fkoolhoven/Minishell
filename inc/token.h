@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:39:28 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/18 13:53:18 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/23 16:49:58 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,14 @@ t_list	*tokenizer(char *input, int *exit_code);
 int		tokenize_word(t_token *token, char *input, int *i);
 int		tokenize_operator(t_token *token, char *input, int *i, int *exit_code);
 
-// expand.c
+// token_expand.c
 int		expand_tokens(t_list **list_start, t_htable *env);
 
-// expand_variable.c
+// token_expand_variable.c
 int		expand_variable(t_token *token, t_htable *env, int *i);
+
+// token_split.c
+int		split_tokens(t_list **list_start, int *exit_code);
 
 // token_quotes.c
 int		remove_quotes_from_tokens(t_list **list_start, int *exit_code);
