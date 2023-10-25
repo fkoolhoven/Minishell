@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 12:48:37 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/12 17:24:58 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/25 15:26:24 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	terminate_token(t_list *token)
 	free(token);
 }
 
-void	*terminate_token_list_error(t_list **list_start)
+void	terminate_token_list_error(t_list **list_start)
 {
 	t_list	*tokens;
 	t_list	*temp;
@@ -35,7 +35,18 @@ void	*terminate_token_list_error(t_list **list_start)
 		terminate_token(tokens);
 		tokens = temp;
 	}
+}
+
+void	*terminate_token_list_error_null(t_list **list_start)
+{
+	terminate_token_list_error(list_start);
 	return (NULL);
+}
+
+int	terminate_token_list_error_failure(t_list **list_start)
+{
+	terminate_token_list_error(list_start);
+	return (EXIT_FAILURE);
 }
 
 void	terminate_token_list(t_list **list_start)

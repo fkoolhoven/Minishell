@@ -6,13 +6,13 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:25:50 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/18 13:57:56 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/25 15:11:12 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static t_token	*initialize_token(void)
+t_token	*initialize_token(void)
 {
 	t_token	*token;
 
@@ -94,14 +94,14 @@ t_list	*tokenizer(char *input, int *exit_code)
 			break ;
 		token = initialize_token();
 		if (!token)
-			return (terminate_token_list_error(&tokens));
+			return (terminate_token_list_error_null(&tokens));
 		if (add_token_to_list(&tokens, token) == EXIT_FAILURE)
 		{
 			free(token);
-			return (terminate_token_list_error(&tokens));
+			return (terminate_token_list_error_null(&tokens));
 		}
 		if (tokenize_input(token, input, &i, exit_code) == EXIT_FAILURE)
-			return (terminate_token_list_error(&tokens));
+			return (terminate_token_list_error_null(&tokens));
 	}
 	return (tokens);
 }

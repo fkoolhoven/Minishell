@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 15:20:23 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/16 16:46:55 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/25 16:03:55 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static void	print_env_list(char **env)
 	}
 }
 
-void	attempt_to_export(t_exec_var *var, char *input)
+static void	attempt_to_export(t_exec_var *var, char *input)
 {
 	t_hnode	*node;
 	char	*key;
@@ -56,6 +56,7 @@ void	attempt_to_export(t_exec_var *var, char *input)
 			if (node->value)
 				free(node->value);
 			node->value = value;
+			free(key);
 		}
 		else
 			add_pair(var->env, key, value);

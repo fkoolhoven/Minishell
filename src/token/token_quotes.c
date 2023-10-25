@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:47:37 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/18 15:04:03 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/25 15:15:45 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,10 +99,7 @@ int	remove_quotes_from_tokens(t_list **list_start, int *exit_code)
 		current_token = (t_token *)tokens->content;
 		current_token->value = get_new_value(current_token, exit_code);
 		if (current_token->value == NULL)
-		{
-			terminate_token_list_error(list_start);
-			return (EXIT_FAILURE);
-		}
+			return (terminate_token_list_error_failure(list_start));
 		tokens = tokens->next;
 	}
 	return (EXIT_SUCCESS);
