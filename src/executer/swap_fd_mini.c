@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/10/20 10:11:34 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/23 11:51:18 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/25 10:56:46 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,6 @@ int	swap_mini(t_exec_var *var, t_command *cmnd, int *fd_in, int *fd_out)
 	check = st_swap_stdin(var, in, out);
 	if (check != EXIT_SUCCESS)
 		return (check);
-	if (var->fd_read >= 3)
-		close(var->fd_read);
 	return (EXIT_SUCCESS);
 }
 

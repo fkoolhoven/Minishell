@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/09/15 10:41:54 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/23 12:35:58 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/25 10:20:48 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -44,6 +44,7 @@ int	execute(t_command *cmnd_list, t_htable *env, int estatus, char *cpath)
 {
 	t_exec_var	var;
 	int			fd[2];
+	int			prev_pipe[2];
 
 	if (cmnd_list == NULL || env == NULL)
 		return (EXIT_FAILURE);
@@ -55,10 +56,12 @@ int	execute(t_command *cmnd_list, t_htable *env, int estatus, char *cpath)
 		return (EXIT_FAILURE);
 	fd[0] = -1;
 	fd[1] = -1;
+	prev_pipe[0] = -1;
+	prev_pipe[1] = -1;
 	var.fd_pipe = fd;
 	var.process = 1;
 	var.exit_status = estatus;
-	var.fd_read = -1;
+	var.prev_pipe = prev_pipe;
 	var.last_cmnd = size_cmndlist(cmnd_list);
 	create_all_outfiles(&var);
 	if (var.last_cmnd == 1)

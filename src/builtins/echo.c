@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 15:42:44 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/10/20 16:50:18 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/25 10:59:08 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	st_put_partial_str(char *str, int start, int end, int size)
 		return (-1);
 	if (end > size || str == NULL)
 		return (-1);
-	check = write(STDIN_FILENO, str + start, end - start);
+	check = write(STDOUT_FILENO, str + start, end - start);
 	if (check < 0)
 		return (-1);
 	return (0);
@@ -42,7 +42,7 @@ static int	st_with_status(t_exec_var *var, char *arg, int start, int end)
 		write(STDERR_FILENO, "ft_itoa failed\n", 15);
 		return (-1);
 	}
-	check = write(STDIN_FILENO, nb, ft_strlen(nb));
+	check = write(STDOUT_FILENO, nb, ft_strlen(nb));
 	if (check < 0)
 		return (free(nb), check);
 	return (free(nb), 0);
@@ -89,12 +89,12 @@ static int	st_display_args(t_exec_var *var, t_command *command, int start)
 		if (ft_strnstr(cmnd[i], "$?", ft_strlen(cmnd[i])) != NULL)
 			check = st_display_special_arg(var, cmnd[i]);
 		else
-			check = write(STDIN_FILENO, cmnd[i], ft_strlen(cmnd[i]));
+			check = write(STDOUT_FILENO, cmnd[i], ft_strlen(cmnd[i]));
 		if (check < 0)
 			return (EXIT_FAILURE);
 		if (cmnd[i + 1] != NULL)
 		{
-			check = write(STDIN_FILENO, " ", 1);
+			check = write(STDOUT_FILENO, " ", 1);
 			if (check < 0)
 				return (EXIT_FAILURE);
 		}
@@ -114,7 +114,7 @@ int	bltin_echo(t_exec_var *var, t_command *command)
 		return (EXIT_FAILURE);
 	if ((command->command)[1] == NULL)
 	{
-		check = write(STDIN_FILENO, "\n", 1);
+		check = write(STDOUT_FILENO, "\n", 1);
 		if (check < 0)
 			return (EXIT_FAILURE);
 		rl_on_new_line();
@@ -125,7 +125,7 @@ int	bltin_echo(t_exec_var *var, t_command *command)
 	check = st_display_args(var, command, 1);
 	if (check != EXIT_SUCCESS)
 		return (check);
-	check = write(STDIN_FILENO, "\n", 1);
+	check = write(STDOUT_FILENO, "\n", 1);
 	if (check < 0)
 		return (EXIT_FAILURE);
 	rl_on_new_line();
