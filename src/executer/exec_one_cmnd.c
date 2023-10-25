@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/10/23 12:29:25 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/23 12:32:51 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/25 15:10:13 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ static int	st_execute_onecmnd_bltin(t_exec_var *var, int bltin_index)
 
 static int	st_exec_onecmnd_process(t_exec_var *var)
 {
-	int	exit_status;
+	int			exit_status;
+	t_process	*check;
 
 	var->process = fork();
 	if (var->process < 0)
@@ -45,6 +46,9 @@ static int	st_exec_onecmnd_process(t_exec_var *var)
 			return (child_process_onecmnd(var, var->cmnd_list));
 		else
 		{
+			check = process_make_add_node(&(var->process_lst), var->process);
+			if (check == NULL)
+				return (terminate_execvar_parent(&var), EXIT_FAILURE);
 			exit_status = parent_one_command(var);
 			return (terminate_execvar_parent(&var), exit_status);
 		}

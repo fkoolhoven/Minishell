@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/09/18 12:02:47 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/23 12:17:43 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/25 15:16:45 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -83,10 +83,12 @@ int	parent_one_command(t_exec_var *var)
 	int	waitstatus;
 
 	wrap_sighandler(SIGINT, SIG_IGN);
-	waitpid(var->process, &waitstatus, 0);
-	waitpid(0, NULL, 0);
+	close_pipes(var);
+	waitstatus = wait_for_all(var->process_lst);
 	wrap_sighandler(SIGINT, &catch_sigint_parent);
-	if (WIFEXITED(waitstatus))
+	if (waitstatus == EXIT_FAILURE)
+		return (EXIT_FAILURE);
+	else if (WIFEXITED(waitstatus))
 		return (WEXITSTATUS(waitstatus));
 	else if (WIFSIGNALED(waitstatus))
 		return (128 + WTERMSIG(waitstatus));
@@ -96,16 +98,25 @@ int	parent_one_command(t_exec_var *var)
 
 int	parent_process(t_exec_var *var, int j)
 {
+	t_process	*check;
+
 	if (j < var->last_cmnd - 1)
 	{
-		if (var->fd_read >= 3)
-			close(var->fd_read);
-		var->fd_read = var->fd_pipe[0];
-		close(var->fd_pipe[1]);
+		close_given_pipe(var->prev_pipe);
+		check = process_make_add_node(&(var->process_lst), var->process);
+		if (check == NULL)
+			return (EXIT_FAILURE);
+		var->prev_pipe[0] = var->fd_pipe[0];
+		var->prev_pipe[1] = var->fd_pipe[1];
 		return (EXIT_SUCCESS);
 	}
 	else if (j == var->last_cmnd - 1)
+	{
+		check = process_make_add_node(&(var->process_lst), var->process);
+		if (check == NULL)
+			return (EXIT_FAILURE);
 		return (parent_one_command(var));
+	}
 	terminate_execvar_parent(&var);
 	return (EXIT_SUCCESS);
 }

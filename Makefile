@@ -6,7 +6,7 @@
 #    By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/31 14:20:16 by jhendrik          #+#    #+#              #
-#    Updated: 2023/10/25 14:29:59 by fkoolhov         ###   ########.fr        #
+#    Updated: 2023/10/25 16:42:48 by fkoolhov         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -68,9 +68,12 @@ SRC			:= main.c \
 			   executer/processes.c \
 			   executer/valid_path.c \
 			   executer/terminate_execvar.c \
+			   executer/close_fds.c \
 			   executer/swap_fd_mini.c \
 			   utils/hashnode_functions.c \
 			   utils/hashnode_add_delete.c \
+			   utils/process_add_delete.c \
+			   utils/process_functions.c \
 			   env_functions/env_terminate.c \
 			   env_functions/env_utils.c \
 			   env_functions/init_env.c \

@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 10:59:43 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/10/23 12:33:54 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/25 15:38:40 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	heredoc_unlinker(t_command *command_list);
 int		size_cmndlist(t_command *cmnd_list);
 void	create_all_outfiles(t_exec_var *var);
 bool	heredoc_infile_found(t_redirect *in);
+int		wait_for_all(t_process *lst);
 
 // swap_fds.c
 int		swap_filedescriptors(t_exec_var *var, t_command *cmnd);
@@ -72,5 +73,11 @@ char	*find_command_path(t_exec_var *var, t_command *cmnd);
 void	terminate_execvar_child(t_exec_var **var);
 void	terminate_execvar_parent(t_exec_var **var);
 void	terminate_execvar_exit(t_exec_var **var);
+
+// close_fds.c 
+void	close_pipes(t_exec_var *var);
+void	close_given_pipe(int *fds);
+void	close_read_end(int *fds);
+void	close_write_end(int *fds);
 
 #endif

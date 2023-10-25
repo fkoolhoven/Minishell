@@ -6,60 +6,78 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/09/15 10:41:54 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/23 12:35:58 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/25 15:36:39 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
 
-static int	st_execute_line(t_exec_var *var)
+static int	st_exec_cmnds(t_exec_var *var)
 {
 	t_command	*tmp;
 	int			j;
 	int			status;
 
-	if (var != NULL)
+	j = 0;
+	tmp = var->cmnd_list;
+	while (j < var->last_cmnd)
 	{
-		j = 0;
-		tmp = var->cmnd_list;
-		while (j < var->last_cmnd)
-		{
-			if (j < var->last_cmnd - 1 && pipe(var->fd_pipe) < 0)
-				return (exec_error_parent_nopipe(var));
-			var->process = fork();
-			if (var->process < 0)
-				return (exec_error_parent(var));
-			else if (var->process != 0)
-				status = parent_process(var, j);
-			else
-				child_process(var, tmp);
-			j++;
-			tmp = tmp->next;
-		}
-		return (terminate_execvar_parent(&var), status);
+		if (j < var->last_cmnd - 1 && pipe(var->fd_pipe) < 0)
+			return (exec_error_parent_nopipe(var));
+		var->process = fork();
+		if (var->process < 0)
+			return (exec_error_parent(var));
+		else if (var->process != 0)
+			status = parent_process(var, j);
+		else
+			child_process(var, tmp);
+		if (var->process_lst == NULL && j >= 1)
+			j = var->last_cmnd;
+		j++;
+		tmp = tmp->next;
 	}
+	return (terminate_execvar_parent(&var), status);
+}
+
+static int	st_execute_line(t_exec_var *var)
+{
+	if (var != NULL)
+		return (st_exec_cmnds(var));
 	return (EXIT_FAILURE);
+}
+
+static int	st_initvar(t_exec_var *var, t_htable *env, t_command *cmnd_list)
+{
+	if (var == NULL || cmnd_list == NULL || env == NULL)
+		return (EXIT_FAILURE);
+	var->cmnd_list = cmnd_list;
+	var->env = env;
+	var->last_cmnd = size_cmndlist(cmnd_list);
+	var->env_str = convert_htable_to_strarray(env);
+	if (var->env_str == NULL)
+		return (EXIT_FAILURE);
+	var->process = -1;
+	var->process_lst = NULL;
+	return (EXIT_SUCCESS);
 }
 
 int	execute(t_command *cmnd_list, t_htable *env, int estatus, char *cpath)
 {
 	t_exec_var	var;
 	int			fd[2];
+	int			prev_pipe[2];
 
 	if (cmnd_list == NULL || env == NULL)
 		return (EXIT_FAILURE);
-	var.cmnd_list = cmnd_list;
-	var.env = env;
 	var.cur_path = cpath;
-	var.env_str = convert_htable_to_strarray(env);
-	if (var.env_str == NULL)
-		return (EXIT_FAILURE);
 	fd[0] = -1;
 	fd[1] = -1;
+	prev_pipe[0] = -1;
+	prev_pipe[1] = -1;
 	var.fd_pipe = fd;
-	var.process = 1;
 	var.exit_status = estatus;
-	var.fd_read = -1;
-	var.last_cmnd = size_cmndlist(cmnd_list);
+	var.prev_pipe = prev_pipe;
+	if (st_initvar(&var, env, cmnd_list) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
 	create_all_outfiles(&var);
 	if (var.last_cmnd == 1)
 		return (execute_one_cmnd(&var));

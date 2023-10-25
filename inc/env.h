@@ -1,28 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.h                                              :+:      :+:    :+:   */
+/*   env.h                                             :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 14:29:02 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/18 12:40:18 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/25 14:35:59 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ENV_H
 # define ENV_H
-
-// utils/hashnode_functions.c
-t_hnode		*new_hash_node(char *key, char *value);
-t_hnode		*hasharray_last(t_hnode *array);
-int			hasharray_size(t_hnode *array);
-
-// utils/hashnode_add_delete.c 
-void		hasharray_add_back(t_hnode **array, t_hnode *new);
-void		hasharray_add_front(t_hnode **array, t_hnode *new);
-void		hasharray_delone(t_hnode *node);
-void		hasharray_clear(t_hnode **array);
 
 // env_functions/env_terminate.c 
 void		terminate_hasharray(t_hnode ***head, int size);

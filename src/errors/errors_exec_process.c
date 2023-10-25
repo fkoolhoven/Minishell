@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 10:24:45 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/10/23 12:38:26 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/25 10:53:38 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,13 @@ int	exec_error_parent_nopipe(t_exec_var *var)
 	{
 		if (var->env_str != NULL)
 			ft_free_str_array(var->env_str);
-		if (var->fd_read >= 3)
-			close(var->fd_read);
+		if (var->prev_pipe != NULL)
+		{
+			if (var->prev_pipe[0] >= 3)
+				close(var->prev_pipe[0]);
+			if (var->prev_pipe[1] >= 3)
+				close(var->prev_pipe[1]);
+		}
 		if (var->cmnd_list != NULL)
 		{
 			heredoc_unlinker(var->cmnd_list);

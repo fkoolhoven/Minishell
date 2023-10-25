@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 10:25:40 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/10/23 11:53:11 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/25 10:39:52 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ static int	st_swap_stdin(t_exec_var *var, int fd_in, int fd_out)
 		if (fd_in >= 3)
 			close(fd_in);
 	}
-	else if (var->fd_read >= 0)
+	else if (var->prev_pipe[0] >= 0)
 	{
-		if (dup2(var->fd_read, STDIN_FILENO) < 0)
+		if (dup2(var->prev_pipe[0], STDIN_FILENO) < 0)
 			return (swap_error_child(fd_in, fd_out, var));
 	}
 	return (EXIT_SUCCESS);
@@ -66,9 +66,6 @@ int	swap_filedescriptors(t_exec_var *var, t_command *cmnd)
 	check = st_swap_stdin(var, fd_in, fd_out);
 	if (check != EXIT_SUCCESS)
 		return (check);
-	if (var->fd_read >= 3)
-		close(var->fd_read);
-	close(var->fd_pipe[0]);
-	close(var->fd_pipe[1]);
+	close_pipes(var);
 	return (EXIT_SUCCESS);
 }
