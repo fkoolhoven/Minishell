@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/09/15 13:32:56 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/23 11:03:02 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/25 15:13:33 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -82,4 +82,21 @@ bool	heredoc_infile_found(t_redirect *in)
 		tmp = tmp->next;
 	}
 	return (false);
+}
+
+int	wait_for_all(t_process *lst)
+{
+	t_process	*node;
+	int			waitstatus;
+
+	if (lst == NULL)
+		return (EXIT_FAILURE);
+	node = lst;
+	while (node)
+	{
+		if (waitpid(node->process, &waitstatus, 0) < 0)
+			return (process_clear(&lst), EXIT_FAILURE);
+		node = node->next;
+	}
+	return (waitstatus);
 }

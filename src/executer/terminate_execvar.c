@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/10/11 10:25:59 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/25 10:48:50 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/25 15:03:42 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -26,6 +26,36 @@ static void	st_close_fdarray(int *fds, size_t size)
 				fds[i] = -1;
 			}
 			i++;
+		}
+	}
+}
+
+void	close_given_pipe(int *fds)
+{
+	if (fds != NULL)
+		st_close_fdarray(fds, 2);
+}
+
+void	close_read_end(int *fds)
+{
+	if (fds != NULL)
+	{
+		if (fds[0] >= 3)
+		{
+			close(fds[0]);
+			fds[0] = -1;
+		}
+	}
+}
+
+void	close_write_end(int *fds)
+{
+	if (fds != NULL)
+	{
+		if (fds[1] >= 3)
+		{
+			close(fds[1]);
+			fds[1] = -1;
 		}
 	}
 }
@@ -56,6 +86,8 @@ void	terminate_execvar_parent(t_exec_var **var)
 				heredoc_unlinker((*var)->cmnd_list);
 				terminate_command_list(&((*var)->cmnd_list));
 			}
+			if ((*var)->process_lst != NULL)
+				process_clear(&((*var)->process_lst));
 			(*var) = NULL;
 		}
 	}
@@ -72,6 +104,8 @@ void	terminate_execvar_child(t_exec_var **var)
 			close_pipes(*var);
 			if ((*var)->cmnd_list != NULL)
 				terminate_command_list(&((*var)->cmnd_list));
+			if ((*var)->process_lst != NULL)
+				process_clear(&((*var)->process_lst));
 			if ((*var)->env != NULL)
 				terminate_hashtable((*var)->env);
 			(*var) = NULL;
@@ -93,6 +127,8 @@ void	terminate_execvar_exit(t_exec_var **var)
 				heredoc_unlinker((*var)->cmnd_list);
 				terminate_command_list(&((*var)->cmnd_list));
 			}
+			if ((*var)->process_lst != NULL)
+				process_clear(&((*var)->process_lst));
 			if ((*var)->env != NULL)
 				terminate_hashtable((*var)->env);
 			(*var) = NULL;

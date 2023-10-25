@@ -6,7 +6,7 @@
 #    By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/31 14:20:16 by jhendrik          #+#    #+#              #
-#    Updated: 2023/10/23 12:39:27 by jhendrik      ########   odam.nl          #
+#    Updated: 2023/10/25 15:01:16 by jhendrik      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -69,6 +69,8 @@ SRC			:= main.c \
 			   executer/swap_fd_mini.c \
 			   utils/hashnode_functions.c \
 			   utils/hashnode_add_delete.c \
+			   utils/process_add_delete.c \
+			   utils/process_functions.c \
 			   env_functions/env_terminate.c \
 			   env_functions/env_utils.c \
 			   env_functions/init_env.c \

@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/09/15 10:41:54 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/25 10:20:48 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/25 15:15:29 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -32,6 +32,8 @@ static int	st_execute_line(t_exec_var *var)
 				status = parent_process(var, j);
 			else
 				child_process(var, tmp);
+			if (var->process_lst == NULL && j >= 1)
+				j = var->last_cmnd;
 			j++;
 			tmp = tmp->next;
 		}
@@ -59,7 +61,8 @@ int	execute(t_command *cmnd_list, t_htable *env, int estatus, char *cpath)
 	prev_pipe[0] = -1;
 	prev_pipe[1] = -1;
 	var.fd_pipe = fd;
-	var.process = 1;
+	var.process = -1;
+	var.process_lst = NULL;
 	var.exit_status = estatus;
 	var.prev_pipe = prev_pipe;
 	var.last_cmnd = size_cmndlist(cmnd_list);

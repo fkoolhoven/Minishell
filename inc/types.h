@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 11:01:53 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/10/25 10:19:14 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/25 15:02:37 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,12 @@ typedef struct s_heredoc_var
 	t_htable	*env;
 }	t_heredoc_var;
 
+typedef struct s_process
+{
+	pid_t				process;
+	struct s_process	*next;
+}	t_process;
+
 typedef struct s_exec_var
 {
 	t_command	*cmnd_list;
@@ -76,7 +82,8 @@ typedef struct s_exec_var
 	int			last_cmnd;
 	int			exit_status;
 	int			*prev_pipe;
-	pid_t		process;
+	int			process;
+	t_process 	*process_lst;
 }	t_exec_var;
 
 typedef struct s_parser_var
