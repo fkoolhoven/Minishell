@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/09/18 12:02:47 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/23 17:04:21 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/25 10:03:12 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -118,9 +118,9 @@ int	parent_of_grandchild(t_exec_var *var, t_command *cmnd)
 	else 
 	{
 		wrap_sighandler(SIGINT, SIG_IGN);
+		terminate_execvar_child(&var);
 		waitpid(process, &waitstatus, 0);
 		wrap_sighandler(SIGINT, &catch_sigint_parent);
-		terminate_execvar_child(&var);
 		if (WIFEXITED(waitstatus))
 			exit(WEXITSTATUS(waitstatus));
 		else if (WIFSIGNALED(waitstatus))

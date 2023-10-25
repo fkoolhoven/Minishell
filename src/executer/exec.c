@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/09/15 10:41:54 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/23 16:29:39 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/25 10:06:55 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -60,7 +60,6 @@ int	execute(t_command *cmnd_list, t_htable *env, int estatus, char *cpath)
 	var.exit_status = estatus;
 	var.fd_read = -1;
 	var.last_cmnd = size_cmndlist(cmnd_list);
-	printf("%i\n", var.last_cmnd);
 	create_all_outfiles(&var);
 	if (var.last_cmnd == 1)
 		return (execute_one_cmnd(&var));
