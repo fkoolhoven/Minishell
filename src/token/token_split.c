@@ -103,8 +103,8 @@ static char	**split_token_value(char *str, int type, int *exit_code)
 // After expanding an environment value, a token's value might be
 // multiple strings. They need to be split up into seperate word tokens
 // and inserted into the token list. In case of the token's type being
-// a redirect type the part of the token's value that is the result of
-// the expansion, needs to be trimmed of spaces.
+// a redirect type, the part of the token's value that is the result of
+// the expansion needs to be trimmed of spaces.
 int	split_tokens(t_list **list_start, int *exit_code)
 {
 	t_token	*token;
