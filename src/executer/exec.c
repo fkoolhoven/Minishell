@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/09/15 10:41:54 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/25 10:20:48 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/25 13:12:24 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -60,6 +60,7 @@ int	execute(t_command *cmnd_list, t_htable *env, int estatus, char *cpath)
 	prev_pipe[1] = -1;
 	var.fd_pipe = fd;
 	var.process = 1;
+	var.prev_process = 0;
 	var.exit_status = estatus;
 	var.prev_pipe = prev_pipe;
 	var.last_cmnd = size_cmndlist(cmnd_list);

@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/09/18 12:02:47 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/25 11:02:06 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/25 13:27:57 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -83,9 +83,11 @@ int	parent_one_command(t_exec_var *var)
 	int	waitstatus;
 
 	wrap_sighandler(SIGINT, SIG_IGN);
-	waitpid(var->process, &waitstatus, 0);
+	close_given_pipe(var->fd_pipe);
+	if (var->prev_process > 0)
+		waitpid(var->prev_process, NULL, 0);
 	close_pipes(var);
-	waitpid(-1, NULL, 0);
+	waitpid(var->process, &waitstatus, 0);
 	wrap_sighandler(SIGINT, &catch_sigint_parent);
 	if (WIFEXITED(waitstatus))
 		return (WEXITSTATUS(waitstatus));
@@ -99,10 +101,10 @@ int	parent_process(t_exec_var *var, int j)
 {
 	if (j < var->last_cmnd - 1)
 	{
-		if (var->prev_pipe[0] >= 3)
-			close(var->prev_pipe[0]);
-		if (var->prev_pipe[1] >= 3)
-			close(var->prev_pipe[1]);
+		//if (var->prev_process > 0)
+		//	waitpid(var->prev_process, NULL, 0);
+		close_given_pipe(var->prev_pipe);
+		var->prev_process = var->process;
 		var->prev_pipe[0] = var->fd_pipe[0];
 		var->prev_pipe[1] = var->fd_pipe[1];
 		return (EXIT_SUCCESS);
