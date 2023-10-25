@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:59:40 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/18 14:08:48 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/25 16:44:15 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ t_command	*parse(t_list **list_start, int *exit_code)
 	tokens = *list_start;
 	var = init_parser_vars();
 	if (!var)
-		return (terminate_token_list_error(list_start));
+		return (terminate_token_list_error_null(list_start));
 	while (tokens)
 	{
 		var->in = NULL;
