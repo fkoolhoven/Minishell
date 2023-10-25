@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/10/11 10:25:59 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/25 10:48:50 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/25 11:36:02 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -26,6 +26,36 @@ static void	st_close_fdarray(int *fds, size_t size)
 				fds[i] = -1;
 			}
 			i++;
+		}
+	}
+}
+
+void	close_given_pipe(int *fds)
+{
+	if (fds != NULL)
+		st_close_fdarray(fds, 2);
+}
+
+void	close_read_end(int *fds)
+{
+	if (fds != NULL)
+	{
+		if (fds[0] >= 3)
+		{
+			close(fds[0]);
+			fds[0] = -1;
+		}
+	}
+}
+
+void	close_write_end(int *fds)
+{
+	if (fds != NULL)
+	{
+		if (fds[1] >= 3)
+		{
+			close(fds[1]);
+			fds[1] = -1;
 		}
 	}
 }
