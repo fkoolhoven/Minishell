@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 13:05:59 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/10/04 12:24:30 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/25 15:42:41 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static char	*st_give_filename(char *s_nb1, int j)
 	s_nb2 = ft_itoa_base(j, 16, "0123456789ABCDEF");
 	if (s_nb2 == NULL)
 		return (free(s_nb1), NULL);
-	tmp = ft_strjoin("HEREDOC", s_nb1);
+	tmp = ft_strjoin(".HEREDOC", s_nb1);
 	if (tmp == NULL)
 		return (free(s_nb2), NULL);
 	filename = ft_strjoin(tmp, s_nb2);

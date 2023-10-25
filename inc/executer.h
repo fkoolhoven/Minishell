@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 10:59:43 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/10/25 14:58:27 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/25 15:38:40 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,11 @@ char	*find_command_path(t_exec_var *var, t_command *cmnd);
 void	terminate_execvar_child(t_exec_var **var);
 void	terminate_execvar_parent(t_exec_var **var);
 void	terminate_execvar_exit(t_exec_var **var);
+
+// close_fds.c 
 void	close_pipes(t_exec_var *var);
 void	close_given_pipe(int *fds);
 void	close_read_end(int *fds);
 void	close_write_end(int *fds);
+
 #endif

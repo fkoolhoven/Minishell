@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 11:01:53 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/10/25 15:02:37 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/25 15:22:02 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ typedef struct s_exec_var
 	int			exit_status;
 	int			*prev_pipe;
 	int			process;
-	t_process 	*process_lst;
+	t_process	*process_lst;
 }	t_exec_var;
 
 typedef struct s_parser_var

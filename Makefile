@@ -6,7 +6,7 @@
 #    By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/31 14:20:16 by jhendrik          #+#    #+#              #
-#    Updated: 2023/10/25 15:01:16 by jhendrik      ########   odam.nl          #
+#    Updated: 2023/10/25 15:38:57 by jhendrik      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -66,6 +66,7 @@ SRC			:= main.c \
 			   executer/processes.c \
 			   executer/valid_path.c \
 			   executer/terminate_execvar.c \
+			   executer/close_fds.c \
 			   executer/swap_fd_mini.c \
 			   utils/hashnode_functions.c \
 			   utils/hashnode_add_delete.c \
