@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:25:50 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/25 15:11:12 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/27 12:04:52 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ t_token	*initialize_token(void)
 		return (malloc_error_return_null("tokenizer"));
 	token->type = -1;
 	token->value = NULL;
+	token->was_expanded = false;
 	return (token);
 }
 

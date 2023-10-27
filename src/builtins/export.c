@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 15:20:23 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/25 16:03:55 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/27 14:17:42 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,9 @@ static void	attempt_to_export(t_exec_var *var, char *input)
 			free(key);
 		}
 		else
-			add_pair(var->env, key, value);
+		{
+			add_pair(var->env, key, value); // check return int and free 
+		}
 	}
 }
 

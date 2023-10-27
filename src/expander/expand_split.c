@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 16:06:56 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/25 16:39:49 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/27 16:46:51 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,52 +80,80 @@ static char	**split_string_into_words(char *str, int nbr_of_strings,
 	return (split_value);
 }
 
-static char	**split_token_value(char *str, int type, int *exit_code)
+char	**split_token_value(char *str, int type)
 {
 	char	**split_value;
 	int		nbr_of_strings;
 
 	nbr_of_strings = calculate_nbr_of_strings(str);
-	if (nbr_of_strings < 2 && type == WORD)
+	printf("NBR OF STRS = %i\n", nbr_of_strings);
+	if (type != WORD && nbr_of_strings > 1)
+	{
 		return (NULL);
+	}
 	split_value = (char **)malloc(sizeof(char *) * (nbr_of_strings + 1));
 	if (split_value == NULL)
 	{
-		*exit_code = EXIT_FAILURE;
-		return (malloc_error_return_null("tokenizer split"));
+		return (NULL);
 	}
 	split_value = split_string_into_words(str, nbr_of_strings, split_value);
 	if (split_value == NULL)
-		*exit_code = EXIT_FAILURE;
+		return (NULL);
 	return (split_value);
 }
+
+// char	**split_token_value(char *str, int type, int *exit_code)
+// {
+// 	char	**split_value;
+// 	int		nbr_of_strings;
+
+// 	nbr_of_strings = calculate_nbr_of_strings(str);
+// 	if (type != WORD && nbr_of_strings > 1)
+// 	{
+// 		return (minishell_error_return_null("ambiguous redirect",
+// 				exit_code, EXIT_FAILURE));
+// 	}
+// 	split_value = (char **)malloc(sizeof(char *) * (nbr_of_strings + 1));
+// 	if (split_value == NULL)
+// 	{
+// 		*exit_code = EXIT_FAILURE;
+// 		return (malloc_error_return_null("tokenizer split"));
+// 	}
+// 	split_value = split_string_into_words(str, nbr_of_strings, split_value);
+// 	if (split_value == NULL)
+// 		*exit_code = EXIT_FAILURE;
+// 	return (split_value);
+// }
 
 // After expanding an environment value, a token's value might be
 // multiple strings. They need to be split up into seperate word tokens
 // and inserted into the token list. In case of the token's type being
 // a redirect type, the part of the token's value that is the result of
 // the expansion needs to be trimmed of spaces.
-int	split_tokens(t_list **list_start, int *exit_code)
-{
-	t_token	*token;
-	t_list	*tokens;
-	char	**split_value;
+// int	split_tokens(t_list **list_start, int *exit_code)
+// {
+// 	t_token	*token;
+// 	t_list	*tokens;
+// 	char	**split_value;
 
-	*exit_code = EXIT_SUCCESS;
-	tokens = *list_start;
-	while (tokens)
-	{
-		token = (t_token *)tokens->content;
-		split_value = split_token_value(token->value, token->type, exit_code);
-		if (split_value == NULL && *exit_code == EXIT_FAILURE)
-			return (terminate_token_list_error_failure(list_start));
-		else if (split_value != NULL)
-		{
-			*exit_code = update_list(token, split_value, tokens);
-			if (*exit_code != EXIT_SUCCESS)
-				return (terminate_token_list_error_failure(list_start));
-		}
-		tokens = tokens->next;
-	}
-	return (EXIT_SUCCESS);
-}
+// 	*exit_code = EXIT_SUCCESS;
+// 	tokens = *list_start;
+// 	while (tokens)
+// 	{
+// 		token = (t_token *)tokens->content;
+// 		if (token->was_expanded)
+// 		{
+// 			split_value = split_token_value(token->value, token->type, exit_code);
+// 			if (split_value == NULL && *exit_code == EXIT_FAILURE)
+// 				return (terminate_token_list_error_failure(list_start));
+// 			else if (split_value != NULL)
+// 			{
+// 				*exit_code = update_list(token, split_value, tokens);
+// 				if (*exit_code != EXIT_SUCCESS)
+// 					return (terminate_token_list_error_failure(list_start));
+// 			}
+// 		}
+// 		tokens = tokens->next;
+// 	}
+// 	return (EXIT_SUCCESS);
+// }

@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 15:17:56 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/18 13:52:42 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/27 11:47:25 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,13 @@ int	syntax_error_return_failure(char *message, int *exit_code)
 	ft_putendl_fd(message, STDERR_FILENO);
 	*exit_code = INCORRECT_USAGE;
 	return (EXIT_FAILURE);
+}
+
+
+void	*minishell_error_return_null(char *message, int *exit_code, int error)
+{
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
+	ft_putendl_fd(message, STDERR_FILENO);
+	*exit_code = error;
+	return (NULL);
 }

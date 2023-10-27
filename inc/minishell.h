@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                       :+:    :+:             */
+/*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:09:26 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/25 14:38:22 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/27 17:20:34 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 # include "./executer.h"
 # include "./../libs/libft/include/libft.h"
 # include "token.h"
+# include "expander.h"
 # include "parser.h"
 # include "signals.h"
 # include "executer.h"

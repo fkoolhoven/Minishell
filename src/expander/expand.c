@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 15:47:26 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/25 15:16:05 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/27 16:26:48 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,9 @@ static bool	prevent_expansion_in_single_quotes(t_token *token, int *i)
 	return (false);
 }
 
-static int	find_expandables(t_token *token, t_htable *env)
+static int	find_expandables(t_list	**tokens, t_token *token, t_htable *env)
 {
+	bool	concatenate_begin;
 	bool	quote_check;
 	int		exit_code;
 	int		i;
@@ -42,14 +43,21 @@ static int	find_expandables(t_token *token, t_htable *env)
 	i = 0;
 	while (token->value[i])
 	{
+		token = (t_token *)(*tokens)->content;
+		printf("BEGINNING OF FIND EXPANDABLES LOOPS\n");
 		quote_check = prevent_expansion_in_single_quotes(token, &i);
 		if (!token->value[i])
 			return (EXIT_SUCCESS);
 		if (!quote_check && token->value[i] == '$')
 		{
-			exit_code = expand_variable(token, env, &i);
+			if (i == 0 || !ft_isspace(token->value[i - 1]))
+				concatenate_begin = true;
+			exit_code = expand_variable(tokens, token, env, &i, concatenate_begin); // passing same token with same value
 			if (exit_code != EXIT_SUCCESS)
 				return (exit_code);
+			token->was_expanded = true;
+			concatenate_begin = false;
+			printf("REPLACED EXPANDABLE IN FIND EXPANDABLES\n");
 		}
 		if (token->value[i])
 			i++;
@@ -94,8 +102,9 @@ int	expand_tokens(t_list **list_start, t_htable *env)
 	{
 		error_check = EXIT_SUCCESS;
 		current_token = (t_token *)tokens->content;
+		printf("IN EXPAND TOKENS BASE FUNC AT TOKEN %s\n\n", current_token->value);
 		if (current_token->type != HEREDOC)
-			error_check = find_expandables(current_token, env);
+			error_check = find_expandables(&tokens, current_token, env);
 		if (error_check == EXIT_FAILURE)
 			return (terminate_token_list_error_failure(list_start));
 		tokens = tokens->next;

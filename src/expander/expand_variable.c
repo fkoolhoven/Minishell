@@ -6,37 +6,11 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 16:43:49 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/13 15:26:06 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/27 17:17:27 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static int	replace_var(t_token *token, char *new_value,
-	int beginning_len, int rm_len)
-{
-	char	*new_str;
-	int		end_len;
-	int		new_str_len;
-
-	end_len = ft_strlen(token->value) - beginning_len - rm_len;
-	new_str_len = beginning_len + ft_strlen(new_value) + end_len;
-	if (new_str_len == 0)
-	{
-		free(token->value);
-		token->value = NULL;
-		return (EXIT_SUCCESS);
-	}
-	new_str = ft_calloc(new_str_len + 1, sizeof(char));
-	if (new_str == NULL)
-		return (malloc_error_return_failure("expander"));
-	ft_strlcpy(new_str, token->value, beginning_len + 1);
-	ft_strlcat(new_str, new_value, new_str_len + 1);
-	ft_strlcat(new_str, token->value + beginning_len + rm_len, new_str_len + 1);
-	free(token->value);
-	token->value = new_str;
-	return (EXIT_SUCCESS);
-}
 
 static bool	end_of_expandable_is_found(char c)
 {
@@ -53,8 +27,24 @@ static bool	end_of_expandable_is_found(char c)
 	return (false);
 }
 
-int	expand_variable(t_token *token, t_htable *env, int *i)
+char	**add_quotes_to_strings(char **split_value)
 {
+	int	i;
+
+	i = 0;
+	while (split_value[i])
+	{
+		split_value[i] = ft_strjoin("\"", split_value[i]); // free stuff 
+		split_value[i] = ft_strjoin(split_value[i], "\""); // free stuff
+		printf("split_value[%i] = %s\n", i, split_value[i]);
+		i++;
+	}
+	return (split_value);
+}
+
+int	expand_variable(t_list	**tokens, t_token *token, t_htable *env, int *i, bool concatenate_begin)
+{
+	bool	concatenate_end = false;
 	char	*key;
 	char	*new_value;
 	int		exit_code;
@@ -67,6 +57,8 @@ int	expand_variable(t_token *token, t_htable *env, int *i)
 		return (EXIT_SUCCESS);
 	while (!end_of_expandable_is_found(token->value[*i]))
 		(*i)++;
+	if (!ft_isspace(!token->value[*i]))
+		concatenate_end = true;
 	key = ft_substr(token->value, start, *i - start);
 	if (key == NULL)
 		return (malloc_error_return_failure("expander"));
@@ -74,8 +66,24 @@ int	expand_variable(t_token *token, t_htable *env, int *i)
 	free(key);
 	if (!new_value)
 		exit_code = VALUE_NOT_FOUND;
-	if (replace_var(token, new_value, start, *i - start) == EXIT_FAILURE)
-		exit_code = EXIT_FAILURE;
+
+	char **split_value;
+	printf("\n\nGOING TO SPLIT TOKEN VALUE, new_value = %s and current_token = %s\n\n", new_value, token->value);
+	sleep(1);
+	split_value = split_token_value(new_value, token->type);
+	printf("after added quotes split value = = %s\n", split_value[0]);
+	// check for errors
+	// add quotes to all split_values
+	if (ft_isspace(new_value[0]))
+		concatenate_begin = false;
+	if (ft_isspace(new_value[ft_strlen(new_value) - 1]))
+		concatenate_end = false;
+	add_quotes_to_strings(split_value);
+	if (split_value != NULL)
+	{
+		printf("\n\nGOING TO UPDATE LIST\n\n");
+		update_list(token, split_value, tokens, concatenate_begin, concatenate_end, start, *i - start, i);
+	}
 	if (start > 0 && exit_code != EXIT_FAILURE)
 		*i = start - 1;
 	return (exit_code);
