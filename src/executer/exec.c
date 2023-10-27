@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/09/15 10:41:54 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/27 13:58:43 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/27 14:41:16 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -54,7 +54,7 @@ static int	st_initvar(t_exec_var *var, t_htable *env, t_command *cmnd_list)
 	var->last_cmnd = size_cmndlist(cmnd_list);
 	var->process = -1;
 	var->process_lst = NULL;
-	var->env_str = convert_htable_to_strarray(env);
+	var->env_str = convert_htable_to_strarray(env); // good
 	if (var->env_str == NULL)
 		return (terminate_execvar_parent(&var), EXIT_FAILURE);
 	return (EXIT_SUCCESS);
@@ -66,7 +66,7 @@ int	execute(t_command *cmnd_list, t_htable *env, int estatus, char *cpath)
 	int			fd[2];
 	int			prev_pipe[2];
 
-	if (cmnd_list == NULL || env == NULL)
+	if (cmnd_list == NULL || env == NULL || cpath == NULL)
 		return (EXIT_FAILURE);
 	var.cur_path = cpath;
 	fd[0] = -1;

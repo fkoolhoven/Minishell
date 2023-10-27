@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/09/18 12:02:47 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/25 15:16:45 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/27 15:02:20 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -22,7 +22,7 @@ int	child_process_onecmnd(t_exec_var *var, t_command *cmnd)
 		if (check == EXIT_FAILURE)
 			exit(EXIT_FAILURE);
 		wrap_sighandler(SIGINT, SIG_DFL);
-		valid_cmnd = find_command_path(var, cmnd);
+		valid_cmnd = find_command_path(var, cmnd); // good
 		execve(valid_cmnd, cmnd->command, var->env_str);
 		if (valid_cmnd == NULL && !(heredoc_infile_found(cmnd->in)))
 			exit(exec_error_child_notfound(var, valid_cmnd, cmnd));
@@ -41,7 +41,7 @@ static int	st_child_command(t_exec_var *var, t_command *cmnd)
 {
 	char	*valid_cmnd;
 
-	valid_cmnd = find_command_path(var, cmnd);
+	valid_cmnd = find_command_path(var, cmnd); // good
 	execve(valid_cmnd, cmnd->command, var->env_str);
 	if (valid_cmnd == NULL && !(heredoc_infile_found(cmnd->in)))
 		exit(exec_error_child_notfound(var, valid_cmnd, cmnd));
@@ -78,13 +78,16 @@ int	child_process(t_exec_var *var, t_command *cmnd)
 	exit(EXIT_FAILURE);
 }
 
-int	parent_one_command(t_exec_var *var)
+int	parent_one_command(t_exec_var *var, t_process *ch_proclst)
 {
 	int	waitstatus;
 
 	wrap_sighandler(SIGINT, SIG_IGN);
 	close_pipes(var);
-	waitstatus = wait_for_all(var->process_lst);
+	if (ch_proclst != NULL)
+		waitstatus = wait_for_all(var->process_lst);
+	else
+		waitpid(var->process, &waitstatus, 0);
 	wrap_sighandler(SIGINT, &catch_sigint_parent);
 	if (waitstatus == EXIT_FAILURE)
 		return (EXIT_FAILURE);
@@ -103,19 +106,17 @@ int	parent_process(t_exec_var *var, int j)
 	if (j < var->last_cmnd - 1)
 	{
 		close_given_pipe(var->prev_pipe);
-		check = process_make_add_node(&(var->process_lst), var->process);
-		if (check == NULL)
-			return (EXIT_FAILURE);
+		check = process_make_add_node(&(var->process_lst), var->process); // good now 
 		var->prev_pipe[0] = var->fd_pipe[0];
 		var->prev_pipe[1] = var->fd_pipe[1];
+		if (check == NULL)
+			return (EXIT_FAILURE);
 		return (EXIT_SUCCESS);
 	}
 	else if (j == var->last_cmnd - 1)
 	{
-		check = process_make_add_node(&(var->process_lst), var->process);
-		if (check == NULL)
-			return (EXIT_FAILURE);
-		return (parent_one_command(var));
+		check = process_make_add_node(&(var->process_lst), var->process); // good now with the changed parent
+		return (parent_one_command(var, check));
 	}
 	terminate_execvar_parent(&var);
 	return (EXIT_SUCCESS);

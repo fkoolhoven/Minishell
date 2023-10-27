@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/10/04 12:26:40 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/04 12:26:48 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/27 15:45:08 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static char	*st_give_between_vars(char *user_input, int first, int last)
 		return (NULL);
 	if (first >= last)
 		return (NULL);
-	rtn = (char *)malloc((last - first + 1) * sizeof(char));
+	rtn = (char *)malloc((last - first + 1) * sizeof(char)); // good
 	if (rtn == NULL)
 		return (NULL);
 	ft_strlcpy(rtn, (const char *)(user_input + first), last - first + 1);

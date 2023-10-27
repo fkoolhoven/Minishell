@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/10/11 10:26:18 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/11 12:22:43 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/27 15:19:32 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -15,11 +15,11 @@ static char	*st_check(char *tmp1, char *cmnd, char **prev_valid)
 {
 	char	*rtn;
 
-	if (tmp1 == NULL)
+	if (tmp1 == NULL || cmnd == NULL)
 		return (NULL);
 	if (prev_valid == NULL)
 		return (free(tmp1), NULL);
-	rtn = ft_strjoin(tmp1, cmnd);
+	rtn = ft_strjoin(tmp1, cmnd); // good
 	free(tmp1);
 	if (rtn == NULL)
 		return (NULL);
@@ -55,7 +55,7 @@ static char	*st_check_paths(char *cmnd, char **paths)
 	while (paths[i])
 	{
 		tmp1 = ft_strjoin(paths[i], "/");
-		tmp2 = st_check(tmp1, cmnd, &prev_valid);
+		tmp2 = st_check(tmp1, cmnd, &prev_valid); // good
 		if (tmp2 != NULL)
 			return (st_free_in_whileloop(prev_valid, paths), tmp2);
 		i++;
@@ -75,7 +75,7 @@ static char	*st_find_path(t_exec_var *var, t_command *cmnd)
 
 	if (access((const char *)(cmnd->command[0]), X_OK) == 0)
 		return (ft_strdup(cmnd->command[0]));
-	paths = ft_split(find_env_value(var->env, "PATH"), ':');
+	paths = ft_split(find_env_value(var->env, "PATH"), ':'); // good
 	if (paths == NULL)
 	{
 		if (access((const char *)(cmnd->command[0]), F_OK) == 0)

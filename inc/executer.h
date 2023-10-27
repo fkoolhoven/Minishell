@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 10:59:43 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/10/25 15:38:40 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/27 14:59:26 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int		execute_one_cmnd(t_exec_var *var);
 int		child_process(t_exec_var *var, t_command *cmnd);
 int		child_process_onecmnd(t_exec_var *var, t_command *cmnd);
 int		parent_process(t_exec_var *var, int j);
-int		parent_one_command(t_exec_var *var);
+int		parent_one_command(t_exec_var *var, t_process *ch_proclst);
 
 // valid_path.c
 char	*find_command_path(t_exec_var *var, t_command *cmnd);
