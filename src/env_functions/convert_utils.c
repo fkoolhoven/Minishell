@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   convert_utils.c                                    :+:      :+:    :+:   */
+/*   convert_utils.c                                   :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 13:02:07 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/10/09 17:00:27 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/27 14:01:56 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	st_size_at_index(t_hnode *head, int *size)
+static void	st_size_at_index(t_hnode *head, size_t *size)
 {
 	t_hnode	*tmp;
 
@@ -30,9 +30,9 @@ static void	st_size_at_index(t_hnode *head, int *size)
 	}
 }
 
-int	size_table(t_htable *env)
+size_t	size_table(t_htable *env)
 {
-	int		size;
+	size_t	size;
 	int		i;
 	t_hnode	**array;
 
@@ -58,12 +58,12 @@ char	*give_envstr(t_hnode *node)
 
 	if (node == NULL)
 		return (NULL);
-	tmp1 = ft_strjoin(node->key, "=");
+	tmp1 = ft_strjoin(node->key, "="); // now good --> needed to change something in exec.c where it was used
 	if (tmp1 == NULL)
 		return (NULL);
-	tmp2 = ft_strjoin(tmp1, node->value);
-	if (tmp1 != tmp2)
-		free(tmp1);
+	tmp2 = ft_strjoin(tmp1, node->value); // good 
+	if (tmp1 != tmp2) // good
+		free(tmp1); 
 	if (tmp2 == NULL)
 		return (NULL);
 	return (tmp2);

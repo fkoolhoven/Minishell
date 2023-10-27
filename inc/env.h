@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 14:29:02 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/25 14:35:59 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/27 13:48:54 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char		**split_first_occurance(char const *s, char c);
 char		**convert_htable_to_strarray(t_htable *env);
 
 // env_functions/convert_utils.c 
-int			size_table(t_htable *env);
+size_t		size_table(t_htable *env);
 char		*give_envstr(t_hnode *node);
 
 #endif

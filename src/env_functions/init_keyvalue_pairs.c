@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 15:46:06 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/10/23 14:29:13 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/27 10:39:50 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static int	st_add_hnode(char *key, char *value, t_htable *env, t_hnode ***head)
 		return (EXIT_FAILURE);
 	if (*head == NULL)
 		return (EXIT_FAILURE);
-	new = new_hash_node(key, value);
+	new = new_hash_node(key, value); //good
 	index = give_hash_index(key, env);
 	if (new == NULL || index < 0)
 	{
@@ -51,8 +51,9 @@ static int	st_add_pair(char *key, char *value, t_htable *env, t_hnode ***head)
 	if (*head == NULL)
 		return (EXIT_FAILURE);
 	check = st_add_hnode(key, value, env, head);
+	// not freeing here, cause it is freeing afterwards in init_keyvalue()
 	if (check == EXIT_FAILURE)
-		return (st_error(key, value, head, env), EXIT_FAILURE);
+		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
 
@@ -70,8 +71,8 @@ int	init_keyvalue(t_hnode ***head, t_htable *env_table, char **envp)
 	i = 0;
 	while (envp[i] != NULL)
 	{
-		key = give_key(envp[i]);
-		value = give_value(envp[i]);
+		key = give_key(envp[i]); // good
+		value = give_value(envp[i]); //good
 		if (key == NULL)
 			return (st_error(key, value, head, env_table), -2);
 		else

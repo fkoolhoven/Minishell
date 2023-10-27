@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   find_key.c                                         :+:      :+:    :+:   */
+/*   find_key.c                                        :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 16:53:05 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/10/11 12:40:22 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/27 13:43:10 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static char	*st_find_newkey(t_htable *env, char *key)
 	new_key = ft_strdup(key + 1);
 	if (new_key != NULL)
 	{
-		index = give_hash_index(new_key, env);
+		index = give_hash_index(new_key, env); //good
 		if (index < 0)
 			return (NULL);
 		rtn = st_search_key((env->array)[index], new_key);

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_utils.c                                        :+:      :+:    :+:   */
+/*   env_utils.c                                       :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 16:02:22 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/09/22 15:38:07 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/27 10:45:35 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,9 @@ t_hnode	**hasharray_calloc(size_t cnt, size_t size)
 	t_hnode	**head;
 	size_t	i;
 
-	head = malloc(cnt * size);
+	if ((cnt * size) / size != cnt)
+		return (NULL);
+	head = malloc(cnt * size); // good
 	if (head == NULL)
 		return (NULL);
 	i = 0;
@@ -68,11 +70,11 @@ char	*give_key(char *variable)
 
 	if (variable == NULL)
 		return (NULL);
-	split = split_first_occurance(variable, '=');
+	split = split_first_occurance(variable, '='); // good
 	if (split == NULL)
 		return (NULL);
 	key = split[0];
-	st_free_strarray_i(split, 1);
+	st_free_strarray_i(split, 1); // good
 	return (key);
 }
 
@@ -83,11 +85,11 @@ char	*give_value(char *variable)
 
 	if (variable == NULL)
 		return (NULL);
-	split = split_first_occurance(variable, '=');
+	split = split_first_occurance(variable, '='); // good
 	if (split == NULL)
 		return (NULL);
 	value = split[1];
-	free(split[0]);
-	st_free_strarray_i(split, 2);
+	free(split[0]); // good
+	st_free_strarray_i(split, 2); // good
 	return (value);
 }
