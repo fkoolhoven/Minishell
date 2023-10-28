@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 14:29:18 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/27 17:25:47 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/28 19:12:01 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,13 @@ static void	*free_split_value(char **split_value, int i)
 	return (malloc_error_return_null("tokenizer split"));
 }
 
-static void	insert_token_into_list(t_list *new_node, t_list **tokens)
+static void	insert_token_into_list(t_list *new_node, t_expander_var *var)
 {
 	t_list	*temp;
 
-	temp = (*tokens)->next;
-	(*tokens)->next = new_node;
+	temp = var->tokens->next;
+	var->tokens->next = new_node;
 	new_node->next = temp;
-	*tokens = (*tokens)->next;
 }
 
 void	*create_new_node(char **split_value, int i)
@@ -42,7 +41,6 @@ void	*create_new_node(char **split_value, int i)
 		return (free_split_value(split_value, i));
 	new_token->type = WORD;
 	new_token->value = split_value[i];
-	new_token->was_expanded = true;
 	new_node = ft_lstnew(new_token);
 	if (new_node == NULL)
 	{
@@ -50,52 +48,6 @@ void	*create_new_node(char **split_value, int i)
 		return (free_split_value(split_value, i));
 	}
 	return (new_node);
-}
-
-
-static int	replace_var(t_token *token, char *new_value,
-	int beginning_len, int rm_len)
-{
-	char	*new_str;
-	int		end_len;
-	int		new_str_len;
-
-	printf("\n\nIN REPLACE VAR FUNC\n\n");
-	end_len = ft_strlen(token->value) - beginning_len - rm_len;
-	new_str_len = beginning_len + ft_strlen(new_value) + end_len;
-	if (new_str_len == 0)
-	{
-		free(token->value);
-		token->value = NULL;
-		return (EXIT_SUCCESS);
-	}
-	new_str = ft_calloc(new_str_len + 1, sizeof(char));
-	if (new_str == NULL)
-		return (malloc_error_return_failure("expander"));
-	ft_strlcpy(new_str, token->value, beginning_len + 1);
-	ft_strlcat(new_str, new_value, new_str_len + 1);
-	ft_strlcat(new_str, token->value + beginning_len + rm_len, new_str_len + 1);
-	free(token->value);
-	token->value = new_str;
-	return (EXIT_SUCCESS);
-}
-
-int	get_amount_of_words(char **split_value)
-{
-	int i = 0;
-	while (split_value[i])
-		i++;
-	return (i);
-}
-
-static void	insert_token_into_list_split(t_list *new_node, t_list **tokens)
-{
-	t_list	*temp;
-
-	temp = (*tokens)->next;
-	(*tokens)->next = new_node;
-	new_node->next = temp;
-	// *tokens = (*tokens)->next;
 }
 
 void	*create_new_node_split(char *right)
@@ -108,7 +60,6 @@ void	*create_new_node_split(char *right)
 		; // handle error
 	new_token->type = WORD;
 	new_token->value = right;
-	new_token->was_expanded = true;
 	new_node = ft_lstnew(new_token);
 	if (new_node == NULL)
 	{
@@ -118,75 +69,139 @@ void	*create_new_node_split(char *right)
 	return (new_node);
 }
 
-void	split_current_token(t_list **tokens, t_token *current_token, int left_len, int rm_len, bool *concatenate_begin, bool *concatenate_end)
+int	replace_var(t_expander_var *var, char *new_value)
+{
+	char	*new_str;
+	int		end_len;
+	int		new_str_len;
+
+	end_len = ft_strlen(var->token->value) - var->key_start - var->key_len;
+	new_str_len = var->key_start + ft_strlen(new_value) + end_len;
+	if (new_str_len == 0)
+	{
+		free(var->token->value);
+		var->token->value = NULL;
+		return (EXIT_SUCCESS);
+	}
+	new_str = ft_calloc(new_str_len + 1, sizeof(char));
+	if (new_str == NULL)
+		return (malloc_error_return_failure("expander"));
+	ft_strlcpy(new_str, var->token->value, var->key_start + 1);
+	ft_strlcat(new_str, new_value, new_str_len + 1);
+	ft_strlcat(new_str, var->token->value + var->key_start + var->key_len, new_str_len + 1);
+	free(var->token->value);
+	var->token->value = new_str;
+	return (EXIT_SUCCESS);
+}
+
+int	split_token(t_expander_var *var)
 {
 	t_list	*new_node;
 	char	*left;
 	char	*right;
 	int		right_len;
 
-	right_len = ft_strlen(current_token->value) - left_len - rm_len;
+	right_len = ft_strlen(var->token->value) - var->key_start - var->key_len;
 	if (right_len > 0)
 	{
-		right = ft_substr(current_token->value, left_len + rm_len, right_len);
-		printf("right = %s\n", right);
+		printf("A\n");
+		right = ft_substr(var->token->value, var->key_start + var->key_len, right_len); // free stuff and check for errorrs
+		if (right == NULL)
+			return (malloc_error_return_failure("expander"));
 		new_node = create_new_node_split(right);
-		insert_token_into_list_split(new_node, tokens);
-		// *tokens = (*tokens)->next; // make sure to only concat to last if concat end, otherwise should insert at right token like "abc hello world zz" but also "abc hizz"
+		if (new_node == NULL)
+		{
+			free(right);
+			return (malloc_error_return_failure("expander"));
+		}
+		printf("right = %s\n", right);
+		insert_token_into_list(new_node, var);
 	}
 	else
-		*concatenate_end = false;
-	if (left_len != 0)
+		var->concatenate_end = false;
+	if (var->key_start >= 0)
 	{
-		left = ft_substr(current_token->value, 0, left_len);
-		current_token->value = left; // free prev
+		if (var->key_start == 0)
+		{
+			printf("B\n");
+			left = ft_substr(var->token->value, 0, var->key_len);
+		}
+		else
+		{
+			printf("C\n");
+			left = ft_substr(var->token->value, 0, var->key_start);
+		}
+		if (left == NULL)
+			return (malloc_error_return_failure("expander"));
+		free(var->token->value);
 		printf("left = %s\n", left);
+		var->token->value = left;
 	}
 	else
-		*concatenate_begin = false;
+		var->concatenate_begin = false;
+	return (EXIT_SUCCESS);
 }
 
-int	update_list(t_token *current_token, char **split_value, t_list **tokens, bool concatenate_begin, bool concatenate_end, int beginning_len, int rm_len, int *index)
+int	update_list(t_expander_var *var)
 {
 	t_list	*new_node;
-	int		error_check;
 	int		i;
 
-	error_check = EXIT_SUCCESS;
 	i = 0;
-	if ((concatenate_begin && concatenate_end && !split_value[i + 1]) || ((size_t)rm_len == ft_strlen(current_token->value) && !split_value[i + 1]))
+	printf("bein bool = %i, end bool = %i\n", var->concatenate_begin, var->concatenate_end);
+	if ((var->concatenate_begin && var->concatenate_end && !var->split_value[i + 1]) || ((size_t)var->key_len == ft_strlen(var->token->value) && !var->split_value[i + 1]))
 	{
-		printf("\n\nGOING TO REPLACE VAR 1\n");
-		printf("second str = %s\n", split_value[i + 1]);
-		printf("rm len = %zu and strlen = %zu\n", (size_t)rm_len, ft_strlen(current_token->value));
-		replace_var(current_token, split_value[i], beginning_len, rm_len);
-		*index = beginning_len + ft_strlen(split_value[i] - 1); 
+		printf("1\n");
+		if (replace_var(var, var->split_value[i]) != EXIT_SUCCESS)
+			return (EXIT_FAILURE);
+		var->index = var->key_start + ft_strlen(var->split_value[i] - 1); 
 		return (EXIT_SUCCESS);
 	}
-	split_current_token(tokens, current_token, beginning_len, rm_len, &concatenate_begin, &concatenate_end);
-	if ((size_t)rm_len == ft_strlen(current_token->value))
+	if (split_token(var) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
+	if ((size_t)var->key_len == ft_strlen(var->token->value))
 	{
-		current_token->value = split_value[i];
+		printf("2\n");
+		var->token->value = var->split_value[i]; // free prev
+		var->index = ft_strlen(var->split_value[i]) - 1;
+		var->concatenate_begin = false;
 		i++;
 	}
-	while (split_value[i])
+	if (!var->split_value[i])
+		return (EXIT_SUCCESS);
+	if (var->concatenate_begin)
 	{
-		printf("\n\nIN SPLIT VALUE LOOP with %s\n\n", split_value[i]);
-		*index = ft_strlen(split_value[i] - 1);
-		current_token = (t_token *)(*tokens)->content;
-		printf("current token value in split loop = %s\n", current_token->value);
-		if (concatenate_end && !split_value[i] + 1)
+		printf("3\n");
+		var->token->value = ft_strjoin(var->token->value, var->split_value[i]); // free stuff and check for errors
+		i++; 
+		var->index = var->key_start + ft_strlen(var->split_value[i]) - 1;
+		var->tokens = var->tokens->next;
+		if (var->tokens)
+			var->token = (t_token *)var->tokens->content;
+		else
+			return (EXIT_SUCCESS);
+	}
+	while (var->split_value[i])
+	{
+		printf("4\n");
+		var->index = ft_strlen(var->split_value[i]) - 1;
+		var->token = (t_token *)var->tokens->content;
+		if (var->concatenate_end && !var->split_value[i + 1])
 		{
-			printf("concatenate_end && !split_value[i] + 1\n");
-			current_token->value = ft_strjoin(split_value[i], current_token->value); // free prev
+			printf("5\n");
+			var->tokens = var->tokens->next;
+			var->token = (t_token *)var->tokens->content;
+			var->token->value = ft_strjoin(var->split_value[i], var->token->value); // free prev and check for errors
 			break ;
 		}
-		new_node = create_new_node(split_value, i);
+		new_node = create_new_node(var->split_value, i);
 		if (new_node == NULL)
 			return (EXIT_FAILURE);
-		insert_token_into_list(new_node, tokens);
+		insert_token_into_list(new_node, var);
+		var->tokens = var->tokens->next;
 		i++;
 	}
-	free (split_value);
-	return (error_check);
+	var->index = 0;
+	free(var->split_value);
+	return (EXIT_SUCCESS);
 }

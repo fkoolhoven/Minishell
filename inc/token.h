@@ -6,14 +6,12 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:39:28 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/27 17:19:48 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/28 19:40:26 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TOKEN_H
 # define TOKEN_H
-
-# define VALUE_NOT_FOUND -1
 
 // token.c
 t_list	*tokenizer(char *input, int *exit_code);

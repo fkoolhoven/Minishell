@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:08:39 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/27 15:14:33 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/28 19:47:34 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,10 @@ static int	parse_and_exec(t_htable *env, char *input, int ecode, char *cpath)
 	tokens = tokenizer(input, &ecode);
 	if (tokens == NULL)
 		return (ecode);
-	print_tokens(tokens);
+	// print_tokens(tokens);
 	if (expand_tokens(&tokens, env) == EXIT_FAILURE)
 		return (ecode);
-	print_tokens(tokens);
+	// print_tokens(tokens);
 	// if (split_tokens(&tokens, &ecode) == EXIT_FAILURE)
 	// 	return (ecode);
 	if (remove_quotes_from_tokens(&tokens, &ecode) == EXIT_FAILURE)

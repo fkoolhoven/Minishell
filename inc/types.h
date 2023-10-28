@@ -6,12 +6,14 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 11:01:53 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/10/27 12:04:36 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/28 19:28:20 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TYPES_H
 # define TYPES_H
+
+# include "./../libs/libft/include/libft.h"
 
 enum e_type
 {
@@ -29,7 +31,6 @@ typedef struct s_token
 {
 	enum e_type	type;
 	char		*value;
-	bool		was_expanded;
 }	t_token;
 
 typedef struct s_hash_node
@@ -96,6 +97,19 @@ typedef struct s_parser_var
 	char		**command;
 	t_command	*command_list;
 }	t_parser_var;
+
+typedef struct s_expander_var
+{
+	t_list	*tokens;
+	t_token	*token;
+	char	*new_value;
+	char	**split_value;
+	bool	concatenate_begin;
+	bool	concatenate_end;
+	int		key_start;
+	int		key_len;
+	int		index;
+}	t_expander_var;
 
 typedef struct s_trim_var
 {
