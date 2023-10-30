@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/09/22 11:45:40 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/09/22 13:07:31 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/30 17:30:12 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -49,6 +49,7 @@ static void	st_error(char **ch_env, int index)
 		}
 		free(ch_env);
 	}
+	ft_putstr_fd("Error: converting hashtable failed\n", STDERR_FILENO);
 }
 
 static char	**st_fill_strarray(t_htable *env, char **ch_env, int size)
@@ -59,17 +60,17 @@ static char	**st_fill_strarray(t_htable *env, char **ch_env, int size)
 	int		check;
 
 	if (env == NULL || ch_env == NULL)
-		return (NULL);
+		return (st_error(ch_env, 0), NULL);
 	array = env->array;
 	if (array == NULL)
-		return (NULL);
+		return (st_error(ch_env, 0), NULL);
 	i = 0;
 	j = 0;
 	ch_env[size] = NULL;
 	while (i < env->size)
 	{
 		check = st_add_per_index(array[i], ch_env, &j);
-		if (check == -2)
+		if (check < 0)
 			return (st_error(ch_env, j), NULL);
 		i++;
 	}
@@ -85,9 +86,9 @@ char	**convert_htable_to_strarray(t_htable *env)
 		return (NULL);
 	size = size_table(env);
 	if (size == 0)
-		return (NULL);
+		return (st_error(NULL, 0), NULL);
 	ch_env = malloc((size + 1) * sizeof(char *));
 	if (ch_env == NULL)
-		return (NULL);
+		return (st_error(ch_env, 0), NULL);
 	return (st_fill_strarray(env, ch_env, size));
 }

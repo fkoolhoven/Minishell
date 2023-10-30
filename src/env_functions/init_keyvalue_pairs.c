@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 15:46:06 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/10/23 14:29:13 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/30 17:36:48 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static int	st_add_pair(char *key, char *value, t_htable *env, t_hnode ***head)
 		return (EXIT_FAILURE);
 	check = st_add_hnode(key, value, env, head);
 	if (check == EXIT_FAILURE)
-		return (st_error(key, value, head, env), EXIT_FAILURE);
+		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
 
