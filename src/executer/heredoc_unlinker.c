@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/10/04 13:03:07 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/04 13:09:59 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/30 17:19:35 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,6 @@ static void	st_unlink_heredoc_input(t_redirect *in)
 		}
 	}
 }
-
-/* heredoc_unlinker
-   		To do: 		1.	Decide where to use it
-					2. 	...
-		Explanation:	This function iterates through the command list
-						and checks per command if the input redirect list contains
-						HEREDOC_INFILES, if it does it unlinks these files. 
-   */
 
 void	heredoc_unlinker(t_command *command_list)
 {
