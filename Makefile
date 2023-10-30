@@ -6,7 +6,7 @@
 #    By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/31 14:20:16 by jhendrik          #+#    #+#              #
-#    Updated: 2023/10/28 18:26:05 by fkoolhov         ###   ########.fr        #
+#    Updated: 2023/10/30 18:57:08 by fkoolhov         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,11 +42,16 @@ SRC			:= main.c \
 			   token/token_utils.c \
 			   token/token_tokenize.c \
 			   token/token_quotes.c \
+			   token/token_quotes_expanded.c \
 			   token/token_terminate.c \
 			   expander/expand.c \
 			   expander/expand_variable.c \
 			   expander/expand_split_value.c \
-			   expander/expand_split_update.c \
+			   expander/expand_update.c \
+			   expander/expand_split_token.c \
+			   expander/expand_replace.c \
+			   expander/expand_concatenate.c \
+			   expander/expand_update_utils.c \
 			   parser/parser.c \
 			   parser/parser_parse_token.c \
 			   parser/parser_command_list.c \

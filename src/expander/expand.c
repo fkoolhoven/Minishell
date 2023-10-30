@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 15:47:26 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/28 19:47:20 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/30 19:43:47 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,17 @@
 
 static bool	prevent_expansion_in_single_quotes(t_expander_var *var)
 {
-	static bool	in_double_quotes;
-
-	if (var->token->value[var->index] == '\"')
+	if (var->token->value[var->i] == '\"')
 	{
-		if (in_double_quotes == false)
-			in_double_quotes = true;
+		if (var->in_double_quotes == false)
+			var->in_double_quotes = true;
 		else
-			in_double_quotes = false;
+			var->in_double_quotes = false;
 		return (true);
 	}
-	else if (!in_double_quotes && var->token->value[var->index] == '\'')
+	else if (!var->in_double_quotes && var->token->value[var->i] == '\'')
 	{
-		var->index = find_next_quote(var->token->value, var->index);
+		var->i = find_next_quote(var->token->value, var->i);
 		return (true);
 	}
 	return (false);
@@ -35,33 +33,23 @@ static bool	prevent_expansion_in_single_quotes(t_expander_var *var)
 int	find_expandables(t_expander_var *var, t_htable *env)
 {
 	bool	quote_check;
-	int		exit_code;
 
 	quote_check = false;
-	var->index = 0;
-	while (var->token->value[var->index])
+	var->i = 0;
+	while (var->tokens && var->token->value && var->token->value[var->i])
 	{
-		var->token = (t_token *)var->tokens->content;
 		quote_check = prevent_expansion_in_single_quotes(var);
-		if (!var->token->value[var->index])
+		if (!var->token->value[var->i])
 			return (EXIT_SUCCESS);
-		if (!quote_check && var->token->value[var->index] == '$')
+		if (!quote_check && var->token->value[var->i] == '$')
 		{
-			if (var->index == 0 || !ft_isspace(var->token->value[var->index - 1]))
-				var->concatenate_begin = true;
-			exit_code = expand_variable(var, env);
-			if (exit_code == EXIT_FAILURE)
-				return (exit_code);
-			var->concatenate_begin = false;
-			if (var->tokens)
-				var->token = (t_token *)var->tokens->content;
+			if (expand_variable(var, env) == EXIT_FAILURE)
+				return (EXIT_FAILURE);
 		}
 		else
-			var->index++;
-		if (var->tokens == NULL)
-			break ;
-		if (var->token->value == NULL)
-			break ;
+			var->i++;
+		if (var->tokens)
+			var->token = (t_token *)var->tokens->content;
 	}
 	return (EXIT_SUCCESS);
 }
@@ -82,19 +70,16 @@ void	remove_empty_tokens_from_list(t_list **list_start)
 		if (tokens)
 			token = (t_token *)tokens->content;
 	}
-	if (tokens)
+	while (tokens && tokens->next)
 	{
-		while (tokens->next)
+		token = (t_token *)tokens->next->content;
+		if (token->value == NULL)
 		{
-			token = (t_token *)tokens->next->content;
-			if (token->value == NULL)
-			{
-				to_delete = tokens->next;
-				tokens->next = to_delete->next;
-				terminate_token(to_delete);
-			}
-			tokens = tokens->next;
+			to_delete = tokens->next;
+			tokens->next = to_delete->next;
+			terminate_token(to_delete);
 		}
+		tokens = tokens->next;
 	}
 }
 
@@ -106,13 +91,15 @@ t_expander_var	*init_expander_vars(void)
 	if (var == NULL)
 		return (malloc_error_return_null("expander"));
 	var->token = NULL;
+	var->in_double_quotes = false;
 	var->split_value = NULL;
 	var->tokens = NULL;
-	var->concatenate_begin = false;
-	var->concatenate_end = false;
+	var->cat_begin = false;
+	var->cat_end = false;
 	var->key_start = 0;
 	var->key_len = 0;
-	var->index = 0;
+	var->i = 0;
+	var->token_was_split = false;
 	return (var);
 }
 
@@ -128,7 +115,10 @@ int	expand_tokens(t_list **list_start, t_htable *env)
 		if (var->token->type != HEREDOC)
 		{
 			if (find_expandables(var, env) != EXIT_SUCCESS)
+			{
+				free(var);
 				return (terminate_token_list_error_failure(list_start));
+			}
 		}
 		if (var->tokens)
 			var->tokens = var->tokens->next;
