@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 15:42:44 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/10/25 10:59:08 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/30 18:02:51 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ static int	st_with_status(t_exec_var *var, char *arg, int start, int end)
 	int		check;
 	char	*nb;
 
+	if (var == NULL)
+		return (-1);
 	check = st_put_partial_str(arg, start, end + 1, ft_strlen(arg));
 	if (check < 0)
 		return (check);
@@ -86,7 +88,7 @@ static int	st_display_args(t_exec_var *var, t_command *command, int start)
 	cmnd = command->command;
 	while (cmnd[i])
 	{
-		if (ft_strnstr(cmnd[i], "$?", ft_strlen(cmnd[i])) != NULL)
+		if (ft_strnstr(cmnd[i], "$?", ft_strlen(cmnd[i]) + 1) != NULL)
 			check = st_display_special_arg(var, cmnd[i]);
 		else
 			check = write(STDOUT_FILENO, cmnd[i], ft_strlen(cmnd[i]));
