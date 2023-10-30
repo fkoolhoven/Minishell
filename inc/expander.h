@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 17:19:53 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/30 18:59:47 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/30 21:41:32 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 
 # define CONTINUE 2
 
-// token_expand.c
-int		expand_tokens(t_list **list_start, t_htable *env);
+// expand_expand.c
+int		expand_variables(t_list **list_start, t_htable *env);
 
-// token_expand_variable.c
+// expand_expand_variable.c
 int		expand_variable(t_expander_var *var, t_htable *env);
 
 // expand_split_value.c
@@ -47,7 +47,6 @@ void	*create_new_node(char *value);
 void	insert_token_into_list(t_list *new_node, t_expander_var *var);
 void	*free_split_value(char **split_value, int i);
 
-
-
+// expand_remove_empty.c
 void	remove_empty_tokens_from_list(t_list **list_start);
 #endif

@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 16:43:49 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/30 20:45:03 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/30 21:43:19 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,7 @@ int	expand_variable(t_expander_var *var, t_htable *env)
 	if (var->token->value[var->i] == '?')
 		return (EXIT_SUCCESS);
 	else if (var->new_value == NULL)
-	{
-		printf("new value is NULL for %s\n", var->token->value);
 		return (replace_var(var, var->new_value, var->key_start));
-	}
 	else if (var->in_double_quotes)
 	{
 		new_index = var->key_start + ft_strlen(var->new_value - 1);

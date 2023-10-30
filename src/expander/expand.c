@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 15:47:26 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/30 20:46:02 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/30 21:45:48 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	find_expandables(t_expander_var *var, t_htable *env)
 
 	quote_check = false;
 	var->i = 0;
-	while (var->tokens && var->token->value && var->token->value[var->i]) // rm redundancies
+	while (var->tokens && var->token->value && var->token->value[var->i])
 	{
 		quote_check = prevent_expansion_in_single_quotes(var);
 		if (!var->token->value[var->i])
@@ -52,37 +52,6 @@ int	find_expandables(t_expander_var *var, t_htable *env)
 			var->token = (t_token *)var->tokens->content;
 	}
 	return (EXIT_SUCCESS);
-}
-
-void	remove_empty_tokens_from_list(t_list **list_start)
-{
-	t_list	*to_delete;
-	t_list	*tokens;
-	t_token	*token;
-
-	tokens = *list_start;
-	token = (t_token *)tokens->content;
-	while (tokens && token->value == NULL)
-	{
-		*list_start = (*list_start)->next;
-		printf("gonna term empty token\n");
-		terminate_token(tokens);
-		tokens = *list_start;
-		if (tokens)
-			token = (t_token *)tokens->content;
-	}
-	while (tokens && tokens->next)
-	{
-		token = (t_token *)tokens->next->content;
-		if (token->value == NULL)
-		{
-			to_delete = tokens->next;
-			tokens->next = to_delete->next;
-			printf("gonna term empty token\n");
-			terminate_token(to_delete);
-		}
-		tokens = tokens->next;
-	}
 }
 
 t_expander_var	*init_expander_vars(void)
@@ -105,7 +74,10 @@ t_expander_var	*init_expander_vars(void)
 	return (var);
 }
 
-int	expand_tokens(t_list **list_start, t_htable *env)
+// Goes through inked list of tokens and expands environment variables,
+// except when they are in between single quotes. Follows the same rules
+// in regards to concatenation and splitting of expandad variables as bash.
+int	expand_variables(t_list **list_start, t_htable *env)
 {
 	t_expander_var	*var;
 
