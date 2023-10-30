@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/10/25 14:04:29 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/25 15:04:52 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/30 11:10:25 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_process	*processnode_new(pid_t pid)
 {
 	t_process	*node;
 
-	node = malloc(sizeof(t_process));
+	node = malloc(sizeof(t_process)); // good
 	if (node == NULL)
 		return (NULL);
 	node->process = pid;

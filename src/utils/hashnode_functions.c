@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:03:59 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/10/23 14:29:13 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/30 10:56:50 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_hnode	*new_hash_node(char *key, char *value)
 
 	if (key == NULL)
 		return (NULL);
-	node = malloc(sizeof(t_hnode));
+	node = malloc(sizeof(t_hnode)); // good
 	if (node == NULL)
 		return (NULL);
 	node->key = key;
