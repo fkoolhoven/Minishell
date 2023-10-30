@@ -6,19 +6,11 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 16:35:30 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/30 16:58:13 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/30 20:00:18 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	find_next_quote_expanded(char *input, int i, char quote)
-{
-	while (input[i] != quote && input[i])
-		i++;
-	return (i);
-}
-
 
 int	find_next_quote(char *input, int i)
 {

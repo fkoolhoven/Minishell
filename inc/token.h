@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:39:28 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/30 16:58:38 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/30 20:27:05 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,14 @@ t_token	*initialize_token(void);
 int		tokenize_word(t_token *token, char *input, int *i);
 int		tokenize_operator(t_token *token, char *input, int *i, int *exit_code);
 
-// token_quotes.c
-int		remove_quotes_from_tokens(t_list **list_start, int *exit_code);
-char	*delete_char_from_string(char *string, int index);
-
-// token_quotes_expanded.c
-int		search_in_expanded_tokens(t_list **tokens, t_token **starting_token, int first_quote, int *i);
-
 // token_utils.c
 bool	char_is_operator(char c);
 int		calculate_strlen_for_token_value(char *input, int *i);
 int		find_next_quote(char *input, int i);
 int		find_next_quote_expanded(char *input, int i, char quote);
+
+// token_quotes.c
+int		remove_quotes_from_tokens(t_list **list_start, int *exit_code);
 
 // token_terminate.c
 void	terminate_token(t_list *token);

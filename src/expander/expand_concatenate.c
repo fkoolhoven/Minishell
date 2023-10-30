@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 12:50:24 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/30 19:46:27 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/30 20:24:14 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ int	concatenate_end(t_expander_var *var, int j)
 	free(temp);
 	if (var->token->value == NULL)
 		return (malloc_error_return_failure("expander"));
-	var->token->expansion_end = true;
 	return (EXIT_SUCCESS);
 }
 

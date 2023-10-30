@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 11:01:53 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/10/30 19:43:39 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/30 20:23:21 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,6 @@ typedef struct s_token
 {
 	enum e_type	type;
 	char		*value;
-	bool		expansion_beginning;
-	bool		expansion_end;
 }	t_token;
 
 typedef struct s_hash_node

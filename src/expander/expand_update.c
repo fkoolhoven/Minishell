@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 14:29:18 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/30 19:44:02 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/30 20:24:03 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,6 @@ static int	insert_token_with_split_value(t_expander_var *var, int j)
 	if (new_node == NULL)
 		return (EXIT_FAILURE);
 	new_token = new_node->content;
-	if (var->split_value[j + 1] || var->token_was_split)
-		new_token->expansion_beginning = true;
-	else
-		new_token->expansion_end = true;
 	insert_token_into_list(new_node, var);
 	return (EXIT_SUCCESS);
 }

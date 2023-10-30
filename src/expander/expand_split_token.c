@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 18:56:39 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/30 19:11:45 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/30 20:24:19 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,9 @@ int	split_token_beginning_before_key(t_expander_var *var)
 			return (malloc_error_return_failure("expander"));
 		free(var->token->value);
 		var->token->value = left;
-		var->token->expansion_beginning = true;
 	}
 	else
-		var->concatenate_begin = false;
+		var->cat_begin = false;
 	return (EXIT_SUCCESS);
 }
 
@@ -51,7 +50,6 @@ static t_list	*get_new_token_for_split(t_expander_var *var, int right_len)
 		return (malloc_error_return_null("expander"));
 	}
 	new_token = (t_token *)new_node->content;
-	new_token->expansion_end = true;
 	return (new_node);
 }
 
@@ -74,7 +72,7 @@ int	split_token_end_after_key(t_expander_var *var)
 	else
 	{
 		var->token_was_split = false;
-		var->concatenate_end = false;
+		var->cat_end = false;
 	}
 	return (EXIT_SUCCESS);
 }

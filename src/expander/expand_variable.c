@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 16:43:49 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/30 19:35:25 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/30 20:45:03 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static int	get_new_value(t_expander_var *var, t_htable *env)
 		(var->i)++;
 	var->key_len = var->i - var->key_start;
 	if (!ft_isspace(!var->token->value[var->i]))
-		var->concatenate_end = true;
+		var->cat_end = true;
 	key_len = var->i - var->key_start;
 	key = ft_substr(var->token->value, var->key_start, key_len);
 	if (key == NULL)
@@ -59,7 +59,10 @@ int	expand_variable(t_expander_var *var, t_htable *env)
 	if (var->token->value[var->i] == '?')
 		return (EXIT_SUCCESS);
 	else if (var->new_value == NULL)
+	{
+		printf("new value is NULL for %s\n", var->token->value);
 		return (replace_var(var, var->new_value, var->key_start));
+	}
 	else if (var->in_double_quotes)
 	{
 		new_index = var->key_start + ft_strlen(var->new_value - 1);

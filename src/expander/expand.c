@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 15:47:26 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/30 19:43:47 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/30 20:46:02 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	find_expandables(t_expander_var *var, t_htable *env)
 
 	quote_check = false;
 	var->i = 0;
-	while (var->tokens && var->token->value && var->token->value[var->i])
+	while (var->tokens && var->token->value && var->token->value[var->i]) // rm redundancies
 	{
 		quote_check = prevent_expansion_in_single_quotes(var);
 		if (!var->token->value[var->i])
@@ -65,6 +65,7 @@ void	remove_empty_tokens_from_list(t_list **list_start)
 	while (tokens && token->value == NULL)
 	{
 		*list_start = (*list_start)->next;
+		printf("gonna term empty token\n");
 		terminate_token(tokens);
 		tokens = *list_start;
 		if (tokens)
@@ -77,6 +78,7 @@ void	remove_empty_tokens_from_list(t_list **list_start)
 		{
 			to_delete = tokens->next;
 			tokens->next = to_delete->next;
+			printf("gonna term empty token\n");
 			terminate_token(to_delete);
 		}
 		tokens = tokens->next;
@@ -123,6 +125,7 @@ int	expand_tokens(t_list **list_start, t_htable *env)
 		if (var->tokens)
 			var->tokens = var->tokens->next;
 	}
+	print_tokens(*list_start);
 	remove_empty_tokens_from_list(list_start);
 	free(var);
 	return (EXIT_SUCCESS);
