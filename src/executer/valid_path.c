@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/10/11 10:26:18 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/11 12:22:43 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/30 16:58:34 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -20,7 +20,8 @@ static char	*st_check(char *tmp1, char *cmnd, char **prev_valid)
 	if (prev_valid == NULL)
 		return (free(tmp1), NULL);
 	rtn = ft_strjoin(tmp1, cmnd);
-	free(tmp1);
+	if (tmp1 != rtn)
+		free(tmp1);
 	if (rtn == NULL)
 		return (NULL);
 	if (access(rtn, X_OK) == 0)
