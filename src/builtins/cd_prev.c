@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/10/18 15:37:15 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/11/01 14:27:15 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/11/01 16:31:21 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,11 @@ static char	*st_give_changing_path(t_exec_var *var)
 	if (var == NULL)
 		return (NULL);
 	tmp_path = ft_strjoin(var->cur_path, "/..");
-	if (tmp_path == NULL)
+	if (tmp_path == NULL || tmp_path == var->cur_path)
 		return (NULL);
 	new_path = cd_strtrim(tmp_path, "/");
-	if (new_path == NULL && tmp_path != var->cur_path)
+	if (new_path == NULL)
 		return (free(tmp_path), NULL);
-	else if (new_path == NULL)
-		return (NULL);
 	cd_edit_newpath(new_path, ft_strlen(new_path));
 	return (free(tmp_path), new_path);
 }
@@ -43,7 +41,7 @@ static int	st_up_and_re(int check, char *new_path, t_exec_var *var)
 {
 	char	*err_path;
 
-	if (check < 0 && !(new_path) && new_path[0] != '\0')
+	if (check < 0 && new_path[0] != '\0')
 	{
 		err_path = st_give_error_path(var);
 		if (err_path != NULL)
@@ -57,7 +55,7 @@ static int	st_up_and_re(int check, char *new_path, t_exec_var *var)
 		return (free(new_path), check);
 	}
 	if (check < 0)
-		return (EXIT_SUCCESS);
+		return (free(new_path), EXIT_SUCCESS);
 	cd_ch_curpath(var, new_path, NULL, EXIT_SUCCESS);
 	check = cd_change_env(var, new_path, EXIT_SUCCESS);
 	return (free(new_path), check);

@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/10/18 15:36:35 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/11/01 14:23:54 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/11/01 16:33:29 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ static char	*st_give_changing_path(t_exec_var *var, char *path)
 	if (var == NULL || path == NULL)
 		return (NULL);
 	tmp_path = ft_strjoin(var->cur_path, "/");
-	if (tmp_path == NULL)
+	if (tmp_path == NULL || tmp_path == var->cur_path)
 		return (NULL);
 	new_path = ft_strjoin(tmp_path, path);
-	if (new_path != tmp_path && tmp_path != var->cur_path)
+	if (new_path != tmp_path)
 		free(tmp_path);
 	if (new_path == NULL)
 		return (NULL);
@@ -78,7 +78,7 @@ static int	st_up_and_re(int check, char *npath, char *path, t_exec_var *var)
 {
 	char	*err_path;
 
-	if (check < 0 && !(npath) && *npath != '\0' && st_is_relative(path))
+	if (check < 0 && npath && *npath != '\0' && st_is_relative(path))
 	{
 		err_path = st_give_error_path(var, path);
 		if (err_path != NULL)
