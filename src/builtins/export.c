@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 15:20:23 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/11/01 12:26:24 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/11/01 12:54:21 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static int	add_to_env(t_exec_var *var, t_hnode *node, char *key, char *value)
 		node->value = value;
 		free(key);
 	}
-	else if (add_pair(var->env, NULL, value) < 0)
+	else if (add_pair(var->env, key, value) < 0)
 	{
 		free(key);
 		free(value);

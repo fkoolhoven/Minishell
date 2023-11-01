@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:08:39 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/11/01 11:55:22 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/11/01 13:13:23 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static int	minishell(t_htable *env, char *cur_path)
 	exit_code = EXIT_SUCCESS;
 	while (1)
 	{
-		user_input = readline(BOLDBLUE"minishell » "OFF);
+		user_input = readline("minishell » ");
 		if (!(user_input))
 		{
 			terminate_hashtable(env);
