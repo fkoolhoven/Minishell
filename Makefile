@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    Makefile                                          :+:    :+:              #
+#    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/31 14:20:16 by jhendrik          #+#    #+#              #
-#    Updated: 2023/11/01 14:17:41 by jhendrik      ########   odam.nl          #
+#    Updated: 2023/11/01 15:37:14 by fkoolhov         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -114,19 +114,14 @@ OBJ			:= $(addprefix $(OBJ_DIR)/,$(SRC:.c=.o))
 LIBS		:= $(LIB_DIR)/libft.a
 MINI_HEADER	:= ./inc/minishell.h
 
-
-# LIBNAME		:= libft.a
-
 VPATH = $(SRCDIRS)
 
-# Prettifying output
-# Reset
-Reset="\033[0m"				# Text Reset
-# Regular Colors
-Green="\033[0;32m"			# Green
-Yellow="\033[0;33m"			# Yellow
-Blue="\033[0;34m"			# Blue
-Light_Blue="\033[1;34m"		# Light Blue
+#COLORS
+Reset="\033[0m"
+Green="\033[0;32m"			
+Yellow="\033[0;33m"		
+Blue="\033[0;34m"		
+Light_Blue="\033[1;34m"	
 
 all: make_libs $(NAME)
 
@@ -137,14 +132,12 @@ $(LIB_DIR)/obj:
 
 $(NAME): $(OBJ) $(MINI_HEADER)
 	@echo $(Light_Blue) Building program ... $(NAME) $(Reset)
-	$(CC)  -I $(INC) $(OBJ) -o $(NAME) $(FLAGS)
+	@$(CC)  -I $(INC) $(OBJ) -o $(NAME) $(FLAGS)
 	@echo $(Green) Program $(NAME) successfully build $(Reset)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(MINI_HEADER)
 	@mkdir -p $(@D)
-	@echo $(Light_Blue) Compiling code ... $(Reset)
-	$(CC) -I $(INC) $(CFLAGS) -c $< -o $@
-	@echo $(Green) Successfully compiled! $(Reset)
+	@$(CC) -I $(INC) $(CFLAGS) -c $< -o $@
 
 $(OBJ_DIR):
 	@mkdir $@

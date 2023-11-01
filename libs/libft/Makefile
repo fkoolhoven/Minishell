@@ -6,9 +6,11 @@
 #    By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/28 10:58:27 by jhendrik          #+#    #+#              #
-#    Updated: 2023/10/09 15:51:47 by fkoolhov         ###   ########.fr        #
+#    Updated: 2023/11/01 15:22:46 by fkoolhov         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
+CC := cc
 
 # Defining directories
 SRCDIR := ./src
