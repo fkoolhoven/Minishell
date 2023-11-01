@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/10/18 15:37:29 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/30 17:58:22 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/11/01 14:28:03 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static char	*st_trim_between(char *str, char const *set, size_t len)
 	size_t		i;
 	t_trim_var	trim;
 
-	if (len < 0 || set == NULL || str == NULL)
+	if (set == NULL || str == NULL)
 		return (free(str), NULL);
 	trim.trimmed = (char *)malloc(len + 1);
 	if (trim.trimmed == NULL)
