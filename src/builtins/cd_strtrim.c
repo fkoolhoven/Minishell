@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/10/18 15:37:29 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/18 15:38:19 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/30 17:58:22 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ char	*cd_strtrim(char const *s1, char const *set)
 	begin = cd_lr_c_inset(s1, set);
 	end = cd_rl_c_inset(s1, set);
 	if ((end == 0 && ((size_t)begin) == len) || end == -1)
-		return (cd_nothing_left());
+		return (NULL);
 	str_trim = st_trim_be(s1, begin, end);
 	if (str_trim == NULL)
 		return (NULL);

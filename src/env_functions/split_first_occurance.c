@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/09/22 09:38:21 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/09/22 12:59:56 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/30 17:42:42 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -18,10 +18,12 @@ static size_t	st_decide_size(char const *s, char c)
 	if (s == NULL)
 		return (1);
 	found = ft_strchr((const char *)s, (int)c);
-	if (found != NULL)
+	if (found != NULL && *(found + 1) != '\0')
 		return (3);
-	else
+	else if (found != NULL)
 		return (2);
+	else
+		return (1);
 }
 
 static int	st_give_delindex(char const *s, char c)
@@ -38,11 +40,14 @@ static int	st_give_delindex(char const *s, char c)
 
 static void	st_error_malloc(char **split)
 {
-	if (split[0] != NULL)
-		free(split[0]);
-	if (split[1] != NULL)
-		free(split[1]);
-	free(split);
+	if (split != NULL)
+	{
+		if (split[0] != NULL)
+			free(split[0]);
+		if (split[1] != NULL)
+			free(split[1]);
+		free(split);
+	}
 }
 
 static char	**st_fill_strarray(char const *s, char c, char **split, size_t size)
@@ -50,8 +55,10 @@ static char	**st_fill_strarray(char const *s, char c, char **split, size_t size)
 	int	del_index;
 	int	str_len;
 
-	if (s == NULL || split == NULL)
+	if (split == NULL)
 		return (NULL);
+	if (s == NULL || size <= 1)
+		return (free(split), NULL);
 	del_index = st_give_delindex(s, c);
 	str_len = ft_strlen((char *)s);
 	split[size - 1] = NULL;
@@ -82,16 +89,10 @@ char	**split_first_occurance(char const *s, char c)
 	if (s == NULL)
 		return (NULL);
 	if (ft_strlen(s) == 0)
-	{
-		split = (char **)malloc(1 * sizeof(char *));
-		if (split != NULL)
-		{
-			split[0] = NULL;
-			return (split);
-		}
 		return (NULL);
-	}
 	size = st_decide_size(s, c);
+	if (size <= 1)
+		return (NULL);
 	split = (char **)malloc(size * sizeof(char *));
 	if (split == NULL)
 		return (NULL);

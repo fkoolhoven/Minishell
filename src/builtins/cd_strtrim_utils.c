@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/10/18 15:37:48 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/18 15:38:19 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/30 17:58:45 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,19 +44,6 @@ int	cd_rl_c_inset(char const *s1, char const *set)
 		inset = ft_strchr(set, *(s1 + j));
 	}
 	return (j);
-}
-
-char	*cd_nothing_left(void)
-{
-	char	*ptr_trim;
-
-	ptr_trim = (char *)malloc(1);
-	if (ptr_trim != NULL)
-	{
-		ptr_trim[0] = '\0';
-		return (ptr_trim);
-	}
-	return (NULL);
 }
 
 size_t	cd_len_trim_between(char *s1, char const *set)

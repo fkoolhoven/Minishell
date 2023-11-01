@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:08:39 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/11/01 11:53:32 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/11/01 11:55:22 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,16 @@ int	main(int argc, char **argv, char **envp)
 	t_htable	*env;
 
 	env = init_env(envp);
-	getcwd(tmp, PATH_MAX);
+	if (env == NULL)
+	{
+		ft_putstr_fd("Error: init_env failed\n", STDERR_FILENO);
+		return (EXIT_FAILURE);
+	}
+	if (getcwd(tmp, PATH_MAX) == NULL)
+	{
+		ft_putstr_fd("Error: getcwd() failed\n", STDERR_FILENO);
+		return (EXIT_FAILURE);
+	}
 	ft_strlcpy(cur_path, tmp, PATH_MAX);
 	argc = 0;
 	argv = NULL;

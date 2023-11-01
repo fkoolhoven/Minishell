@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   add_delete_pair.c                                  :+:      :+:    :+:   */
+/*   add_delete_pair.c                                 :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 17:06:03 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/10/09 16:33:34 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/30 17:27:18 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,11 @@ static t_hnode	*st_search_prevnode(t_hnode *list, char *key)
 	if (list == NULL || key == NULL)
 		return (NULL);
 	tmp = list;
-	if (ft_strncmp(key, tmp->key, ft_strlen(key)) == 0)
+	if (ft_strncmp(key, tmp->key, ft_strlen(key) + 1) == 0)
 		return (NULL);
 	while (tmp->next)
 	{
-		if (ft_strncmp(key, (tmp->next)->key, ft_strlen(key)) == 0)
+		if (ft_strncmp(key, (tmp->next)->key, ft_strlen(key) + 1) == 0)
 			return (tmp);
 		tmp = tmp->next;
 	}
@@ -53,14 +53,14 @@ int	delete_pair(t_htable *env, char *key)
 	t_hnode	*next;
 	int		index;
 
-	to_del = find_env_valuenode(env, key);
-	if (to_del == NULL)
+	to_del = find_env_valuenode(env, key); // change unset to check return value
+	index = give_hash_index(key, env);
+	if (to_del == NULL || index < 0)
 		return (-1);
 	next = to_del->next;
 	prev = st_give_previous(env, key);
-	if (prev == NULL)
+	if (prev == NULL && (env->array)[index] != NULL)
 	{
-		index = give_hash_index(key, env);
 		(env->array)[index] = next;
 		to_del->next = NULL;
 		hasharray_delone(to_del);
@@ -83,7 +83,7 @@ int	add_pair(t_htable *env, char *key, char *value)
 		return (-1);
 	if (env->array == NULL)
 		return (-1);
-	new = new_hash_node(key, value);
+	new = new_hash_node(key, value); // change export to check return value
 	index = give_hash_index(key, env);
 	if (new == NULL)
 		return (-2);

@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/10/18 15:37:15 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/20 11:19:06 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/30 17:56:43 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,20 @@ int	cd_prev_dir(t_exec_var *var)
 
 	check = 0;
 	new_path = st_give_changing_path(var);
+	if (new_path == NULL)
+		return (cd_put_error("Error: strjoin or strtrim failed\n", NULL, NULL));
 	check = chdir(new_path);
 	if (check < 0 && new_path[0] != '\0')
 	{
 		err_path = st_give_error_path(var);
-		cd_ch_curpath(var, new_path, err_path, EXIT_FAILURE);
-		free(err_path);
-		check = cd_change_env(var, new_path, EXIT_FAILURE);
+		if (err_path != NULL)
+		{
+			cd_ch_curpath(var, new_path, err_path, EXIT_FAILURE);
+			free(err_path);
+			check = cd_change_env(var, new_path, EXIT_FAILURE);
+		}
+		else
+			check = cd_put_error("Error: strjoin failed\n", NULL, NULL);
 		return (free(new_path), check);
 	}
 	if (check < 0)

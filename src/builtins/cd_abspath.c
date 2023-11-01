@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/10/18 15:36:19 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/20 11:18:38 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/30 17:46:30 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	cd_absolute_path(t_exec_var *var, char *path)
 		return (EXIT_FAILURE);
 	tmp_path = st_give_changing_path(path);
 	if (tmp_path == NULL)
-		return (EXIT_FAILURE);
+		return (cd_put_error("Error: trimming path failed\n", NULL, path));
 	check = chdir(tmp_path);
 	if (check < 0)
 	{

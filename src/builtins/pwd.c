@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 09:41:37 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/10/18 15:58:41 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/30 18:04:21 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	bltin_pwd(t_exec_var *var, t_command *command)
 		return (EXIT_FAILURE);
 	if (var->cur_path == NULL)
 	{
-		ft_putstr_fd("Error: path not found\n", 2);
+		ft_putstr_fd("Error: current path not found\n", STDERR_FILENO);
 		rl_on_new_line();
 		return (EXIT_FAILURE);
 	}

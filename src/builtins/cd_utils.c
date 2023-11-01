@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/10/18 15:38:23 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/20 11:17:26 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/30 18:01:31 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	cd_ch_curpath(t_exec_var *var, char *npath, char *epath, int status)
 			else
 				cd_put_error(NULL, NULL, npath);
 		}
-		else
+		else if (epath == NULL)
 		{
 			ft_bzero(var->cur_path, PATH_MAX);
 			ft_strlcpy(var->cur_path, npath, PATH_MAX);
@@ -67,6 +67,7 @@ int	cd_change_env(t_exec_var *var, char *new_path, int status)
 {
 	t_hnode	*pwd;
 	t_hnode	*oldpwd;
+	char	*tmp; 	
 
 	if (new_path == NULL || var == NULL)
 		return (EXIT_FAILURE);
@@ -83,9 +84,16 @@ int	cd_change_env(t_exec_var *var, char *new_path, int status)
 		if (pwd->value != NULL && oldpwd == NULL)
 			free(pwd->value);
 		if (status == EXIT_SUCCESS)
-			(pwd->value) = ft_strdup(new_path);
+			tmp = ft_strdup(new_path);
 		else
-			(pwd->value) = ft_strdup(var->cur_path);
+			tmp = ft_strdup(var->cur_path);
+		if (tmp != NULL)
+			(pwd->value) = tmp;
+		else
+		{
+			ft_putstr_fd("Error: strdup failed, PWD not updated\n", STDERR_FILENO);
+			return (EXIT_FAILURE);
+		}
 	}
 	return (EXIT_SUCCESS);
 }

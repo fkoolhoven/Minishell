@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/10/04 12:27:04 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/04 12:27:07 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/10/30 17:15:34 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,10 @@ void	input_to_heredoc(int fd, char *limit, t_htable *env)
 	i = 1;
 	while (i == 1)
 	{
-		user_input = readline("> ");
+		user_input = readline(BOLDBLUE" » "OFF);
 		if (!(user_input))
 			i = -1;
-		else if (ft_strncmp(user_input, limit, ft_strlen(limit)) == 0)
+		else if (ft_strncmp(user_input, limit, ft_strlen(limit) + 1) == 0)
 			i = 0;
 		else if (ft_strchr((const char *)user_input, '$') != NULL)
 			st_add_expanded_input(fd, user_input, env);

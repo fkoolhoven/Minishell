@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_utils.c                                        :+:      :+:    :+:   */
+/*   env_utils.c                                       :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 16:02:22 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/09/22 15:38:07 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/10/30 17:32:28 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ t_hnode	**hasharray_calloc(size_t cnt, size_t size)
 	t_hnode	**head;
 	size_t	i;
 
+	if ((cnt * size) / size != cnt)
+		return (NULL);
 	head = malloc(cnt * size);
 	if (head == NULL)
 		return (NULL);
