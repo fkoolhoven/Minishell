@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   convert_utils.c                                    :+:      :+:    :+:   */
+/*   convert_utils.c                                   :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 13:02:07 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/10/09 17:00:27 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/11/01 10:48:34 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,10 @@ char	*give_envstr(t_hnode *node)
 
 	if (node == NULL)
 		return (NULL);
-	tmp1 = ft_strjoin(node->key, "=");
+	tmp1 = ft_strjoin(node->key, "="); // good
 	if (tmp1 == NULL)
 		return (NULL);
-	tmp2 = ft_strjoin(tmp1, node->value);
+	tmp2 = ft_strjoin(tmp1, node->value); // good
 	if (tmp1 != tmp2)
 		free(tmp1);
 	if (tmp2 == NULL)

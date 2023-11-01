@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/09/22 09:38:21 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/30 17:42:42 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/11/01 11:03:43 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -64,15 +64,15 @@ static char	**st_fill_strarray(char const *s, char c, char **split, size_t size)
 	split[size - 1] = NULL;
 	if (size == 2)
 	{
-		split[0] = (char *)malloc(str_len + 1);
+		split[0] = (char *)malloc(str_len + 1); // good
 		if (split[0] == NULL)
 			return (free(split), NULL);
 		ft_strlcpy(split[0], s, str_len + 1);
 	}
 	else if (size == 3)
 	{
-		split[0] = (char *)malloc(del_index + 1);
-		split[1] = (char *)malloc(str_len - del_index);
+		split[0] = (char *)malloc(del_index + 1); // good
+		split[1] = (char *)malloc(str_len - del_index); // good
 		if (split[0] == NULL || split[1] == NULL)
 			return (st_error_malloc(split), NULL);
 		ft_strlcpy(split[0], s, del_index + 1);

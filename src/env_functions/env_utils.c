@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 16:02:22 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/10/30 17:32:28 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/11/01 10:50:50 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ t_hnode	**hasharray_calloc(size_t cnt, size_t size)
 
 	if ((cnt * size) / size != cnt)
 		return (NULL);
-	head = malloc(cnt * size);
+	head = malloc(cnt * size); // good
 	if (head == NULL)
 		return (NULL);
 	i = 0;
@@ -85,7 +85,7 @@ char	*give_value(char *variable)
 
 	if (variable == NULL)
 		return (NULL);
-	split = split_first_occurance(variable, '=');
+	split = split_first_occurance(variable, '='); // good
 	if (split == NULL)
 		return (NULL);
 	value = split[1];

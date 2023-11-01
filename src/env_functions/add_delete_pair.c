@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 17:06:03 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/10/30 17:27:18 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/11/01 10:42:35 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	delete_pair(t_htable *env, char *key)
 		to_del->next = NULL;
 		hasharray_delone(to_del);
 	}
-	else
+	else if ((env->array)[index] != NULL)
 	{
 		prev->next = next;
 		to_del->next = NULL;

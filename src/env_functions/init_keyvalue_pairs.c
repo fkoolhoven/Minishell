@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 15:46:06 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/10/30 17:36:48 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/11/01 10:58:36 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static int	st_add_hnode(char *key, char *value, t_htable *env, t_hnode ***head)
 		return (EXIT_FAILURE);
 	if (*head == NULL)
 		return (EXIT_FAILURE);
-	new = new_hash_node(key, value);
+	new = new_hash_node(key, value); // good
 	index = give_hash_index(key, env);
 	if (new == NULL || index < 0)
 	{
@@ -70,7 +70,7 @@ int	init_keyvalue(t_hnode ***head, t_htable *env_table, char **envp)
 	i = 0;
 	while (envp[i] != NULL)
 	{
-		key = give_key(envp[i]);
+		key = give_key(envp[i]); // good
 		value = give_value(envp[i]);
 		if (key == NULL)
 			return (st_error(key, value, head, env_table), -2);

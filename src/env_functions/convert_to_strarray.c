@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/09/22 11:45:40 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/30 17:30:12 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/11/01 10:46:19 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -25,7 +25,7 @@ static int	st_add_per_index(t_hnode *head, char **ch_env, int *index)
 	tmp = head;
 	while (tmp)
 	{
-		tmp_str = give_envstr(tmp);
+		tmp_str = give_envstr(tmp); // good
 		if (tmp_str == NULL)
 			return (-2);
 		ch_env[(*index)] = tmp_str;
@@ -49,7 +49,6 @@ static void	st_error(char **ch_env, int index)
 		}
 		free(ch_env);
 	}
-	ft_putstr_fd("Error: converting hashtable failed\n", STDERR_FILENO);
 }
 
 static char	**st_fill_strarray(t_htable *env, char **ch_env, int size)
@@ -87,7 +86,7 @@ char	**convert_htable_to_strarray(t_htable *env)
 	size = size_table(env);
 	if (size == 0)
 		return (st_error(NULL, 0), NULL);
-	ch_env = malloc((size + 1) * sizeof(char *));
+	ch_env = malloc((size + 1) * sizeof(char *)); // good
 	if (ch_env == NULL)
 		return (st_error(ch_env, 0), NULL);
 	return (st_fill_strarray(env, ch_env, size));
