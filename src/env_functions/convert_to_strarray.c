@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/09/22 11:45:40 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/30 17:30:12 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/11/01 14:43:07 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -49,7 +49,6 @@ static void	st_error(char **ch_env, int index)
 		}
 		free(ch_env);
 	}
-	ft_putstr_fd("Error: converting hashtable failed\n", STDERR_FILENO);
 }
 
 static char	**st_fill_strarray(t_htable *env, char **ch_env, int size)
