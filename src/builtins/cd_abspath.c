@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/10/18 15:36:19 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/30 17:46:30 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/11/01 11:37:39 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static char	*st_give_changing_path(char *path)
 {
 	char	*tmp_path;
 
-	tmp_path = cd_strtrim(path, "/");
+	tmp_path = cd_strtrim(path, "/"); // good
 	if (tmp_path == NULL)
 		return (NULL);
 	cd_edit_newpath(tmp_path, ft_strlen(tmp_path));
