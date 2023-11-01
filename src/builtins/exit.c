@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 10:38:10 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/10/23 14:24:13 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/11/01 17:14:52 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,12 @@ static bool	arg_is_numeric(char *str)
 		return (false);
 }
 
-static int	get_exit_code(char **full_command, int argc)
+static int	get_exit_code(char **full_command, int argc, t_exec_var *var)
 {
 	int	exit_code;
 
 	if (argc == 1)
-		exit_code = EXIT_SUCCESS;
+		exit_code = var->exit_status;
 	else
 	{
 		if (!arg_is_numeric(full_command[1]))
@@ -88,7 +88,7 @@ int	bltin_exit(t_exec_var *var, t_command *command)
 		return (EXIT_FAILURE);
 	}
 	else
-		exit_code = get_exit_code(full_command, argc);
+		exit_code = get_exit_code(full_command, argc, var);
 	free_all_allocated_memory(var);
 	printf(BOLDGREEN"Bye bye! See you next time.\n"OFF);
 	exit(exit_code);
