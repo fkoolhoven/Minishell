@@ -76,7 +76,7 @@ t_expander_var	*init_expander_vars(void)
 
 // Goes through linked list of tokens and expands environment variables,
 // except when they are in between single quotes. Follows the same rules
-// in regards to concatenation and splitting of expandad variables as bash.
+// in regards to concatenation and splitting of expanded variables as bash.
 int	expand_variables(t_list **list_start, t_htable *env)
 {
 	t_expander_var	*var;
