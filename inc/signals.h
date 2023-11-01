@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 17:09:22 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/11/01 14:19:53 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/11/01 17:21:30 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 // signals.c
 void	catch_sigint_parent(int sig);
 void	catch_sigint_heredoc(int sig);
+void	catch_sigquit_heredoc(int sig);
 
 //sig_wrapper.c 
 void	wrap_sighandler(int signal, t_sighandle handler);

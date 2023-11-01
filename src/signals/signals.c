@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 16:51:19 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/11/01 15:12:02 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/11/01 17:21:10 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,4 +33,13 @@ void	catch_sigint_heredoc(int sig)
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	exit(130);
+}
+
+void	catch_sigquit_heredoc(int sig)
+{
+	sig = 0;
+	printf("\n");
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	exit(131);
 }
