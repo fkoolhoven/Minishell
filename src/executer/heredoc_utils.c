@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/10/04 12:26:40 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/11/01 10:19:07 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/11/01 13:47:49 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static char	*st_give_between_vars(char *user_input, int first, int last)
 		return (NULL);
 	if (first >= last)
 		return (NULL);
-	rtn = (char *)malloc((last - first + 1) * sizeof(char)); // good
+	rtn = (char *)malloc((last - first + 1) * sizeof(char));
 	if (rtn == NULL)
 		return (NULL);
 	ft_strlcpy(rtn, (const char *)(user_input + first), last - first + 1);
@@ -51,7 +51,7 @@ void	put_str_between(t_heredoc_var var, int first, int last)
 
 	if (var.input && var.fd >= 0 && first >= 0 && last > 0)
 	{
-		tmp = st_give_between_vars(var.input, first, last); // good
+		tmp = st_give_between_vars(var.input, first, last);
 		if (tmp != NULL)
 		{
 			ft_putstr_fd(tmp, var.fd);
@@ -69,7 +69,7 @@ void	expand_put_var(t_heredoc_var var, int *first, int last)
 
 	if (first && var.input && var.env && var.fd >= 0)
 	{
-		key = st_give_key(var.input, first, last); // good now
+		key = st_give_key(var.input, first, last);
 		if (key != NULL)
 		{
 			tmp = find_env_value(var.env, key);

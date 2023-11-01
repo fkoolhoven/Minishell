@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/09/18 12:02:47 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/11/01 10:33:15 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/11/01 13:54:29 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -22,7 +22,7 @@ int	child_process_onecmnd(t_exec_var *var, t_command *cmnd)
 		if (check == EXIT_FAILURE)
 			exit(EXIT_FAILURE);
 		wrap_sighandler(SIGINT, SIG_DFL);
-		valid_cmnd = find_command_path(var, cmnd); // good
+		valid_cmnd = find_command_path(var, cmnd);
 		execve(valid_cmnd, cmnd->command, var->env_str);
 		if (valid_cmnd == NULL && !(heredoc_infile_found(cmnd->in)))
 			exit(exec_error_child_notfound(var, valid_cmnd, cmnd));
@@ -41,7 +41,7 @@ static int	st_child_command(t_exec_var *var, t_command *cmnd)
 {
 	char	*valid_cmnd;
 
-	valid_cmnd = find_command_path(var, cmnd); // good
+	valid_cmnd = find_command_path(var, cmnd);
 	execve(valid_cmnd, cmnd->command, var->env_str);
 	if (valid_cmnd == NULL && !(heredoc_infile_found(cmnd->in)))
 		exit(exec_error_child_notfound(var, valid_cmnd, cmnd));
@@ -106,7 +106,7 @@ int	parent_process(t_exec_var *var, int j)
 	if (j < var->last_cmnd - 1)
 	{
 		close_given_pipe(var->prev_pipe);
-		check = process_make_add_node(&(var->process_lst), var->process); // good
+		check = process_make_add_node(&(var->process_lst), var->process);
 		var->prev_pipe[0] = var->fd_pipe[0];
 		var->prev_pipe[1] = var->fd_pipe[1];
 		if (check == NULL)
@@ -115,7 +115,7 @@ int	parent_process(t_exec_var *var, int j)
 	}
 	else if (j == var->last_cmnd - 1)
 	{
-		check = process_make_add_node(&(var->process_lst), var->process); // good
+		check = process_make_add_node(&(var->process_lst), var->process);
 		if (check == NULL)
 		{
 			ft_putstr_fd("Warning: making pid list failed\n", STDERR_FILENO);

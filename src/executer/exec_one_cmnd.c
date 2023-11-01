@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/10/23 12:29:25 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/11/01 10:34:12 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/11/01 13:40:20 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static int	st_exec_onecmnd_process(t_exec_var *var)
 			return (child_process_onecmnd(var, var->cmnd_list));
 		else
 		{
-			check = process_make_add_node(&(var->process_lst), var->process); // good
+			check = process_make_add_node(&(var->process_lst), var->process);
 			exit_status = parent_one_command(var, check);
 			return (terminate_execvar_parent(&var), exit_status);
 		}

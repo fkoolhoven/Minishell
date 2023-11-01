@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 13:05:59 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/11/01 10:09:38 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/11/01 13:47:01 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,13 @@ static char	*st_give_filename(char *s_nb1, int j)
 
 	if (s_nb1 == NULL)
 		return (NULL);
-	s_nb2 = ft_itoa_base(j, 16, "0123456789ABCDEF"); // good
+	s_nb2 = ft_itoa_base(j, 16, "0123456789ABCDEF");
 	if (s_nb2 == NULL)
 		return (NULL);
-	tmp = ft_strjoin(".HEREDOC", s_nb1); // good
+	tmp = ft_strjoin(".HEREDOC", s_nb1);
 	if (tmp == NULL)
 		return (free(s_nb2), NULL);
-	filename = ft_strjoin(tmp, s_nb2); // good
+	filename = ft_strjoin(tmp, s_nb2);
 	if (filename != s_nb2)
 		free(s_nb2);
 	if (filename != tmp)
@@ -47,17 +47,15 @@ static int	st_manage_heredocs(t_redirect *in, char *s_nb1, t_htable *env)
 	int			check;
 	char		*filename;
 
-	if (in == NULL)
+	if (in == NULL || s_nb1 == NULL)
 		return (EXIT_FAILURE);
-	if (s_nb1 == NULL)
-		return (st_error("Error: generating filename failed\n"));
 	j = 0;
 	check = EXIT_SUCCESS;
 	while (in != NULL)
 	{
 		if (in->type == HEREDOC)
 		{
-			filename = st_give_filename(s_nb1, j); // good
+			filename = st_give_filename(s_nb1, j);
 			if (filename != NULL)
 				check = manage_one_heredoc(filename, in, env);
 			else
@@ -78,10 +76,11 @@ static int	st_check_manage_heredocs(t_redirect *in, int i, t_htable *env)
 
 	if (in != NULL)
 	{
-		s_nb1 = ft_itoa_base(i, 16, "0123456789ABCDEF"); // good
+		s_nb1 = ft_itoa_base(i, 16, "0123456789ABCDEF");
+		if (s_nb1 == NULL)
+			return (st_error("Error: generating filename failed\n"));
 		check = st_manage_heredocs(in, s_nb1, env);
-		if (s_nb1 != NULL)
-			free(s_nb1);
+		free(s_nb1);
 		return (check);
 	}
 	return (EXIT_SUCCESS);

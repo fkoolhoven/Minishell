@@ -6,13 +6,21 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/10/04 12:27:04 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/11/01 10:16:00 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/11/01 13:53:22 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /* bij $$ expand het naar ibusibus --> WAAROM???? */
+
+static int	st_give_index(int first, int i)
+{
+	if (first > 1)
+		return (first - 1);
+	else
+		return (i + 1);
+}
 
 static void	st_expand_input(t_heredoc_var var)
 {
@@ -31,10 +39,7 @@ static void	st_expand_input(t_heredoc_var var)
 				last = i;
 				put_str_between(var, first, last);
 				expand_put_var(var, &first, last);
-				if (first > 1)
-					i = first - 1;
-				else
-					i++;
+				i = st_give_index(first, i);
 			}
 			else if (var.input[i + 1] == '\0')
 				put_str_between(var, first, i + 1);
@@ -65,7 +70,7 @@ void	input_to_heredoc(int fd, char *limit, t_htable *env)
 	i = 1;
 	while (i == 1)
 	{
-		user_input = readline(BOLDCYAN"\t» "OFF);
+		user_input = readline("\t» ");
 		if (!(user_input))
 			i = -1;
 		else if (ft_strncmp(user_input, limit, ft_strlen(limit) + 1) == 0)
