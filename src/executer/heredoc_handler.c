@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 13:05:59 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/10/30 17:12:54 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/11/01 14:59:47 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,10 @@ static char	*st_give_filename(char *s_nb1, int j)
 	if (tmp == NULL)
 		return (free(s_nb2), NULL);
 	filename = ft_strjoin(tmp, s_nb2);
-	free(s_nb2);
-	free(tmp);
+	if (filename != s_nb2)
+		free(s_nb2);
+	if (tmp != filename)
+		free(tmp);
 	return (filename);
 }
 
@@ -45,10 +47,8 @@ static int	st_manage_heredocs(t_redirect *in, char *s_nb1, t_htable *env)
 	int			check;
 	char		*filename;
 
-	if (in == NULL)
+	if (in == NULL || s_nb1 == NULL)
 		return (EXIT_FAILURE);
-	if (s_nb1 == NULL)
-		return (st_error("generating filename failed\n"));
 	j = 0;
 	check = EXIT_SUCCESS;
 	while (in != NULL)
@@ -59,7 +59,7 @@ static int	st_manage_heredocs(t_redirect *in, char *s_nb1, t_htable *env)
 			if (filename != NULL)
 				check = manage_one_heredoc(filename, in, env);
 			else
-				check = st_error("generating filename failed\n");
+				check = st_error("Error: generating filename failed\n");
 			j++;
 		}
 		if (check != EXIT_SUCCESS)
@@ -77,9 +77,10 @@ static int	st_check_manage_heredocs(t_redirect *in, int i, t_htable *env)
 	if (in != NULL)
 	{
 		s_nb1 = ft_itoa_base(i, 16, "0123456789ABCDEF");
+		if (s_nb1 == NULL)
+			return (st_error("Error: generating filename failed\n"));
 		check = st_manage_heredocs(in, s_nb1, env);
-		if (s_nb1 != NULL)
-			free(s_nb1);
+		free(s_nb1);
 		return (check);
 	}
 	return (EXIT_SUCCESS);

@@ -6,10 +6,16 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/09/15 10:41:54 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/30 16:46:44 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/11/01 14:53:39 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
+
+static int	st_error(t_exec_var *var)
+{
+	ft_putstr_fd("Error: making pid list failed\n", STDERR_FILENO);
+	return (var->last_cmnd);
+}
 
 static int	st_exec_cmnds(t_exec_var *var)
 {
@@ -31,7 +37,7 @@ static int	st_exec_cmnds(t_exec_var *var)
 		else
 			child_process(var, tmp);
 		if (var->process_lst == NULL && j >= 1)
-			j = var->last_cmnd;
+			j = st_error(var);
 		j++;
 		tmp = tmp->next;
 	}
@@ -56,7 +62,10 @@ static int	st_initvar(t_exec_var *var, t_htable *env, t_command *cmnd_list)
 	var->last_cmnd = size_cmndlist(cmnd_list);
 	var->env_str = convert_htable_to_strarray(env);
 	if (var->env_str == NULL)
+	{
+		ft_putstr_fd("Error: converting hashtable failed\n", STDERR_FILENO);
 		return (terminate_execvar_parent(&var), EXIT_FAILURE);
+	}
 	return (EXIT_SUCCESS);
 }
 
