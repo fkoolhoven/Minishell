@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 15:20:00 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/16 14:55:56 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/11/01 12:20:33 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ int	bltin_unset(t_exec_var *var, t_command *command_struct)
 	i = 1;
 	while (command[i])
 	{
-		delete_pair(var->env, command[i]);
+		if (delete_pair(var->env, command[i]) < 0)
+			return (minishell_error_return_failure("unable to unset"));
 		i++;
 	}
 	return (EXIT_SUCCESS);
