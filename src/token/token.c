@@ -74,7 +74,7 @@ int	find_beginning_of_command(char *input, int *i, int *exit_code)
 	return (EXIT_SUCCESS);
 }
 
-// Goes through the use input string and splits it up into tokens
+// Goes through the user input string and splits it up into tokens
 // that have type word or a redirection type. Creates a linked list
 // (tokens), node's value pointing to a token of type t_token.
 t_list	*tokenizer(char *input, int *exit_code)
