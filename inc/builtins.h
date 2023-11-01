@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 10:39:26 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/10/20 11:17:33 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/11/01 13:22:55 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,16 @@ size_t	cd_len_trim_between(char *s1, char const *set);
 int		cd_give_args_count(char **command);
 int		cd_put_error(char *message, char *key, char *path);
 void	cd_ch_curpath(t_exec_var *var, char *npath, char *epath, int status);
-int		cd_change_env(t_exec_var *var, char *new_path, int status);
 void	cd_move(char *new_path, int start, int end, int size);
+
+// cd_change_env.c 
+int		cd_change_env(t_exec_var *var, char *new_path, int status);
 
 // echo.c
 int		bltin_echo(t_exec_var *var, t_command *command);
+
+// echo_optioncheck.c 
+bool	echo_optioncheck(char *option);
 
 // env.c
 int		bltin_env(t_exec_var *var, t_command *cmnd);

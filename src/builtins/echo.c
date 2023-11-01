@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 15:42:44 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/10/30 18:02:51 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/11/01 13:24:22 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ int	bltin_echo(t_exec_var *var, t_command *command)
 		rl_on_new_line();
 		return (EXIT_SUCCESS);
 	}
-	if (ft_strncmp((command->command)[1], "-n", 3) == 0)
+	if (echo_optioncheck((command->command)[1]))
 		return (st_display_args(var, command, 2));
 	check = st_display_args(var, command, 1);
 	if (check != EXIT_SUCCESS)

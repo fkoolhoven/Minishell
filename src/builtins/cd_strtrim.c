@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/10/18 15:37:29 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/11/01 11:57:31 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/11/01 13:18:22 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static char	*st_trim_be(char const *s1, int begin, int end)
 	int		i;
 
 	i = 0;
-	ptr_trim = (char *)malloc(end - begin + 2); // good
+	ptr_trim = (char *)malloc(end - begin + 2);
 	if (ptr_trim == NULL)
 		return (NULL);
 	while ((begin + i) <= end)
