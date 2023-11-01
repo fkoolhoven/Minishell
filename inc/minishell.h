@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:09:26 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/25 14:38:22 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/11/01 10:15:44 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # define BOLDGREEN 	"\e[1;32m"
 # define BOLDBLUE 	"\e[1;34m"
 # define BOLDPURPLE "\e[1;35m"
+# define BOLDCYAN	"\e[1;36m"
 # define OFF		"\033[0m"
 
 # include <stdio.h>

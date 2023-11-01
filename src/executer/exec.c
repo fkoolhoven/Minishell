@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/09/15 10:41:54 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/11/01 09:20:27 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/11/01 10:37:48 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -60,9 +60,12 @@ static int	st_initvar(t_exec_var *var, t_htable *env, t_command *cmnd_list)
 	var->process = -1;
 	var->process_lst = NULL;
 	var->last_cmnd = size_cmndlist(cmnd_list);
-	var->env_str = convert_htable_to_strarray(env);
+	var->env_str = convert_htable_to_strarray(env); // good
 	if (var->env_str == NULL)
+	{
+		ft_putstr_fd("Error: converting hashtable failed\n", STDERR_FILENO);
 		return (terminate_execvar_parent(&var), EXIT_FAILURE);
+	}
 	return (EXIT_SUCCESS);
 }
 
