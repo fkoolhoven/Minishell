@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 16:53:05 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/11/01 10:52:22 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/11/01 13:32:16 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static char	*st_find_newkey(t_htable *env, char *key)
 	char	*rtn;
 	char	*new_key;
 
-	new_key = ft_strdup(key + 1); // good
+	new_key = ft_strdup(key + 1);
 	if (new_key != NULL)
 	{
 		index = give_hash_index(new_key, env);

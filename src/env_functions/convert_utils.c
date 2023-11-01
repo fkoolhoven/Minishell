@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 13:02:07 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/11/01 10:48:34 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/11/01 13:31:27 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,10 @@ char	*give_envstr(t_hnode *node)
 
 	if (node == NULL)
 		return (NULL);
-	tmp1 = ft_strjoin(node->key, "="); // good
+	tmp1 = ft_strjoin(node->key, "=");
 	if (tmp1 == NULL)
 		return (NULL);
-	tmp2 = ft_strjoin(tmp1, node->value); // good
+	tmp2 = ft_strjoin(tmp1, node->value);
 	if (tmp1 != tmp2)
 		free(tmp1);
 	if (tmp2 == NULL)

@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 17:06:03 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/11/01 10:42:35 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/11/01 13:30:30 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	delete_pair(t_htable *env, char *key)
 	t_hnode	*next;
 	int		index;
 
-	to_del = find_env_valuenode(env, key); // change unset to check return value
+	to_del = find_env_valuenode(env, key);
 	index = give_hash_index(key, env);
 	if (to_del == NULL || index < 0)
 		return (-1);
@@ -83,7 +83,7 @@ int	add_pair(t_htable *env, char *key, char *value)
 		return (-1);
 	if (env->array == NULL)
 		return (-1);
-	new = new_hash_node(key, value); // change export to check return value
+	new = new_hash_node(key, value);
 	index = give_hash_index(key, env);
 	if (new == NULL)
 		return (-2);

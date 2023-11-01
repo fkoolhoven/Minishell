@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/09/22 11:45:40 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/11/01 10:46:19 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/11/01 13:30:59 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -25,7 +25,7 @@ static int	st_add_per_index(t_hnode *head, char **ch_env, int *index)
 	tmp = head;
 	while (tmp)
 	{
-		tmp_str = give_envstr(tmp); // good
+		tmp_str = give_envstr(tmp);
 		if (tmp_str == NULL)
 			return (-2);
 		ch_env[(*index)] = tmp_str;
@@ -86,7 +86,7 @@ char	**convert_htable_to_strarray(t_htable *env)
 	size = size_table(env);
 	if (size == 0)
 		return (st_error(NULL, 0), NULL);
-	ch_env = malloc((size + 1) * sizeof(char *)); // good
+	ch_env = malloc((size + 1) * sizeof(char *));
 	if (ch_env == NULL)
 		return (st_error(ch_env, 0), NULL);
 	return (st_fill_strarray(env, ch_env, size));
