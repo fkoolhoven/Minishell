@@ -6,13 +6,11 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/10/04 12:27:04 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/11/01 15:03:52 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/11/01 15:17:31 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/* bij $$ expand het naar ibusibus --> WAAROM???? */ 
 
 static int	st_give_index(int first, int i)
 {

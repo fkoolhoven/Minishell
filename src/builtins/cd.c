@@ -6,10 +6,11 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 10:37:19 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/11/01 14:22:20 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/11/01 15:18:18 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
+
 static int	st_go_key(t_exec_var *var, char *key)
 {
 	int		check;

@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/09/18 12:02:47 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/11/01 15:07:24 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/11/01 15:18:01 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -86,7 +86,7 @@ int	parent_one_command(t_exec_var *var, t_process *ch_proclst)
 	close_pipes(var);
 	if (ch_proclst != NULL)
 		waitstatus = wait_for_all(var->process_lst);
-	else 
+	else
 		waitpid(var->process, &waitstatus, 0);
 	wrap_sighandler(SIGINT, &catch_sigint_parent);
 	if (waitstatus == EXIT_FAILURE)
