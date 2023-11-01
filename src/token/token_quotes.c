@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:47:37 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/30 20:26:48 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/11/01 13:25:57 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,7 @@ static char	*delete_quotes(char *old_value, int first_quote, int *i)
 	second_quote = *i;
 	temp = delete_char_from_string(new_value, second_quote);
 	if (temp == NULL)
-	{
-		free(new_value);
 		return (NULL);
-	}
 	new_value = temp;
 	(*i)--;
 	return (new_value);
