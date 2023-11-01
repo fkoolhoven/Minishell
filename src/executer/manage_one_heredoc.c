@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/10/04 12:27:13 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/04 12:27:30 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/11/01 14:01:48 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int	st_heredoc_child(char *filename, t_redirect *node, t_htable *env)
 	}
 	else
 	{
-		wrap_sighandler(SIGINT, SIG_DFL);
+		wrap_sighandler(SIGINT, &catch_sigint_heredoc);
 		input_to_heredoc(fd_heredoc, node->value, env);
 		close(fd_heredoc);
 		exit(EXIT_SUCCESS);

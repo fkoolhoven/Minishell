@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals.c                                          :+:      :+:    :+:   */
+/*   signals.c                                         :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 16:51:19 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/09/29 14:27:16 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/11/01 14:05:05 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,4 +24,13 @@ void	catch_sigint_parent(int sig)
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
+}
+
+void	catch_sigint_heredoc(int sig)
+{
+	sig = 0;
+	printf("\n");
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	exit(130);
 }
