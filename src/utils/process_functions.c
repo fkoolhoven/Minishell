@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/10/25 14:17:51 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/25 15:04:20 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/11/01 09:22:59 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_process	*process_make_add_node(t_process **lst, pid_t pid)
 
 	if (lst == NULL)
 		return (NULL);
-	node = processnode_new(pid);
+	node = processnode_new(pid); // good
 	if (node == NULL)
 		return (process_clear(lst), NULL);
 	process_add_back(lst, node);
