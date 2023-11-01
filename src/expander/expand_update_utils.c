@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 12:53:31 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/30 19:41:18 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/11/01 10:44:36 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,20 @@
 
 void	*free_split_value(char **split_value, int j)
 {
+	int	i;
+
+	i = 0;
+	while (i < j - 1)
+	{
+		free(split_value[i]);
+		i++;
+	}
 	while (split_value[j])
 	{
 		free(split_value[j]);
 		j++;
 	}
+	free(split_value);
 	return (malloc_error_return_null("expander"));
 }
 

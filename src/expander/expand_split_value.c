@@ -6,33 +6,39 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 16:06:56 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/30 19:45:59 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/11/01 10:55:23 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	**add_quotes_to_strings(char **split_value)
+static int	add_quotes_to_strings(t_expander_var *var)
 {
 	char	*temp;
 	int		i;
 
 	i = 0;
-	while (split_value[i])
+	while (var->split_value[i])
 	{
-		temp = split_value[i];
-		split_value[i] = ft_strjoin("\"", split_value[i]);
-		free(temp);
-		if (split_value[i] == NULL)
-			return (free_split_value(split_value, i));
-		temp = split_value[i];
-		split_value[i] = ft_strjoin(split_value[i], "\"");
-		free(temp);
-		if (split_value[i] == NULL)
-			return (free_split_value(split_value, i));
+		temp = ft_strjoin("\"", var->split_value[i]);
+		if (temp == NULL)
+		{
+			ft_free_str_array(var->split_value);
+			return (malloc_error_return_failure("expander"));
+		}
+		free(var->split_value[i]);
+		var->split_value[i] = temp;
+		temp = ft_strjoin(var->split_value[i], "\"");
+		if (temp == NULL)
+		{
+			ft_free_str_array(var->split_value);
+			return (malloc_error_return_failure("expander"));
+		}
+		free(var->split_value[i]);
+		var->split_value[i] = temp;
 		i++;
 	}
-	return (split_value);
+	return (EXIT_SUCCESS);
 }
 
 static int	calculate_word_strl(char *str, int *i)
@@ -84,7 +90,7 @@ static char	**split_string_into_words(char *str, int nbr_of_strings,
 		if (split_value[j] == NULL)
 		{
 			ft_free_str_array(split_value);
-			return (malloc_error_return_null("tokenizer split"));
+			return (malloc_error_return_null("expander"));
 		}
 		ft_strlcpy(split_value[j], &str[i - strl], strl + 1);
 		j++;
@@ -107,7 +113,8 @@ int	split_token_value(t_expander_var *var)
 			nbr_of_strings, var->split_value);
 	if (var->split_value == NULL)
 		return (EXIT_FAILURE);
-	var->split_value = add_quotes_to_strings(var->split_value);
+	if (add_quotes_to_strings(var) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
 	if (var->split_value == NULL)
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);

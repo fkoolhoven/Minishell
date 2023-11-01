@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 12:50:24 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/30 20:24:14 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/11/01 11:42:32 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,31 +14,29 @@
 
 int	concatenate_end(t_expander_var *var, int j)
 {
-	char	*temp;
+	char	*new_value;
 
 	var->tokens = var->tokens->next;
 	var->token = (t_token *)var->tokens->content;
-	temp = var->token->value;
-	var->token->value = ft_strjoin(var->split_value[j], var->token->value);
-	free(var->split_value[j]);
-	free(temp);
-	if (var->token->value == NULL)
+	new_value = ft_strjoin(var->split_value[j], var->token->value);
+	if (new_value == NULL)
 		return (malloc_error_return_failure("expander"));
+	free(var->token->value);
+	var->token->value = new_value;
 	return (EXIT_SUCCESS);
 }
 
 int	concatenate_begin(t_expander_var *var, int *j)
 {
-	char	*temp;
+	char	*new_value;
 
 	if (var->cat_begin)
 	{
-		temp = var->token->value;
-		var->token->value = ft_strjoin(var->token->value, var->split_value[*j]);
-		free(temp);
-		free(var->split_value[*j]);
-		if (var->token->value == NULL)
+		new_value = ft_strjoin(var->token->value, var->split_value[*j]);
+		if (new_value == NULL)
 			return (malloc_error_return_failure("expander"));
+		free(var->token->value);
+		var->token->value = new_value;
 		(*j)++;
 		var->i = var->key_start + ft_strlen(var->split_value[*j]) - 1;
 		if (var->tokens)

@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 14:29:18 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/30 20:24:03 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/11/01 11:44:38 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,7 @@
 static int	free_split_value_and_return(t_expander_var *var, int exit_code)
 {
 	var->i = 0;
-	if (exit_code == EXIT_SUCCESS)
-		free(var->split_value);
-	else
-		ft_free_str_array(var->split_value);
+	ft_free_str_array(var->split_value);
 	return (exit_code);
 }
 
@@ -26,8 +23,12 @@ static int	insert_token_with_split_value(t_expander_var *var, int j)
 {
 	t_list	*new_node;
 	t_token	*new_token;
+	char	*new_value;
 
-	new_node = create_new_node(var->split_value[j]);
+	new_value = ft_strdup(var->split_value[j]);
+	if (new_value == NULL)
+		return (malloc_error_return_failure("expander"));
+	new_node = create_new_node(new_value);
 	if (new_node == NULL)
 		return (EXIT_FAILURE);
 	new_token = new_node->content;

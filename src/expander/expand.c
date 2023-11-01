@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 15:47:26 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/30 21:45:48 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/11/01 11:53:25 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ t_expander_var	*init_expander_vars(void)
 	return (var);
 }
 
-// Goes through inked list of tokens and expands environment variables,
+// Goes through linked list of tokens and expands environment variables,
 // except when they are in between single quotes. Follows the same rules
 // in regards to concatenation and splitting of expandad variables as bash.
 int	expand_variables(t_list **list_start, t_htable *env)
@@ -82,6 +82,8 @@ int	expand_variables(t_list **list_start, t_htable *env)
 	t_expander_var	*var;
 
 	var = init_expander_vars();
+	if (var == NULL)
+		return (terminate_token_list_error_failure(list_start));
 	var->tokens = *list_start;
 	while (var->tokens)
 	{
@@ -97,7 +99,6 @@ int	expand_variables(t_list **list_start, t_htable *env)
 		if (var->tokens)
 			var->tokens = var->tokens->next;
 	}
-	print_tokens(*list_start);
 	remove_empty_tokens_from_list(list_start);
 	free(var);
 	return (EXIT_SUCCESS);

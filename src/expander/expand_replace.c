@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 12:50:36 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/30 19:53:02 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/11/01 11:52:51 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,15 @@
 
 int	replace_token_value(t_expander_var *var, int j)
 {
+	char	*new_value;
+
 	if ((size_t)var->key_len == ft_strlen(var->token->value))
 	{
+		new_value = ft_strdup(var->split_value[j]);
+		if (new_value == NULL)
+			return (malloc_error_return_failure("expander"));
 		free(var->token->value);
-		var->token->value = var->split_value[j];
+		var->token->value = new_value;
 		var->i = ft_strlen(var->split_value[j]) - 1;
 		var->cat_begin = false;
 		j++;
@@ -39,14 +44,20 @@ static bool	no_need_to_create_extra_tokens(t_expander_var *var, int j)
 
 int	check_for_simple_replace(t_expander_var *var, int j)
 {
-	int	new_index;
+	int		error_check;
+	int		new_index;
+	char	*new_value;
 
 	if (no_need_to_create_extra_tokens(var, j))
 	{
 		new_index = var->key_start + ft_strlen(var->split_value[j] - 1);
-		if (replace_var(var, var->split_value[j], new_index))
+		new_value = ft_strdup(var->split_value[j]);
+		if (new_value == NULL)
+			return (malloc_error_return_failure("expander"));
+		error_check = replace_var(var, new_value, new_index);
+		free(new_value);
+		if (error_check == EXIT_FAILURE)
 			return (EXIT_FAILURE);
-		free(var->split_value[j]);
 		return (EXIT_SUCCESS);
 	}
 	return (CONTINUE);

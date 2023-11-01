@@ -6,7 +6,7 @@
 #    By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/31 14:20:16 by jhendrik          #+#    #+#              #
-#    Updated: 2023/10/30 21:41:53 by fkoolhov         ###   ########.fr        #
+#    Updated: 2023/11/01 10:15:44 by fkoolhov         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,7 +51,7 @@ SRC			:= main.c \
 			   expander/expand_replace.c \
 			   expander/expand_concatenate.c \
 			   expander/expand_update_utils.c \
-			   expander/expand_remove_emtpy.c \
+			   expander/expand_remove_empty.c \
 			   parser/parser.c \
 			   parser/parser_parse_token.c \
 			   parser/parser_command_list.c \

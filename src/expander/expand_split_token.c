@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 18:56:39 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/30 20:24:19 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/11/01 10:58:51 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static t_list	*get_new_token_for_split(t_expander_var *var, int right_len)
 	if (new_node == NULL)
 	{
 		free(right);
-		return (malloc_error_return_null("expander"));
+		return (NULL);
 	}
 	new_token = (t_token *)new_node->content;
 	return (new_node);

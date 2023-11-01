@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 17:19:53 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/10/30 21:41:32 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/11/01 10:56:07 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,5 @@ void	*free_split_value(char **split_value, int i);
 
 // expand_remove_empty.c
 void	remove_empty_tokens_from_list(t_list **list_start);
+
 #endif
