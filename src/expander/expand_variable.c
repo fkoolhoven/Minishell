@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 16:43:49 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/11/01 11:53:12 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/11/01 12:34:07 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static int	get_new_value(t_expander_var *var, t_htable *env)
 	key = ft_substr(var->token->value, var->key_start, key_len);
 	if (key == NULL)
 		return (malloc_error_return_failure("expander"));
-	var->new_value = find_env_value(env, key); // check return?
+	var->new_value = find_env_value(env, key);
 	free(key);
 	return (EXIT_SUCCESS);
 }
