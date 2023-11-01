@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/09/22 09:38:21 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/30 17:42:42 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/11/01 14:49:55 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -55,8 +55,6 @@ static char	**st_fill_strarray(char const *s, char c, char **split, size_t size)
 	int	del_index;
 	int	str_len;
 
-	if (split == NULL)
-		return (NULL);
 	if (s == NULL || size <= 1)
 		return (free(split), NULL);
 	del_index = st_give_delindex(s, c);

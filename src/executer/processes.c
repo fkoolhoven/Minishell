@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/09/18 12:02:47 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/30 16:50:03 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/11/01 15:18:01 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -86,7 +86,7 @@ int	parent_one_command(t_exec_var *var, t_process *ch_proclst)
 	close_pipes(var);
 	if (ch_proclst != NULL)
 		waitstatus = wait_for_all(var->process_lst);
-	else 
+	else
 		waitpid(var->process, &waitstatus, 0);
 	wrap_sighandler(SIGINT, &catch_sigint_parent);
 	if (waitstatus == EXIT_FAILURE)
@@ -116,6 +116,11 @@ int	parent_process(t_exec_var *var, int j)
 	else if (j == var->last_cmnd - 1)
 	{
 		check = process_make_add_node(&(var->process_lst), var->process);
+		if (check == NULL)
+		{
+			ft_putstr_fd("Warning: making pid list failed\n", STDERR_FILENO);
+			ft_putstr_fd("\t waiting for last process\n", STDERR_FILENO);
+		}
 		return (parent_one_command(var, check));
 	}
 	terminate_execvar_parent(&var);

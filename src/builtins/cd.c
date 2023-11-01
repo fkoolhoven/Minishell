@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 10:37:19 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/10/20 11:18:14 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/11/01 15:18:18 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"

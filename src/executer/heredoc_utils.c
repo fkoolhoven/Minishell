@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/10/04 12:26:40 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/10/04 12:26:48 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/11/01 15:01:43 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	put_str_between(t_heredoc_var var, int first, int last)
 {
 	char	*tmp;
 
-	if (var.input && var.fd >= 0 && first >= 0 && last >= 0)
+	if (var.input && var.fd >= 0 && first >= 0 && last > 0)
 	{
 		tmp = st_give_between_vars(var.input, first, last);
 		if (tmp != NULL)
@@ -57,6 +57,8 @@ void	put_str_between(t_heredoc_var var, int first, int last)
 			ft_putstr_fd(tmp, var.fd);
 			free(tmp);
 		}
+		else
+			ft_putstr_fd("Heredoc: Warning: malloc failed\n", STDERR_FILENO);
 	}
 }
 

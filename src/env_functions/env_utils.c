@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 16:02:22 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/10/30 17:32:28 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/11/01 14:44:37 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	give_hash_index(char *key, t_htable *env_table)
 
 	i = 0;
 	index = 0;
-	if (key == NULL)
+	if (key == NULL || env_table == NULL)
 		return (-1);
 	while (key[i])
 	{
