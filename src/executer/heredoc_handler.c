@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 13:05:59 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/11/01 14:59:47 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/11/01 19:28:24 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static char	*st_give_filename(char *s_nb1, int j)
 	return (filename);
 }
 
-static int	st_manage_heredocs(t_redirect *in, char *s_nb1, t_htable *env)
+static int	st_man_heres(t_redirect *in, char *s_nb1, t_htable *env, int ecode)
 {
 	int			j;
 	int			check;
@@ -57,7 +57,7 @@ static int	st_manage_heredocs(t_redirect *in, char *s_nb1, t_htable *env)
 		{
 			filename = st_give_filename(s_nb1, j);
 			if (filename != NULL)
-				check = manage_one_heredoc(filename, in, env);
+				check = man_one_here(filename, in, env, ecode);
 			else
 				check = st_error("Error: generating filename failed\n");
 			j++;
@@ -69,7 +69,7 @@ static int	st_manage_heredocs(t_redirect *in, char *s_nb1, t_htable *env)
 	return (check);
 }
 
-static int	st_check_manage_heredocs(t_redirect *in, int i, t_htable *env)
+static int	st_check_man_heres(t_redirect *in, int i, t_htable *env, int ecode)
 {
 	char	*s_nb1;
 	int		check;
@@ -79,14 +79,14 @@ static int	st_check_manage_heredocs(t_redirect *in, int i, t_htable *env)
 		s_nb1 = ft_itoa_base(i, 16, "0123456789ABCDEF");
 		if (s_nb1 == NULL)
 			return (st_error("Error: generating filename failed\n"));
-		check = st_manage_heredocs(in, s_nb1, env);
+		check = st_man_heres(in, s_nb1, env, ecode);
 		free(s_nb1);
 		return (check);
 	}
 	return (EXIT_SUCCESS);
 }
 
-int	manage_heredocs(t_command *command_list, t_htable *env)
+int	manage_heredocs(t_command *command_list, t_htable *env, int ecode)
 {
 	t_command	*tmp;
 	int			i;
@@ -101,7 +101,7 @@ int	manage_heredocs(t_command *command_list, t_htable *env)
 	{
 		if (tmp->in != NULL)
 		{
-			check = st_check_manage_heredocs(tmp->in, i, env);
+			check = st_check_man_heres(tmp->in, i, env, ecode);
 			i++;
 		}
 		if (check != EXIT_SUCCESS)

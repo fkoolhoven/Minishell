@@ -6,28 +6,29 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/10/04 12:27:13 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/11/01 15:04:46 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/11/03 10:11:09 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	st_heredoc_child(char *filename, t_redirect *node, t_htable *env)
+static int	st_h_child(char *fname, t_redirect *node, t_htable *env, int ecode)
 {
 	int	fd_heredoc;
 
-	if (filename == NULL || node == NULL || env == NULL)
+	if (fname == NULL || node == NULL || env == NULL)
 		exit(EXIT_FAILURE);
-	fd_heredoc = open(filename, O_CREAT | O_RDWR | O_EXCL, 0644);
+	fd_heredoc = open(fname, O_CREAT | O_RDWR | O_EXCL, 0644);
 	if (fd_heredoc < 0)
 	{
-		free(filename);
+		free(fname);
 		exit(EXIT_FAILURE);
 	}
 	else
 	{
 		wrap_sighandler(SIGINT, &catch_sigint_heredoc);
-		input_to_heredoc(fd_heredoc, node->value, env);
+		wrap_sighandler(SIGQUIT, &catch_sigquit_heredoc);
+		input_to_heredoc(fd_heredoc, node->value, env, ecode);
 		close(fd_heredoc);
 		exit(EXIT_SUCCESS);
 	}
@@ -79,19 +80,19 @@ static int	st_heredoc_parent(pid_t process, char *filename, t_redirect *node)
 		return (EXIT_FAILURE);
 }
 
-int	manage_one_heredoc(char *filename, t_redirect *node, t_htable *env)
+int	man_one_here(char *fname, t_redirect *node, t_htable *env, int ecode)
 {
 	pid_t	process;
 
-	if (filename == NULL || node == NULL || env == NULL)
+	if (fname == NULL || node == NULL || env == NULL)
 		return (EXIT_FAILURE);
 	if (env->array == NULL)
-		return (free(filename), EXIT_FAILURE);
+		return (free(fname), EXIT_FAILURE);
 	process = fork();
 	if (process < 0)
-		return (free(filename), EXIT_FAILURE);
+		return (free(fname), EXIT_FAILURE);
 	if (process == 0)
-		return (st_heredoc_child(filename, node, env));
+		return (st_h_child(fname, node, env, ecode));
 	else
-		return (st_heredoc_parent(process, filename, node));
+		return (st_heredoc_parent(process, fname, node));
 }

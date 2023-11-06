@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 10:59:43 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/10/30 17:05:33 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/11/03 10:11:21 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,20 +18,31 @@
 # include <fcntl.h>
 
 // heredoc_handler.c
-int		manage_heredocs(t_command *command_list, t_htable *env);
+int		manage_heredocs(t_command *command_list, t_htable *env, int ecode);
 
 // input_heredoc.c
-void	input_to_heredoc(int fd, char *limit, t_htable *env);
+void	input_to_heredoc(int fd, char *limit, t_htable *env, int ecode);
 
 // heredoc_utils.c 
 void	put_str_between(t_heredoc_var var, int first, int last);
-void	expand_put_var(t_heredoc_var var, int *first, int last);
+void	exp_not_alldols(t_heredoc_var var, int *first, int *last, int ecode);
+char	*give_between_vars(char *user_input, int first, int last);
 
 // manage_one_heredoc.c 
-int		manage_one_heredoc(char *filename, t_redirect *node, t_htable *env);
+int		man_one_here(char *fname, t_redirect *node, t_htable *env, int ecode);
 
 // heredoc_unlinker.c 
 void	heredoc_unlinker(t_command *command_list);
+
+// heredoc_bool.c 
+bool	input_is_all_dollars(char *input);
+bool	is_var_notdollar(int c);
+
+// heredoc_expandinput.c 
+void	expand_put_var(t_heredoc_var var, int *first, int *last, int ecode);
+int		*skip_dollars(t_heredoc_var var, int *first, int *last);
+char	*key_quotes(t_heredoc_var var, int *first, int *last, char ch);
+char	*key_noquotes(t_heredoc_var var, int *first, int *last);
 
 // exec_utils.c
 int		size_cmndlist(t_command *cmnd_list);

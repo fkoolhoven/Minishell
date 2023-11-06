@@ -6,7 +6,7 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/09/18 12:02:47 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/11/01 15:18:01 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/11/01 17:20:00 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -22,6 +22,7 @@ int	child_process_onecmnd(t_exec_var *var, t_command *cmnd)
 		if (check == EXIT_FAILURE)
 			exit(EXIT_FAILURE);
 		wrap_sighandler(SIGINT, SIG_DFL);
+		wrap_sighandler(SIGQUIT, SIG_DFL);
 		valid_cmnd = find_command_path(var, cmnd);
 		execve(valid_cmnd, cmnd->command, var->env_str);
 		if (valid_cmnd == NULL && !(heredoc_infile_found(cmnd->in)))
@@ -61,6 +62,7 @@ int	child_process(t_exec_var *var, t_command *cmnd)
 	if (var != NULL && cmnd != NULL)
 	{
 		wrap_sighandler(SIGINT, SIG_DFL);
+		wrap_sighandler(SIGQUIT, SIG_DFL);
 		check = swap_filedescriptors(var, cmnd);
 		if (check == EXIT_FAILURE)
 			exit(EXIT_FAILURE);

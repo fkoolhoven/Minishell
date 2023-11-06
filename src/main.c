@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   main.c                                            :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:08:39 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/11/01 13:18:30 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/11/01 18:30:29 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static int	parse_and_exec(t_htable *env, char *input, int ecode, char *cpath)
 	if (command_list == NULL)
 		return (ecode);
 	terminate_token_list(&tokens);
-	check = manage_heredocs(command_list, env);
+	check = manage_heredocs(command_list, env, exit_status);
 	if (check != EXIT_SUCCESS)
 		return (terminate_command_list(&command_list), check);
 	ecode = execute(command_list, env, exit_status, cpath);

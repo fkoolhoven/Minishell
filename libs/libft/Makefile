@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
+#    Makefile                                          :+:    :+:              #
 #                                                     +:+ +:+         +:+      #
 #    By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/28 10:58:27 by jhendrik          #+#    #+#              #
-#    Updated: 2023/11/01 15:22:46 by fkoolhov         ###   ########.fr        #
+#    Updated: 2023/11/03 14:21:28 by jhendrik      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ CC := cc
 SRCDIR := ./src
 OBJDIR := ./obj
 
-SUBDIRS = functions_chars functions_str functions_mem functions_conversion functions_outputfd functions_lnklist printf get_next_line
+SUBDIRS = functions_chars functions_str functions_mem functions_conversion functions_outputfd functions_lnklist
 SRCDIRS = $(foreach dir,$(SUBDIRS),$(addprefix $(SRCDIR)/,$(dir)))
 OBJDIRS = $(foreach dir,$(SUBDIRS),$(addprefix $(OBJDIR)/,$(dir)))
 
@@ -69,14 +69,7 @@ SRCFILES := functions_chars/ft_isalpha.c \
 			functions_outputfd/ft_putstr_fd.c \
 			functions_outputfd/ft_putendl_fd.c \
 			functions_outputfd/ft_putnbr_fd.c \
-			functions_outputfd/ft_putstr_array_fd.c \
-			printf/ft_jump.c \
-			printf/ft_printf.c \
-			printf/ft_printf_nums.c \
-			printf/ft_printf_puts.c \
-			printf/ft_printf_utils.c \
-			get_next_line/get_next_line.c \
-			get_next_line/get_next_line_utils.c
+			functions_outputfd/ft_putstr_array_fd.c
 SRCFILES_BONUS := functions_lnklist/ft_lstnew_bonus.c \
 				functions_lnklist/ft_lstadd_front_bonus.c \
 				functions_lnklist/ft_lstsize_bonus.c \

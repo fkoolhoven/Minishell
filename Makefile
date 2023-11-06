@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
+#    Makefile                                          :+:    :+:              #
 #                                                     +:+ +:+         +:+      #
 #    By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/31 14:20:16 by jhendrik          #+#    #+#              #
-#    Updated: 2023/11/01 15:37:14 by fkoolhov         ###   ########.fr        #
+#    Updated: 2023/11/01 19:19:44 by jhendrik      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,8 +14,8 @@ NAME		:= minishell
 CC			:= cc
 RM			:= rm
 
-CFLAGS		?= -Wall -Wextra -Werror -fsanitize=address -g
-FLAGS		?= -v -Llibs/libft/ -lft -lreadline -fsanitize=address
+CFLAGS		?= -Wall -Wextra -Werror
+FLAGS		?= -v -Llibs/libft/ -lft -lreadline
 
 INC			:= ./inc/
 SRC_DIR		:= src
@@ -30,8 +30,7 @@ SUBDIR		:= . \
 			   token \
 			   expander \
 			   env_functions \
-			   errors \
-			   test
+			   errors
 SRC_SUBDIR	:= $(foreach dir, $(SUB_DIR),$(addprefix $(SRC_DIR)/,$(dir)))
 
 SRC			:= main.c \
@@ -65,6 +64,8 @@ SRC			:= main.c \
 			   executer/heredoc_utils.c \
 			   executer/input_heredoc.c \
 			   executer/manage_one_heredoc.c \
+			   executer/heredoc_bool.c \
+			   executer/heredoc_expandinput.c \
 			   executer/exec.c \
 			   executer/exec_builtins.c \
 			   executer/exec_one_cmnd.c \
@@ -105,11 +106,7 @@ SRC			:= main.c \
 			   builtins/export.c \
 			   builtins/export_value.c \
 			   builtins/pwd.c \
-			   builtins/unset.c \
-			   test/test_heredoc.c \
-			   test/token_test.c \
-			   test/parser_test.c \
-			   test/test_ft.c
+			   builtins/unset.c
 OBJ			:= $(addprefix $(OBJ_DIR)/,$(SRC:.c=.o))
 LIBS		:= $(LIB_DIR)/libft.a
 MINI_HEADER	:= ./inc/minishell.h

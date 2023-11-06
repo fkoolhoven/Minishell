@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 13:26:40 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/10/20 11:14:26 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/11/03 14:20:55 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <sys/select.h>
-# include "./../src/printf/ft_printf.h"
-# include "./../src/get_next_line/get_next_line.h"
 
 //FUNCTIONS WITH CHARS -----------------------
 int		ft_isalpha(int nb);

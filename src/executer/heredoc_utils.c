@@ -6,13 +6,13 @@
 /*   By: jhendrik <marvin@42.fr>                     +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/10/04 12:26:40 by jhendrik      #+#    #+#                 */
-/*   Updated: 2023/11/01 15:01:43 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/11/03 10:03:17 by jhendrik      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*st_give_between_vars(char *user_input, int first, int last)
+char	*give_between_vars(char *user_input, int first, int last)
 {
 	char	*rtn;
 
@@ -27,31 +27,13 @@ static char	*st_give_between_vars(char *user_input, int first, int last)
 	return (rtn);
 }
 
-static char	*st_give_key(char *user_input, int *first, int last)
-{
-	int		i;
-
-	if (user_input == NULL || first == NULL || last < 0)
-		return (NULL);
-	if ((*first) < 0)
-		return (NULL);
-	if (last == (*first) && last == 0)
-		i = 1;
-	else
-		i = last + 1;
-	while (user_input[i] && ft_isalnum((int)user_input[i]) == 1)
-		i++;
-	(*first) = i;
-	return (st_give_between_vars(user_input, last, i));
-}
-
 void	put_str_between(t_heredoc_var var, int first, int last)
 {
 	char	*tmp;
 
-	if (var.input && var.fd >= 0 && first >= 0 && last > 0)
+	if (var.input && var.fd >= 0 && first >= 0 && last > 0 && first != last)
 	{
-		tmp = st_give_between_vars(var.input, first, last);
+		tmp = give_between_vars(var.input, first, last);
 		if (tmp != NULL)
 		{
 			ft_putstr_fd(tmp, var.fd);
@@ -62,22 +44,67 @@ void	put_str_between(t_heredoc_var var, int first, int last)
 	}
 }
 
-void	expand_put_var(t_heredoc_var var, int *first, int last)
+static char	*st_give_key(t_heredoc_var var, int *first, int *last, int *dq)
+{
+	int		i;
+
+	if (var.input == NULL || !(first) || !(dq) || last < 0)
+		return (NULL);
+	if ((*first) < 0)
+		return (NULL);
+	i = (*first);
+	(*dq) = -1;
+	if ((int)var.input[i] == 34 || (int)var.input[i] == 39)
+	{
+		(*dq) = i;
+		(*first) += 1;
+		return (key_quotes(var, first, last, var.input[i]));
+	}
+	else
+		return (key_noquotes(var, first, last));
+}
+
+static char	*st_give_tmp(t_heredoc_var var, int *ecode, char *key)
+{
+	char	*tmp;
+
+	if (ecode == NULL)
+		return (NULL);
+	if (ft_strncmp(key, "$?", ft_strlen(key) + 1) == 0)
+	{
+		tmp = ft_itoa(*ecode);
+		(*ecode) = -1;
+	}
+	else if (ft_strncmp(key, "$", ft_strlen(key) + 1) != 0)
+		tmp = find_env_value(var.env, key);
+	else
+		tmp = key;
+	return (tmp);
+}
+
+void	exp_not_alldols(t_heredoc_var var, int *first, int *last, int ecode)
 {
 	char	*key;
 	char	*tmp;
+	int		dq;
 
-	if (first && var.input && var.env && var.fd >= 0)
+	if (first && last && var.input && var.env && var.fd >= 0)
 	{
-		key = st_give_key(var.input, first, last);
+		key = st_give_key(var, first, last, &dq);
 		if (key != NULL)
 		{
-			tmp = find_env_value(var.env, key);
+			tmp = st_give_tmp(var, &ecode, key);
+			if (dq >= 0)
+				write(var.fd, &(var.input[dq]), 1);
 			if (tmp != NULL)
 				ft_putstr_fd(tmp, var.fd);
-			else
-				ft_putstr_fd(key, var.fd);
+			if (dq >= 0)
+				write(var.fd, &(var.input[dq]), 1);
+			if (ecode == -1 && tmp != NULL)
+				free(tmp);
 			free(key);
 		}
+		(*first) = (*last);
+		(*last) = (*last) + 1;
 	}
 }
