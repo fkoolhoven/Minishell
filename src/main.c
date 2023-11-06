@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                            :+:    :+:             */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 16:08:39 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/11/01 18:30:29 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/11/06 15:45:44 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static int	parse_and_exec(t_htable *env, char *input, int ecode, char *cpath)
 	tokens = tokenizer(input, &ecode);
 	if (tokens == NULL)
 		return (ecode);
-	if (expand_variables(&tokens, env) == EXIT_FAILURE)
+	if (expand_variables(&tokens, env, exit_status) == EXIT_FAILURE)
 		return (ecode);
 	if (remove_quotes_from_tokens(&tokens, &ecode) == EXIT_FAILURE)
 		return (ecode);

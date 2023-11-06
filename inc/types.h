@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 11:01:53 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/10/30 20:23:21 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/11/06 16:26:04 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,14 +103,17 @@ typedef struct s_expander_var
 	t_list	*tokens;
 	t_token	*token;
 	char	*new_value;
+	char	*expanded_exit_status;
 	char	**split_value;
 	bool	cat_begin;
 	bool	cat_end;
+	int		exit_status;
 	int		key_start;
 	int		key_len;
 	int		i;
 	bool	token_was_split;
 	bool	in_double_quotes;
+	bool	no_key;
 }	t_expander_var;
 
 typedef struct s_trim_var

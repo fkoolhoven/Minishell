@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 12:50:36 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/11/01 11:52:51 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/11/06 16:18:48 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,7 @@ int	check_for_simple_replace(t_expander_var *var, int j)
 			return (malloc_error_return_failure("expander"));
 		error_check = replace_var(var, new_value, new_index);
 		free(new_value);
-		if (error_check == EXIT_FAILURE)
-			return (EXIT_FAILURE);
-		return (EXIT_SUCCESS);
+		return (error_check);
 	}
 	return (CONTINUE);
 }

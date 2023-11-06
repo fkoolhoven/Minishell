@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 17:19:53 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/11/01 10:56:07 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/11/06 15:46:48 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # define CONTINUE 2
 
 // expand_expand.c
-int		expand_variables(t_list **list_start, t_htable *env);
+int		expand_variables(t_list **list_start, t_htable *env, int exit_status);
 
 // expand_expand_variable.c
 int		expand_variable(t_expander_var *var, t_htable *env);

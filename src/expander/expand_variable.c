@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 16:43:49 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/11/01 12:34:07 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/11/06 16:44:25 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,38 @@ static bool	end_of_expandable_is_found(char c)
 	return (false);
 }
 
+static int	check_if_env_search_is_necessary(t_expander_var *var)
+{
+	var->no_key = false;
+	var->expanded_exit_status = NULL;
+	if (var->token->value[var->i] == '?')
+	{
+		var->expanded_exit_status = ft_itoa(var->exit_status);
+		if (var->expanded_exit_status == NULL)
+			return (malloc_error_return_failure("expander"));
+		var->new_value = var->expanded_exit_status;
+		var->key_len = 2;
+		return (EXIT_SUCCESS);
+	}
+	else if (end_of_expandable_is_found(var->token->value[var->i]))
+	{
+		var->no_key = true;
+		return (EXIT_SUCCESS);
+	}
+	return (CONTINUE);
+}
+
 static int	get_new_value(t_expander_var *var, t_htable *env)
 {
 	char	*key;
 	int		key_len;
+	int		exit_code;
 
 	var->key_start = var->i;
 	var->i++;
-	if (end_of_expandable_is_found(var->token->value[var->i]))
-		return (EXIT_SUCCESS);
+	exit_code = check_if_env_search_is_necessary(var);
+	if (exit_code != CONTINUE)
+		return (exit_code);
 	while (!end_of_expandable_is_found(var->token->value[var->i]))
 		(var->i)++;
 	var->key_len = var->i - var->key_start;
@@ -56,7 +79,7 @@ int	expand_variable(t_expander_var *var, t_htable *env)
 
 	if (get_new_value(var, env) != EXIT_SUCCESS)
 		return (EXIT_FAILURE);
-	if (var->token->value[var->i] == '?')
+	if (var->no_key)
 		return (EXIT_SUCCESS);
 	else if (var->new_value == NULL)
 		return (replace_var(var, var->new_value, var->key_start));
