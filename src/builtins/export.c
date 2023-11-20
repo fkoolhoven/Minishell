@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 15:20:23 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/11/01 12:54:21 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/11/20 11:30:38 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,10 @@ int	bltin_export(t_exec_var *var, t_command *command_struct)
 	while (command[i])
 	{
 		if (attempt_to_export(var, command[i]) == EXIT_FAILURE)
-			return (minishell_error_return_failure("unable to export"));
+		{
+			ft_putstr_fd("export: unable to export ", STDERR_FILENO);
+			ft_putendl_fd(command[i], STDERR_FILENO);
+		}
 		i++;
 	}
 	return (EXIT_SUCCESS);

@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 15:47:26 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/11/06 16:35:40 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/11/20 11:55:41 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ static t_expander_var	*init_expander_vars(int exit_status)
 int	expand_variables(t_list **list_start, t_htable *env, int exit_status)
 {
 	t_expander_var	*var;
+	int				error;
 
 	var = init_expander_vars(exit_status);
 	if (var == NULL)
@@ -95,18 +96,17 @@ int	expand_variables(t_list **list_start, t_htable *env, int exit_status)
 		var->token = (t_token *)var->tokens->content;
 		if (var->token->type != HEREDOC)
 		{
-			if (find_expandables(var, env) != EXIT_SUCCESS)
-			{
-				if (var->expanded_exit_status)
-					free(var->expanded_exit_status);
-				free(var);
-				return (terminate_token_list_error_failure(list_start));
-			}
+			error = find_expandables(var, env);
+			if (error != EXIT_SUCCESS)
+				break ;
 		}
 		if (var->tokens)
 			var->tokens = var->tokens->next;
 	}
-	remove_empty_tokens_from_list(list_start);
+	if (error != EXIT_SUCCESS && var->expanded_exit_status)
+		free(var->expanded_exit_status);
 	free(var);
+	if (rm_empty_tokens(list_start) != EXIT_SUCCESS || error != EXIT_SUCCESS)
+		return (terminate_token_list_error_failure(list_start));
 	return (EXIT_SUCCESS);
 }

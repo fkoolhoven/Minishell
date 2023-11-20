@@ -6,7 +6,7 @@
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 21:40:50 by fkoolhov          #+#    #+#             */
-/*   Updated: 2023/11/01 11:53:04 by fkoolhov         ###   ########.fr       */
+/*   Updated: 2023/11/20 11:55:50 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,12 @@ static void	remove_current_token(t_list **current, t_list **list_start,
 	terminate_token(to_delete);
 }
 
-void	remove_empty_tokens_from_list(t_list **list_start)
+int	rm_empty_tokens(t_list **list_start)
 {
 	t_list	*current;
 	t_list	*previous;
 	t_token	*token;
+	int		token_type;
 
 	current = *list_start;
 	previous = NULL;
@@ -38,11 +39,17 @@ void	remove_empty_tokens_from_list(t_list **list_start)
 	{
 		token = (t_token *)current->content;
 		if (token->value == NULL)
+		{
+			token_type = token->type;
 			remove_current_token(&current, list_start, previous);
+			if (token_type != WORD)
+				return (minishell_error_return_failure("ambiguous redirect"));
+		}
 		else
 		{
 			previous = current;
 			current = current->next;
 		}
 	}
+	return (EXIT_SUCCESS);
 }
