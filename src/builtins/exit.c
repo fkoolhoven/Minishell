@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit.c                                            :+:    :+:             */
+/*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 10:38:10 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/11/01 17:14:52 by jhendrik      ########   odam.nl         */
+/*   Updated: 2023/11/20 11:24:42 by fkoolhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,28 +42,6 @@ static bool	arg_is_numeric(char *str)
 		return (false);
 }
 
-static int	get_exit_code(char **full_command, int argc, t_exec_var *var)
-{
-	int	exit_code;
-
-	if (argc == 1)
-		exit_code = var->exit_status;
-	else
-	{
-		if (!arg_is_numeric(full_command[1]))
-		{
-			ft_putendl_fd("exit: numeric argument required", STDERR_FILENO);
-			exit_code = INCORRECT_USAGE;
-		}
-		else
-		{
-			exit_code = ft_atoi(full_command[1]);
-			exit_code = exit_code % 256;
-		}
-	}
-	return (exit_code);
-}
-
 static int	get_argc(char **args)
 {
 	int	argc;
@@ -82,13 +60,20 @@ int	bltin_exit(t_exec_var *var, t_command *command)
 
 	full_command = command->command;
 	argc = get_argc(full_command);
-	if (argc > 2)
+	if (argc == 1)
+		exit_code = var->exit_status;
+	else if (!arg_is_numeric(full_command[1]))
 	{
-		ft_putendl_fd("exit: too many arguments", STDERR_FILENO);
-		return (EXIT_FAILURE);
+		ft_putendl_fd("exit: numeric argument required", STDERR_FILENO);
+		exit_code = INCORRECT_USAGE;
 	}
+	else if (argc > 2)
+		return (minishell_error_return_failure("exit: too many arguments"));
 	else
-		exit_code = get_exit_code(full_command, argc, var);
+	{
+		exit_code = ft_atoi(full_command[1]);
+		exit_code = exit_code % 256;
+	}
 	free_all_allocated_memory(var);
 	printf(BOLDGREEN"Bye bye! See you next time.\n"OFF);
 	exit(exit_code);
