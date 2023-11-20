@@ -44,7 +44,7 @@ And because we also handle $, single and double quotes
 ```c
 echo "$USER" '$USER'
 ```
-will output: [yourusername] '$USER'
+will output: [yourusername] $USER
 
 Available signals:
 - ctrl-C displays a new prompt on a new line
