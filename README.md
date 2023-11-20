@@ -30,13 +30,13 @@ You can use Minishell like you would use Bash.
 
 For example:
 ```c
-<< EOF grep "Hello world!" | wc > outfile 
+<< EOF grep "Hello world" | wc > outfile 
 ```
 will work the same as in Bash. Minishell handles <<, <, >, >> as redirections and | as pipe.
 
 Minishell also has several builtins (see src/builtins) so
 ```c
-export var="Hello world!"
+export var="Hello world"
 ```
 will add var to the environment variables.
 
