@@ -5,7 +5,7 @@
 
 # About the project
 
-A project made in accordance with the Minishell project which is part of the Codam Core Curriculum. This project was a collaboration between [FeliciaCodes](https://github.com/fkoolhoven) and [Jagna Hendriks](https://github.com/jshendriks).
+A project made in accordance with the Minishell project which is part of the Codam Core Curriculum. This project was a collaboration between [Felicia Koolhoven](https://github.com/fkoolhoven) and [Jagna Hendriks](https://github.com/jshendriks).
 We created our own simple version of bash, Jagna handling the executer, environment and signals and Felicia handling the tokenizer, expander and parser. Our Minishell contains several builtins, handles redirections (including heredocs), pipes, several signals. It expands environment variables (or attempts to)
 when it finds a $ but distinguishes between single (') and double (") quotes, not interpreting $ when it is between double quotes. This was the biggest collaborative project we had both worked on until that point. 
 
