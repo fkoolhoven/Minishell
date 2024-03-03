@@ -20,7 +20,7 @@ Go into the minishell directory and compile by using make:
 ```c
 make
 ```
-[Minishell](https://tiswww.cwru.edu/php/chet/readline/rltop.html) has the GNU Readline library as a dependency. You may need to configure the Makefile for your particular machine/OS.
+Minishell has the [GNU Readline library]((https://tiswww.cwru.edu/php/chet/readline/rltop.html)) as a dependency. You may need to configure the Makefile for your particular machine/OS.
 
 # Usage
 
