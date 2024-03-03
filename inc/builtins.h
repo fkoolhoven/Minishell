@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.h                                        :+:    :+:             */
+/*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: felicia <felicia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 10:39:26 by jhendrik          #+#    #+#             */
-/*   Updated: 2023/11/01 14:19:20 by jhendrik      ########   odam.nl         */
+/*   Updated: 2024/03/03 22:04:41 by felicia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BUILTINS_H
 # define BUILTINS_H
 
-# include <linux/limits.h>
+# include <limits.h>
 # include "./types.h"
 
 // cd.c

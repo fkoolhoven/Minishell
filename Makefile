@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: fkoolhov <fkoolhov@student.42.fr>          +#+  +:+       +#+         #
+#    By: felicia <felicia@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/31 14:20:16 by jhendrik          #+#    #+#              #
-#    Updated: 2023/11/06 16:20:30 by fkoolhov         ###   ########.fr        #
+#    Updated: 2024/03/03 22:08:09 by felicia          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,8 +14,8 @@ NAME		:= minishell
 CC			:= cc
 RM			:= rm
 
-CFLAGS		?= -Wall -Wextra -Werror -fsanitize=address -fsanitize=leak -g
-FLAGS		?= -v -Llibs/libft/ -lft -lreadline -fsanitize=address -fsanitize=leak
+CFLAGS		?= -Wall -Wextra -Werror -g
+FLAGS		?= -v -Llibs/libft/ -lft -lreadline
 
 INC			:= ./inc/
 SRC_DIR		:= src
