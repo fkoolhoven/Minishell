@@ -20,7 +20,7 @@ Go into the minishell directory and compile by using make:
 ```c
 make
 ```
-If you are not on Linux you might need to make some changes to the Makefile, in particular the flags.
+[Minishell](https://tiswww.cwru.edu/php/chet/readline/rltop.html) has the GNU Readline library as a dependency. You may need to configure the Makefile for your particular machine/OS.
 
 # Usage
 
